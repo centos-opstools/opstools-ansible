@@ -1,0 +1,11 @@
+---
+- name: install uchiwa
+  yum: name=uchiwa state=installed
+
+- name: configure uchiwa
+  template: src=../../common/templates/uchiwa.json.j2 dest=/etc/uchiwa/uchiwa.json
+  notify:
+     - restart uchiwa
+
+- name: ensure uchiwa is started and enabled at boot
+  service: name=uchiwa state=started enabled=yes 
