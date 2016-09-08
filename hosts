@@ -1,0 +1,1 @@
+test_host ansible_user=centos ansible_host=10.16.19.165 ansible_ssh_private_key_file=/home/para/Work/vagrant-env/paramite.pem ansible_become=yes ansible_become_method=sudo

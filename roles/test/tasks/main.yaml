@@ -1,0 +1,9 @@
+---
+
+- name: add port 5672
+  set_fact:
+      firewall_ports: "{{ firewall_ports }} + ['5672']"
+
+- name: add port 3000
+  set_fact:
+      firewall_ports: "{{ firewall_ports }} + ['3000']"
