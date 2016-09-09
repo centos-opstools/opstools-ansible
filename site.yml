@@ -7,7 +7,6 @@
       - common
       - rabbitmq/server
       - redis/server
-      - sensu/common
       - sensu/server
       - uchiwa/server 
 

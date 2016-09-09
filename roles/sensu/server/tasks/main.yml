@@ -1,9 +1,15 @@
 ---
 - name: install sensu-server
-  yum: name=sensu state=installed
+  yum: 
+   name=sensu 
+   state=installed
 
 - name: configure sensu
-  template: src=../../common/templates/{{ item }}.json.j2 dest=/etc/sensu/conf.d/{{ item }}.json owner=sensu group=sensu
+  template: 
+   src=templates/{{ item }}.json.j2 
+   dest=/etc/sensu/conf.d/{{ item }}.json 
+   owner=sensu 
+   group=sensu
   with_items:
       - api
       - rabbitmq
@@ -13,7 +19,10 @@
       - restart sensu
 
 - name: ensure sensu is started and enabled at boot 
-  service: name={{ item }} state=started enabled=yes
+  service: 
+   name={{ item }} 
+   state=started 
+   enabled=yes
   with_items:
       - sensu-server
       - sensu-api
