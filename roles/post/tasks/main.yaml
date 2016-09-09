@@ -1,0 +1,40 @@
+---
+
+#-------------------------- Enable service ports ------------------------------#
+
+- name: Determine if firewalld should be used
+  command: >
+    systemctl is-enabled firewalld
+  register: firewall_use_firewalld
+  changed_when: false
+  failed_when: false
+
+- name: Determine if iptables should be used
+  command: >
+    systemctl is-enabled iptables
+  register: firewall_use_iptables
+  changed_when: false
+  failed_when: false
+
+- name: Enable service ports via iptables
+  iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: "{{ item }}"
+      jump: ACCEPT
+  with_items: '{{ firewall_ports }}'
+  when: firewall_manage_rules and firewall_use_iptables.rc == 0
+
+- name: Make iptables persistent
+  command: >
+    service iptables save
+  when: firewall_manage_rules and firewall_use_iptables.rc == 0
+
+- name: Enable service ports via firewalld
+  firewalld:
+      port: "{{ item }}/tcp"
+      zone: public
+      permanent: true
+      state: enabled
+  with_items: '{{ firewall_ports }}'
+  when: firewall_manage_rules and firewall_use_firewalld.rc == 0

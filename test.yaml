@@ -1,0 +1,19 @@
+---
+
+# Note: First role has to initialize firewall_ports variable as empty array
+- name: Test port additions
+  hosts: test_host
+  vars:
+      firewall_ports: []
+  roles:
+      - test
+
+# Note: use firewall_ports variable as "{{ firewall_ports }}" from now on when passing to roles
+
+- name: Test run of 'post'
+  hosts: test_host
+  vars:
+      firewall_manage_rules: true
+      firewall_ports: "{{ firewall_ports }}"
+  roles:
+      - post
