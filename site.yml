@@ -4,9 +4,5 @@
   hosts: availability_monitoring_server 
   remote_user: root
   roles:
-      - common
-      - rabbitmq/server
-      - redis/server
-      - sensu/server
       - uchiwa/server 
 
