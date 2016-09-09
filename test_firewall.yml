@@ -1,0 +1,8 @@
+---
+- name: Test firewall role
+  hosts: localhost
+  vars:
+      firewall_manage_rules: true
+  roles:
+    - firewall/test
+    - firewall/commit

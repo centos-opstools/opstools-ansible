@@ -1,0 +1,3 @@
+---
+firewall_ports: []
+firewall_manage_rules: true
