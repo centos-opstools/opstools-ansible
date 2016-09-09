@@ -1,0 +1,9 @@
+# For debian/ubuntu environments
+libffi-dev [platform:dpkg]
+libssl-dev [platform:dpkg]
+libyaml-dev [platform:dpkg]
+
+# for rhel/centos/fedora
+libffi-devel [platform:rpm]
+openssl-devel [platform:rpm]
+libyaml-devel [platform:rpm]

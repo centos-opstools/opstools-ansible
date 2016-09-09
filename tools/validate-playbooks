@@ -1,0 +1,5 @@
+#!/bin/sh
+
+find * -name templates -prune -o \
+	\( -name '*.yml' -o -name '*.yaml' \) \
+	-exec ansible-lint -v -x ANSIBLE0006 {} \;
