@@ -1,0 +1,6 @@
+---
+fluentd_elasticsearch_host: localhost
+fluentd_elasticsearch_port: 9200
+fluentd_elasticsearch_index: fluentd
+fluentd_elasticsearch_type: fluentd
+fluentd_elasticsearch_extraconfig: {}

@@ -1,0 +1,9 @@
+---
+- name: Test fluentd role
+  hosts: localhost
+  vars:
+      firewall_manage_rules: true
+  roles:
+    - fluentd/server
+    - fluentd/elasticsearch
+    - firewall/commit

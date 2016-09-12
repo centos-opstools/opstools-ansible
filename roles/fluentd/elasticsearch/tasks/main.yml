@@ -1,0 +1,10 @@
+---
+- name: 'install fluentd->elasticsearch config'
+  template:
+    src: elasticsearch.conf
+    dest: '{{ fluentd_config_parts_dir }}/300-elasticsearch.conf'
+    owner: '{{ fluentd_owner }}'
+    group: '{{ fluentd_group }}'
+    mode: '{{ fluentd_config_mode }}'
+  notify: restart fluentd
+

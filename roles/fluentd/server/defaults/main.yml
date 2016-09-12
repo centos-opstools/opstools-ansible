@@ -1,0 +1,5 @@
+---
+fluentd_server_plugins:
+  - rubygem-fluent-plugin-elasticsearch
+fluentd_private_key_path: '{{ fluentd_config_dir }}/ca_key.pem'
+fluentd_server_extraconfig: {}
