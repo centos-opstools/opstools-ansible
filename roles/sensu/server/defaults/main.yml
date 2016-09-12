@@ -1,0 +1,9 @@
+sensu_redis_port: 6379
+sensu_redis_server: localhost
+
+oscheck_default_username: admin
+oscheck_default_password: pass
+oscheck_default_project_name: admin
+oscheck_default_auth_url: http://controller:5000/v2.0
+oscheck_default_region_name: RegionOne
+oscheck_default_subscribers: "[ \"overcloud-controller\" ]"
