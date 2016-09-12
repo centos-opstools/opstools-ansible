@@ -1,0 +1,25 @@
+---
+- name: install elasticsearch package
+  package:
+    name: '{{ elasticsearch_package_name }}'
+    state: present
+  when: manage_packages|default(false)
+
+- name: install elasticsearch service configuration
+  template:
+    src: elasticsearch.sysconfig
+    dest: '{{ elasticsearch_sysconfig_path }}'
+  notify: restart elasticsearch
+
+- name: install elasticsearch configuration
+  template:
+    src: elasticsearch.yml
+    dest: '{{ elasticsearch_config_yml }}'
+  notify: restart elasticsearch
+
+- name: activate elasticsearch service
+  service:
+    name: '{{ elasticsearch_service_name }}'
+    state: running
+    enabled: true
+  when: manage_services|default(false)
