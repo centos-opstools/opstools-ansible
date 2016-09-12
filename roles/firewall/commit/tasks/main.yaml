@@ -1,0 +1,22 @@
+---
+
+#-------------------------- Enable service ports ------------------------------#
+
+- name: Enable service ports via iptables
+  iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: "{{ item }}"
+      jump: ACCEPT
+  with_items: '{{ firewall_ports }}'
+  when: firewall_manage_rules and firewall_use_iptables
+  notify: persist iptables
+
+- name: Enable service ports via firewalld
+  firewalld:
+      port: "{{ item }}/tcp"
+      zone: public
+      permanent: true
+      state: enabled
+  with_items: '{{ firewall_ports }}'
+  when: firewall_manage_rules and firewall_use_firewalld

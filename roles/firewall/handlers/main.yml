@@ -1,0 +1,4 @@
+---
+- name: persist iptables
+  command: >
+    service iptables save
