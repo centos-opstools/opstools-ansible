@@ -1,7 +1,4 @@
 ---
-#- name: Open rabbitmq port
-#  firewalld: port=5672/tcp permanent=true state=enabled
-
 - name: install all rpms
   yum:
    name=rabbitmq-server
@@ -39,3 +36,9 @@
   notify:
   - restart rabbitmq
   tags: rabbitmq
+
+- name: register rabbitmq firewal ports
+  set_fact:
+    firewall_ports: >
+      {{ firewall_ports + [{{ rabbitmq_port }}] }}
+
