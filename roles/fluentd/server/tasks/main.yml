@@ -1,0 +1,52 @@
+---
+- name: install fluentd plugins (server)
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ fluentd_server_plugins }}'
+  when: manage_packages|default(false)
+  notify: restart fluentd
+
+- name: set fluentd_port fact (non-ssl)
+  set_fact:
+    fluentd_port: 24224
+  when: not fluentd_use_ssl and not fluentd_port is defined
+
+- name: set fluentd_port fact (ssl)
+  set_fact:
+    fluentd_port: 24284
+  when: fluentd_use_ssl and not fluentd_port is defined
+
+- name: install non-ssl aggregator endpoint
+  template:
+    src: listen_no_ssl.conf
+    dest: '{{ fluentd_config_parts_dir }}/100-source-forward.conf'
+    owner: '{{ fluentd_owner }}'
+    group: '{{ fluentd_group }}'
+    mode: '{{ fluentd_config_mode }}'
+  when: not fluentd_use_ssl
+  notify: restart fluentd
+
+- name: install ssl aggregator endpoint
+  template:
+    src: listen_ssl.conf
+    dest: '{{ fluentd_config_parts_dir }}/100-source-forward.conf'
+    owner: '{{ fluentd_owner }}'
+    group: '{{ fluentd_group }}'
+    mode: '{{ fluentd_config_mode }}'
+  when: fluentd_use_ssl
+  notify: restart fluentd
+
+- name: install fluentd private key
+  copy:
+    content: '{{ fluentd_private_key }}'
+    dest: '{{ fluentd_private_key_path }}'
+    owner: '{{ fluentd_owner }}'
+    group: '{{ fluentd_group }}'
+    mode: '0400'
+  when: fluentd_use_ssl
+
+- name: register fluentd firewal ports
+  set_fact:
+    firewall_ports: >
+      {{ firewall_ports + [fluentd_port] }}
