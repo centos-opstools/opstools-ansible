@@ -1,0 +1,4 @@
+---
+graphite_listen_port: 8080
+
+grafana_port: 3000
