@@ -1,7 +1,7 @@
 ---
 - name: restart sensu
-  service: 
-   name={{ item }} 
+  service:
+   name={{ item }}
    state=restarted
   with_items:
       - sensu-server

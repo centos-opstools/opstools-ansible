@@ -1,5 +1,5 @@
 ---
 - name: restart rabbitmq
-  service: 
-   name=httpd 
+  service:
+   name=httpd
    state=restarted

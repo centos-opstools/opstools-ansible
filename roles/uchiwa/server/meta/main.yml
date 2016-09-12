@@ -1,4 +1,5 @@
 ---
 dependencies:
- - sensu/server
  - common
+ - libselinux
+ - sensu/server

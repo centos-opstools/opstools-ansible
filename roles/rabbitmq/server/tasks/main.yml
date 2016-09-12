@@ -3,25 +3,25 @@
 #  firewalld: port=5672/tcp permanent=true state=enabled
 
 - name: install all rpms
-  yum: 
-   name=rabbitmq-server 
+  yum:
+   name=rabbitmq-server
    state=present
   tags: rabbitmq
 
 - name: start the service
-  service: 
-   name=rabbitmq-server 
-   state=started 
-   enabled=yes 
+  service:
+   name=rabbitmq-server
+   state=started
+   enabled=yes
   tags: rabbitmq
 
-- rabbitmq_plugin: 
-   names=rabbitmq_management 
+- rabbitmq_plugin:
+   names=rabbitmq_management
    state=enabled
   tags: rabbitmq
-  
-- rabbitmq_vhost: 
-   name={{ sensu_rabbitmq_vhost }} 
+
+- rabbitmq_vhost:
+   name={{ sensu_rabbitmq_vhost }}
    state=present
   notify: restart rabbitmq
   tags: rabbitmq
