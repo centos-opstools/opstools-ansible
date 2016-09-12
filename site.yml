@@ -1,7 +1,0 @@
----
-
-- name: configure and deploy availability monitoring server
-  hosts: availability_monitoring_server
-  remote_user: root
-  roles:
-      - uchiwa/server
