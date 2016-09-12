@@ -1,0 +1,19 @@
+---
+- name: install grafana
+  yum:
+      name: '{{ item }}'
+      state: present
+  with_items:
+      - grafana
+
+- name: enable grafana
+  service:
+      name: grafana-server
+      state: started
+      enabled: yes
+
+- name: insert firewalld rule for grafana
+  set_fact:
+      firewall_ports: >
+          {{ firewall_ports + [grafana_port] }}
+

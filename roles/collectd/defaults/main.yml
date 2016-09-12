@@ -1,0 +1,4 @@
+---
+graphite_port: 2003
+graphite_host: localhost
+
