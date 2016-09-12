@@ -1,0 +1,7 @@
+---
+dependencies:
+  - rabbitmq/server
+  - redis/server
+  - common
+  - libselinux
+  - sensu/common

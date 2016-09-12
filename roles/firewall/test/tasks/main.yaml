@@ -1,9 +1,9 @@
 ---
 
-- name: add port 5672
+- name: add port {{ rabbitmq_port }}
   set_fact:
-      firewall_ports: "{{ firewall_ports }} + ['5672']"
+      firewall_ports: "{{ firewall_ports }} + ['{{ rabbitmq_port }}']"
 
-- name: add port 3000
+- name: add port {{ uchiwa_port }}
   set_fact:
-      firewall_ports: "{{ firewall_ports }} + ['3000']"
+      firewall_ports: "{{ firewall_ports }} + ['{{ uchiwa_port }}']"

@@ -1,0 +1,9 @@
+---
+- name: Test uchiwa
+  hosts: localhost
+  vars:
+      firewall_manage_rules: true
+
+  roles:
+      - uchiwa/server
+      - firewall/commit

@@ -1,2 +1,15 @@
 manage_packages: true
 manage_services: true
+
+sensu_api_bind: 0.0.0.0
+sensu_api_port: 4567
+sensu_api_server: localhost
+
+sensu_server_name: sensu
+
+sensu_rabbitmq_vhost: /sensu
+sensu_rabbitmq_user: sensu
+sensu_rabbitmq_password: sensu
+
+rabbitmq_port: 5672
+rabbitmq_server: localhost
