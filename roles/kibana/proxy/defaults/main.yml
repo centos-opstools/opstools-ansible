@@ -1,0 +1,8 @@
+---
+
+kibana_proxy_port: 80
+kibana_proxy_dest: 'http://{{ kibana_server_bind }}:{{ kibana_server_port }}'
+kibana_proxy_htpasswd: /etc/httpd/conf/htpasswd-kibana
+kibana_proxy_welcome_msg: Restricted Kibana Server
+kibana_proxy_user: operator
+kibana_proxy_pass: changeme
