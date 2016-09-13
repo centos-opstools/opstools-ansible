@@ -1,0 +1,9 @@
+---
+redis_config_file: /etc/redis.conf
+redis_listen_port: 6379
+redis_interface: 127.0.0.1
+
+redis_package_name: redis
+redis_service_name: redis
+
+redis_owner: redis
