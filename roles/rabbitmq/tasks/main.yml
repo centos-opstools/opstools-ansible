@@ -1,0 +1,42 @@
+---
+- name: Install rabbitmq-server rpm
+  yum:
+   name: rabbitmq-server
+   state: present
+
+- name: Start the rabbitmq service
+  service:
+   name: rabbitmq-server
+   state: started
+   enabled: yes
+
+- name: Added rabbitmq plugin
+  rabbitmq_plugin:
+   names: rabbitmq_management
+   state: enabled
+
+- name: Create rabbitmq vhost
+  rabbitmq_vhost:
+   name: '{{ sensu_rabbitmq_vhost }}'
+   state: present
+  notify: Restart rabbitmq
+
+# Add user to server and assign full access control on / vhost.
+# The user doesn't have permission rules for other vhosts
+- name: Configure rabbitmq permissions
+  rabbitmq_user:
+   user: '{{ sensu_rabbitmq_user }}'
+   password: '{{ sensu_rabbitmq_password }}'
+   vhost: '{{ sensu_rabbitmq_vhost }}'
+   configure_priv: .*
+   read_priv: .*
+   write_priv: .*
+   state: present
+  notify:
+  - Restart rabbitmq
+
+- name: Register rabbitmq firewal ports
+  set_fact:
+    firewall_ports: >
+      {{ firewall_ports + ['{{ rabbitmq_port }}'] }}
+
