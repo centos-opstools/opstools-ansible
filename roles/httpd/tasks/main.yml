@@ -1,0 +1,22 @@
+---
+
+- name: install httpd
+  yum:
+      name: httpd
+      state: present
+
+- name: ensure httpd configuration directory exists
+  file:
+    path: '{{ httpd_config_dir }}'
+    state: directory
+
+- name: ensure httpd configuration parts directory exists
+  file:
+    path: '{{ httpd_config_parts_dir }}'
+    state: directory
+
+- name: enable httpd service
+  service:
+      name: httpd
+      state: started
+      enabled: yes
