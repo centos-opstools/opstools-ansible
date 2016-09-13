@@ -1,0 +1,7 @@
+---
+sensu_rabbitmq_vhost: /sensu
+sensu_rabbitmq_user: sensu
+sensu_rabbitmq_password: sensu
+
+rabbitmq_port: 5672
+rabbitmq_server: localhost
