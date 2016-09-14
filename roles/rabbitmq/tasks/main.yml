@@ -1,14 +1,16 @@
 ---
 - name: Install rabbitmq-server rpm
   yum:
-   name: rabbitmq-server
+   name: '{{ rabbitmq_package_name }}'
    state: present
+  when: manage_packages|default(false)
 
 - name: Start the rabbitmq service
   service:
-   name: rabbitmq-server
+   name: '{{ rabbitmq_service_name }}'
    state: started
    enabled: yes
+  when: manage_services|default(false)
 
 - name: Register rabbitmq firewal ports
   set_fact:
