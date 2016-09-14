@@ -45,4 +45,4 @@
     name: '{{ fluentd_service_name }}'
     state: running
     enabled: true
-  when: manages_services|default(false)
+  when: manage_services|default(false)
