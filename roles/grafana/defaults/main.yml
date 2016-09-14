@@ -2,3 +2,6 @@
 graphite_listen_port: 8080
 
 grafana_port: 3000
+
+grafana_package_name: grafana
+grafana_service_name: grafana-server
