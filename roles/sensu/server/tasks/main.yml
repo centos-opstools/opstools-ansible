@@ -1,0 +1,49 @@
+---
+- name: configure sensu
+  template:
+   src: 'templates/{{ item }}.json.j2'
+   dest: '{{sensu_config_path}}/{{ item }}.json'
+   owner: '{{ sensu_owner }}'
+   group: '{{ sensu_group }}'
+  with_items:
+      - api
+      - redis
+      - sensu_oschecks
+  notify:
+      - restart sensu
+
+
+- name: Add plugin to manage rabbitmq
+  rabbitmq_plugin:
+   names: rabbitmq_management
+   state: enabled
+
+- name: Create sensu vhost on rabbitmq
+  rabbitmq_vhost:
+   name: '{{ sensu_rabbitmq_vhost }}'
+   state: present
+  notify:
+      - restart rabbitmq
+
+# Add user to server and assign full access control on / vhost.
+# The user doesn't have permission rules for other vhosts
+- name: Configure rabbitmq permissions
+  rabbitmq_user:
+    user: '{{ sensu_rabbitmq_user }}'
+    password: '{{ sensu_rabbitmq_password }}'
+    vhost: '{{ sensu_rabbitmq_vhost }}'
+    configure_priv: '.*'
+    read_priv: '.*'
+    write_priv: '.*'
+  notify:
+      - restart rabbitmq
+
+- name: ensure sensu is started and enabled at boot
+  service:
+   name: '{{ item }}'
+   state: started
+   enabled: yes
+  with_items:
+      - '{{ sensu_server_service_name }}'
+      - '{{ sensu_api_service_name }}'
+  when: manage_services|default(false)
