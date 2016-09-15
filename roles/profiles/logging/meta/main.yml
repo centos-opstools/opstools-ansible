@@ -1,0 +1,7 @@
+---
+dependencies:
+  - elasticsearch
+  - kibana
+  - fluentd/server
+  - fluentd/syslog
+  - fluentd/elasticsearch

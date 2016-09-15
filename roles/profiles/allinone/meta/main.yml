@@ -1,0 +1,5 @@
+---
+dependencies:
+  - profiles/logging
+  - profile/availability-monitoring
+  - profile/performance-monitoring
