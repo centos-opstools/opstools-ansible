@@ -4,3 +4,5 @@ rabbitmq_server: localhost
 
 rabbitmq_service_name: rabbitmq-server
 rabbitmq_package_name: rabbitmq-server
+
+rabbitmq_default_user: guest
