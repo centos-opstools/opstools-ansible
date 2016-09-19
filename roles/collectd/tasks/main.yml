@@ -20,16 +20,9 @@
       state: started
       enabled: yes
 
-
-- name: test to see if selinux is running
-  command: getenforce
-  register: sestatus
-  changed_when: false
-
 - name: set collectd_tcp_network_connect
   seboolean:
       name: collectd_tcp_network_connect
       state: yes
       persistent: yes
-  when: sestatus.rc != 0 or sestatus.stdout == "Enforcing" or
-      sestatus.stdout == "Permissive"
+  when: '"{{ ansible_selinux.mode }}" in ["enforcing", "permissive"]'
