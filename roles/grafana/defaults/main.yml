@@ -5,3 +5,4 @@ grafana_port: 3000
 
 grafana_package_name: grafana
 grafana_service_name: grafana-server
+grafana_config_file: '/etc/grafana/grafana.ini'
