@@ -23,3 +23,8 @@
     state: running
     enabled: true
   when: manage_services|default(false)
+
+- name: register elasticsearch firewall ports
+  set_fact:
+    firewall_ports: >
+      {{ firewall_ports + [elasticsearch_port] }}
