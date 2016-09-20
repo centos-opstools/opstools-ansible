@@ -7,6 +7,7 @@
       - graphite-web
       - httpd
       - python-carbon
+  when: manage_packages|default(false)
 
 - name: check if graphitedb already created
   stat:
@@ -22,6 +23,7 @@
       name: carbon-cache
       state: started
       enabled: yes
+  when: manage_services|default(false)
 
 - name: tweak httpd config
   replace:
@@ -50,4 +52,9 @@
       name: httpd
       state: started
       enabled: yes
+  when: manage_services|default(false)
 
+- name: insert firewalld rule for graphite
+  set_fact:
+      firewall_ports: >
+          {{ firewall_ports + [graphite_listen_port] }}
