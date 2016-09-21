@@ -1,0 +1,13 @@
+{
+    "checks": {
+        {% include "sensu_oscheck-check-amqp.json.j2" ignore missing %},
+        {% include "sensu_oscheck-check-ceilometer_api.json.j2" ignore missing %},
+        {% include "sensu_oscheck-check-cinder_api.json.j2" ignore missing %},
+        {% include "sensu_oscheck-check-glance_api.json.j2" ignore missing %},
+        {% include "sensu_oscheck-check-keystone_api.json.j2" ignore missing %},
+        {% include "sensu_oscheck-check-neutron_api.json.j2" ignore missing %},
+        {% include "sensu_oscheck-check-nova_api.json.j2" ignore missing %}
+        }
+    }
+}
+
