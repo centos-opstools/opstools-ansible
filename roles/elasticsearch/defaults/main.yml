@@ -8,8 +8,14 @@ elasticsearch_config_yml: '{{ elasticsearch_config_dir }}/elasticsearch.yml'
 elasticsearch_sysconfig: {}
 elasticsearch_sysconfig_path: /etc/sysconfig/elasticsearch
 elasticsearch_cluster_name: elasticsearch
+elasticsearch_port: 9200
+elasticsearch_interface:
+  - 127.0.0.1
+  - ::1
 
 elasticsearch_config:
   cluster.name: '{{ elasticsearch_cluster_name }}'
   http.cors.enabled: true
   http.cors.allow-origin: '/.*/'
+  network.host: '{{ elasticsearch_interface }}'
+  http.port: '{{ elasticsearch_port }}'
