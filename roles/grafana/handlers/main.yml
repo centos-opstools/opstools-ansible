@@ -4,3 +4,9 @@
   service:
       name: httpd
       state: restarted
+
+# restart grafana-server
+- name: restart grafana-server
+  service:
+      name: '{{ grafana_service_name }}'
+      state: restarted
