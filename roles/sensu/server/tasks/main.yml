@@ -8,7 +8,6 @@
   with_items:
       - api
       - redis
-      - sensu_oschecks
   notify:
       - restart sensu
 
