@@ -1,12 +1,17 @@
 ---
 - name: install collectd
-  yum:
-      name: '{{ item }}'
-      state: present
-  with_items:
-      - collectd
-      - collectd-sensors
-      - collectd-virt
+  package:
+    name: '{{ collectd_package_name }}'
+    state: present
+  when: manage_packages|default(false)
+
+- name: install collectd plugins
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ collectd_plugins }}'
+  when: manage_packages|default(false)
+  notify: restart collectd
 
 - name: place write_graphite-config
   template:
@@ -16,9 +21,10 @@
 
 - name: enable collectd
   service:
-      name: collectd
+      name: '{{ collectd_service_name }}'
       state: started
       enabled: yes
+  when: manage_services|default(false)
 
 - name: set collectd_tcp_network_connect
   seboolean:
