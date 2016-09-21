@@ -12,11 +12,6 @@
    enabled: yes
   when: manage_services|default(false)
 
-- name: Add plugin to manage rabbitmq
-  rabbitmq_plugin:
-   names: rabbitmq_management
-   state: enabled
-
 - name: Delete guest user on rabbitmq 
   rabbitmq_user:
      user:  '{{ rabbitmq_default_user }}' 
