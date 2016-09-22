@@ -16,7 +16,7 @@
   replace:
    dest: '{{sensu_config_path}}/sensu_oschecks.json'
    regexp: ",\n +}}"
-   replace: "\n    }\n}" 
+   replace: "\n    }\n}"
 
 - name: Add plugin to manage rabbitmq
   rabbitmq_plugin:
