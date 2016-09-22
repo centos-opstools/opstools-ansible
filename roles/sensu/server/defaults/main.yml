@@ -20,7 +20,7 @@ oscheck_enable_cinder: true
 oscheck_enable_glance: true
 oscheck_enable_neutron: true
 oscheck_enable_nova: true
-oscheck_enable_pacemaker: true
+oscheck_enable_pacemaker: false 
 oscheck_enable_keystone: true
 
 oscheck_subscribers_amqp: "{{ oscheck_default_subscribers }}"
@@ -40,6 +40,5 @@ oscheck_check_amqp_list:
   - sensu-api
 
 oscheck_check_pacemaker_host_list:
-  - check_a
-  - check_b
-
+  - openstack-cinder-volume
+  - openstack-glance-api 

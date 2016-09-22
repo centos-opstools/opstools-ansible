@@ -1,4 +1,10 @@
 ---
+#Add the following configuration
+# api.json -- it configures the sensu-api (server and client)
+# redis.json -- it configures the use of redis for sensu as storage
+# sensu_oscheck.json -- it configures the oschecks to be executed on the clients
+#    sensu_oschecks.json.j2 is a template with severals templates that can be 
+#    disabled and configured 
 - name: configure sensu
   template:
    src: 'templates/{{ item }}.json.j2'
@@ -12,17 +18,23 @@
   notify:
       - restart sensu
 
+#This task is needed due to the fact that all the templates used to 
+#create sensu_oschecks.json can be disabled. 
+#All these templates end with a coma ','
+#The last coma ',' needs to be deleted to not let sensu-server crash
 - name: fix sensu_oschecks
   replace:
    dest: '{{sensu_config_path}}/sensu_oschecks.json'
    regexp: ",\n +}}"
    replace: "\n    }\n}"
 
+#Include the rabbitmq plugin to be able to create a vhost
 - name: Add plugin to manage rabbitmq
   rabbitmq_plugin:
    names: rabbitmq_management
    state: enabled
 
+#It creates the vhost to be used
 - name: Create sensu vhost on rabbitmq
   rabbitmq_vhost:
    name: '{{ sensu_rabbitmq_vhost }}'
