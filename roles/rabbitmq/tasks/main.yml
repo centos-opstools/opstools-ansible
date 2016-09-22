@@ -12,13 +12,10 @@
    enabled: yes
   when: manage_services|default(false)
 
-- name: Delete guest user on rabbitmq 
+- name: Delete guest user on rabbitmq
   rabbitmq_user:
-     user:  '{{ rabbitmq_default_user }}' 
-     state: absent 
-  notify:
-      - restart rabbitmq
-                               
+     user:  '{{ rabbitmq_default_user }}'
+     state: absent
 
 - name: Register rabbitmq firewal ports
   set_fact:
