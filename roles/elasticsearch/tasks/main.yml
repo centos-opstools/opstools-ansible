@@ -1,4 +1,10 @@
 ---
+- name: install java package
+  package:
+    name: '{{ java_package_name }}'
+    state: present
+  when: manage_packages|default(false)
+
 - name: install elasticsearch package
   package:
     name: '{{ elasticsearch_package_name }}'
