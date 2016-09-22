@@ -1,0 +1,10 @@
+---
+collectd_package_name: collectd
+collectd_service_name: collectd
+
+graphite_port: 2003
+graphite_host: localhost
+
+collectd_plugins:
+  - collectd-sensors
+  - collectd-virt

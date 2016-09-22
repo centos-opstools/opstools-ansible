@@ -1,0 +1,16 @@
+FQDNLookup false
+<LoadPlugin write_graphite>
+  Globals false
+</LoadPlugin>
+
+<Plugin write_graphite>
+  <Carbon>
+    Host "{{ graphite_host }}"
+    Port "{{ graphite_port }}"
+    Prefix "collectd."
+    EscapeCharacter "_"
+    StoreRates true
+    LogSendErrors true
+    Protocol "tcp"
+  </Carbon>
+</Plugin>

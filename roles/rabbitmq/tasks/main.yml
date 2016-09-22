@@ -5,6 +5,14 @@
    state: present
   when: manage_packages|default(false)
 
+- name: Enforce port and interface configuration
+  lineinfile:
+    dest: '{{ rabbitmq_config_file }}'
+    insertafter: 'Network Connectivity'
+    regexp: '^\s*{tcp_listeners,'
+    line: "    {tcp_listeners, [{% for interface in rabbitmq_interface%}{\"{{interface}}\", {{rabbitmq_port}}}{% if loop.index != loop.length %},{% endif %}{% endfor %}]}"
+  notify: restart rabbitmq
+
 - name: Start the rabbitmq service
   service:
    name: '{{ rabbitmq_service_name }}'
@@ -17,7 +25,7 @@
      user:  '{{ rabbitmq_default_user }}'
      state: absent
 
-- name: Register rabbitmq firewal ports
+- name: Register rabbitmq firewall ports
   set_fact:
     firewall_ports: >
       {{ firewall_ports + ['{{ rabbitmq_port }}'] }}

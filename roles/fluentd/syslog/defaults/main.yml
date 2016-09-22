@@ -1,0 +1,4 @@
+---
+fluentd_syslog_port: 5140
+fluentd_syslog_bind_address: 127.0.0.1
+fluentd_syslog_tag: system.messages

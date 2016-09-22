@@ -1,8 +1,12 @@
 ---
 rabbitmq_port: 5672
 rabbitmq_server: localhost
+rabbitmq_interface:
+  - 127.0.0.1
+  - ::1
 
 rabbitmq_service_name: rabbitmq-server
 rabbitmq_package_name: rabbitmq-server
 
 rabbitmq_default_user: guest
+rabbitmq_config_file: /etc/rabbitmq/rabbitmq.config

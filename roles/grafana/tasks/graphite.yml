@@ -1,0 +1,60 @@
+---
+- name: install graphite
+  yum:
+      name: '{{ item }}'
+      state: present
+  with_items:
+      - graphite-web
+      - httpd
+      - python-carbon
+  when: manage_packages|default(false)
+
+- name: check if graphitedb already created
+  stat:
+      path: /var/lib/graphite-web/graphite.db
+  register: graphitedb
+
+- name: create database for graphite
+  command: su apache -s /bin/bash -c "/usr/bin/graphite-manage syncdb --noinput"
+  when: graphitedb.stat.exists == False
+
+- name: enable services
+  service:
+      name: carbon-cache
+      state: started
+      enabled: yes
+  when: manage_services|default(false)
+
+- name: tweak httpd config
+  replace:
+      dest: /etc/httpd/conf.d/graphite-web.conf
+      regexp: "Require local$"
+      replace: "Require all granted"
+  notify: restart httpd
+
+- name: listen on port 8080
+  lineinfile:
+      dest: /etc/httpd/conf.d/graphite-web.conf
+      create: yes
+      state: present
+      insertafter: "# Graphite Web Basic mod_wsgi vhost"
+      line: "Listen {{ graphite_listen_port }}"
+
+- name: change port on graphite conf
+  replace:
+      dest: /etc/httpd/conf.d/graphite-web.conf
+      regexp: '^\<VirtualHost \*:80\>'
+      replace: "<VirtualHost *:{{ graphite_listen_port }}>"
+  notify: restart httpd
+
+- name: enable httpd services
+  service:
+      name: httpd
+      state: started
+      enabled: yes
+  when: manage_services|default(false)
+
+- name: insert firewalld rule for graphite
+  set_fact:
+      firewall_ports: >
+          {{ firewall_ports + [graphite_listen_port] }}

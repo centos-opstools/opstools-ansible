@@ -1,0 +1,7 @@
+{% if elasticsearch_config|default(false) %}
+{{elasticsearch_config|to_nice_yaml}}
+{% endif %}
+
+{% if elasticsearch_extraconfig|default(false) %}
+{{elasticsearch_extraconfig|to_nice_yaml}}
+{% endif %}

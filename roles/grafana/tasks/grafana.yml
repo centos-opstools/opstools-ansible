@@ -1,0 +1,29 @@
+---
+- name: install grafana
+  yum:
+      name: '{{ grafana_package_name }}'
+      state: present
+  when: manage_packages|default(false)
+
+- name: Configure grafana server section
+  ini_file: dest='{{ grafana_config_file }}'
+            section=server
+            option={{ item.option }}
+            value={{ item.value }}
+            backup=yes
+  with_items:
+    - { option: 'http_port', value: '{{ grafana_port }}' }
+  notify: restart grafana-server
+
+- name: enable grafana
+  service:
+      name: '{{ grafana_service_name }}'
+      state: started
+      enabled: yes
+  when: manage_services|default(false)
+
+- name: insert firewalld rule for grafana
+  set_fact:
+      firewall_ports: >
+          {{ firewall_ports + [grafana_port] }}
+

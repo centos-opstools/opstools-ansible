@@ -1,0 +1,34 @@
+---
+- name: install collectd
+  package:
+    name: '{{ collectd_package_name }}'
+    state: present
+  when: manage_packages|default(false)
+
+- name: install collectd plugins
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ collectd_plugins }}'
+  when: manage_packages|default(false)
+  notify: restart collectd
+
+- name: place write_graphite-config
+  template:
+      src: 10-write-graphite.conf.j2
+      dest: /etc/collectd.d/10-write_graphite.conf
+  notify: restart collectd
+
+- name: enable collectd
+  service:
+      name: '{{ collectd_service_name }}'
+      state: started
+      enabled: yes
+  when: manage_services|default(false)
+
+- name: set collectd_tcp_network_connect
+  seboolean:
+      name: collectd_tcp_network_connect
+      state: yes
+      persistent: yes
+  when: '"{{ ansible_selinux.mode }}" in ["enforcing", "permissive"]'
