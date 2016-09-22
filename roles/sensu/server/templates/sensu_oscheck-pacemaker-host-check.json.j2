@@ -1,0 +1,13 @@
+{% if oscheck_enable_pacemaker %}
+ {% if oscheck_check_pacemaker_host_list|length  %} 
+  {% for check_host_client in oscheck_check_pacemaker_host_list %}
+        "oscheck-check_pacemaker_{{ check_host_client }}": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-pacemaker_host_check -r {{ check_host_client }}",
+            "subscribers":[
+             {{ oscheck_subscribers_pacemaker }}
+            ],
+            "interval": 60
+        },
+  {% endfor %}
+ {% endif %}
+{% endif %}

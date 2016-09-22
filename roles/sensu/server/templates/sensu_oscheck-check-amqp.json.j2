@@ -1,7 +1,13 @@
- "oscheck-check_sensu-client": {
-            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_amqp sensu-client",
+{% if oscheck_enable_amqp %}
+ {% if oscheck_check_amqp_list|length  %} 
+  {% for check_amqp_client in oscheck_check_amqp_list %}
+        "oscheck-check_{{ check_amqp_client }}": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_amqp {{ check_amqp_client }}",
             "subscribers":[
-             {{ oscheck_default_subscribers }}
+             {{ oscheck_subscribers_amqp }}
             ],
             "interval": 60
-        }
+        },
+  {% endfor %}
+ {% endif %}
+{% endif %}
