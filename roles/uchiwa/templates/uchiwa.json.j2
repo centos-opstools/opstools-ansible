@@ -1,11 +1,9 @@
  {
-   "sensu": [
-     {
-       "name": "{{ uchiwa_sensu_api_server_name }}",
-       "host": "{{ sensu_api_server }}",
-       "port": {{ sensu_api_port }} 
-     }
-   ],
+   "sensu":[{% for datacenter in datacenters %}{
+            "name": "{{ datacenter.name }}",
+            "host": "{{ datacenter.host }}",
+            "port": {{ datacenter.port }}
+           }{% if not loop.last %},{% endif %}{% endfor %}],
    "uchiwa": {
      "host": "{{ uchiwa_bind }}",
      "port": {{ uchiwa_port }},
