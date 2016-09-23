@@ -27,14 +27,14 @@
 
 - name: tweak httpd config
   replace:
-      dest: /etc/httpd/conf.d/graphite-web.conf
+      dest: '{{ httpd_config_parts_dir }}/15-graphite-web.conf'
       regexp: "Require local$"
       replace: "Require all granted"
   notify: restart httpd
 
 - name: listen on port 8080
   lineinfile:
-      dest: /etc/httpd/conf.d/graphite-web.conf
+      dest: '{{ httpd_config_parts_dir }}/15-graphite-web.conf'
       create: yes
       state: present
       insertafter: "# Graphite Web Basic mod_wsgi vhost"
@@ -42,17 +42,10 @@
 
 - name: change port on graphite conf
   replace:
-      dest: /etc/httpd/conf.d/graphite-web.conf
+      dest: '{{ httpd_config_parts_dir }}/15-graphite-web.conf'
       regexp: '^\<VirtualHost \*:80\>'
       replace: "<VirtualHost *:{{ graphite_listen_port }}>"
   notify: restart httpd
-
-- name: enable httpd services
-  service:
-      name: httpd
-      state: started
-      enabled: yes
-  when: manage_services|default(false)
 
 - name: insert firewalld rule for graphite
   set_fact:
