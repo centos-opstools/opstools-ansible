@@ -1,0 +1,14 @@
+ {
+   "sensu": [
+     {
+       "name": "{{ uchiwa_sensu_api_server_name }}",
+       "host": "{{ sensu_api_server }}",
+       "port": {{ sensu_api_port }} 
+     }
+   ],
+   "uchiwa": {
+     "host": "{{ uchiwa_bind }}",
+     "port": {{ uchiwa_port }},
+     "refresh": {{ uchiwa_refresh }} 
+   }
+}

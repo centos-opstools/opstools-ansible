@@ -1,0 +1,6 @@
+---
+- name: restart uchiwa
+  service:
+   name: '{{ uchiwa_service_name }}'
+   state: restarted
+  when: manage_services|default(false)
