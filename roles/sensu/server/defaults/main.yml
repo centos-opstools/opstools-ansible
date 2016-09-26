@@ -3,6 +3,7 @@ sensu_api_bind: 0.0.0.0
 sensu_api_port: 4567
 sensu_api_server: localhost
 
+sensu_server_interface: localhost
 
 oscheck_default_username: admin
 oscheck_default_password: pass
@@ -20,7 +21,7 @@ oscheck_enable_cinder: true
 oscheck_enable_glance: true
 oscheck_enable_neutron: true
 oscheck_enable_nova: true
-oscheck_enable_pacemaker: false 
+oscheck_enable_pacemaker: false
 oscheck_enable_keystone: true
 
 oscheck_subscribers_amqp: "{{ oscheck_default_subscribers }}"
@@ -41,4 +42,4 @@ oscheck_check_amqp_list:
 
 oscheck_check_pacemaker_host_list:
   - openstack-cinder-volume
-  - openstack-glance-api 
+  - openstack-glance-api
