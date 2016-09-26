@@ -1,4 +1,10 @@
 ---
+- name: enable grafana repository
+  copy:
+      src: grafana.repo
+      dest: '{{yum_repos_d}}/grafana.repo'
+  when: manage_repos|default(false)
+
 - name: install grafana
   yum:
       name: '{{ grafana_package_name }}'
