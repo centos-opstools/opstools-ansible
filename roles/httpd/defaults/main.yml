@@ -1,0 +1,9 @@
+---
+
+httpd_package_name: httpd
+httpd_service_name: httpd
+httpd_config_dir: /etc/httpd
+httpd_config_parts_dir: '{{ httpd_config_dir }}/conf.d'
+httpd_owner: root
+httpd_group: root
+httpd_config_mode: 0644

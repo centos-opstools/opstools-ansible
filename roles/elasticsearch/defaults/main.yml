@@ -19,3 +19,5 @@ elasticsearch_config:
   http.cors.allow-origin: '/.*/'
   network.host: '{{ elasticsearch_interface }}'
   http.port: '{{ elasticsearch_port }}'
+
+java_package_name: java

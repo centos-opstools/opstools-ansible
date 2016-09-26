@@ -1,0 +1,8 @@
+---
+- name: Test kibana role
+  hosts: localhost
+  vars:
+      firewall_manage_rules: true
+  roles:
+    - kibana
+    - firewall/commit
