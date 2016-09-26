@@ -1,4 +1,10 @@
 ---
+- name: enable kibana repository
+  copy:
+      src: kibana.repo
+      dest: '{{yum_repos_d}}/kibana.repo'
+  when: manage_repos|default(false)
+
 - name: install kibana package
   package:
     name: '{{ kibana_package_name }}'
