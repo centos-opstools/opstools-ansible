@@ -1,0 +1,5 @@
+---
+- name: restart kibana
+  service:
+    name: '{{ kibana_service_name }}'
+    state: restarted

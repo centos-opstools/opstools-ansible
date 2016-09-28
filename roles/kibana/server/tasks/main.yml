@@ -1,0 +1,27 @@
+---
+- name: install kibana package
+  package:
+    name: '{{ kibana_package_name }}'
+    state: present
+  when: manage_packages|default(false)
+
+- name: ensure kibana configuration directory exists
+  file:
+    path: '{{ kibana_config_dir }}'
+    state: directory
+
+- name: create kibana configuration file
+  template:
+    src: kibana.yml.j2
+    dest: '{{ kibana_config_file }}'
+    owner: '{{ kibana_owner }}'
+    group: '{{ kibana_group }}'
+    mode: '{{ kibana_config_mode }}'
+  notify: restart kibana
+
+- name: enable kibana service
+  service:
+    name: '{{ kibana_service_name }}'
+    state: running
+    enabled: true
+  when: manage_services|default(false)
