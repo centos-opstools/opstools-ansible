@@ -1,5 +1,5 @@
 ---
 dependencies:
-  - rabbitmq
+  - rabbitmq/sensu
   - redis
   - sensu/common

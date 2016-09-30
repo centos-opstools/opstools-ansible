@@ -1,6 +1,6 @@
 {% if oscheck_enable_ceph %}
- "oschecks-check_ceph_health": {
-            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceph_health :::api.warning|60::: :::api.critical|80:::",
+ "oschecks-check_ceph_df": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceph_df :::ceph.warning|60::: :::ceph.critical|80:::",
             "subscribers": [
                 {{ oscheck_subscribers_ceph }}
             ],
