@@ -1,4 +1,0 @@
----
-dependencies:
-  - sensu/server
-  - uchiwa
