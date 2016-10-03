@@ -10,7 +10,7 @@
     dest: '{{ rabbitmq_config_file }}'
     insertafter: 'Network Connectivity'
     regexp: '^\s*{tcp_listeners,'
-    line: "    {tcp_listeners, [{% for interface in rabbitmq_interface%}{\"{{interface}}\", {{rabbitmq_port}}}{% if loop.index != loop.length %},{% endif %}{% endfor %}]}"
+    line: "    {tcp_listeners, [{% set comma = joiner(\",\") %}{% for ifc in rabbitmq_interface %}{{ comma() }}{\"{{ ifc }}\", {{ rabbitmq_port }}}{% endfor %}]}"
   notify: restart rabbitmq
 
 - name: Start the rabbitmq service
@@ -29,4 +29,3 @@
   set_fact:
     firewall_ports: >
       {{ firewall_ports + [rabbitmq_port] }}
-
