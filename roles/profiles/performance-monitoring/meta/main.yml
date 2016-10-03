@@ -1,4 +1,0 @@
----
-dependencies:
-  - collectd
-  - grafana
