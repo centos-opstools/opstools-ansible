@@ -1,8 +1,9 @@
 ---
 - name: restart sensu
   service:
-   name={{ item }}
-   state=restarted
+   name: '{{ item }}'
+   state : restarted
   with_items:
-      - sensu-server
-      - sensu-api
+      - '{{ sensu_server_service_name }}'
+      - '{{ sensu_api_service_name }}'
+  when: manage_services|default(false)

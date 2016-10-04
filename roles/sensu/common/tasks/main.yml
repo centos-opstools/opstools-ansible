@@ -1,14 +1,15 @@
 ---
 - name: install sensu
   yum:
-   name=sensu
-   state=installed
+   name: '{{ sensu_package_name }}'
+   state: installed
+  when: manage_packages|default(false)
 
 - name: configure rabbitmq on sensu
   template:
-   src=templates/{{ item }}.json.j2
-   dest=/etc/sensu/conf.d/{{ item }}.json
-   owner=sensu
-   group=sensu
+   src: templates/{{ item }}.json.j2
+   dest: '{{ sensu_config_path }}/{{ item }}.json'
+   owner: '{{ sensu_owner }}'
+   group: '{{ sensu_group }}'
   with_items:
       - rabbitmq

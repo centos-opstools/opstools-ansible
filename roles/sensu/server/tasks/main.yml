@@ -1,22 +1,39 @@
 ---
+#Add the following configuration
+# api.json -- it configures the sensu-api (server and client)
+# redis.json -- it configures the use of redis for sensu as storage
+# sensu_oscheck.json -- it configures the oschecks to be executed on the clients
+#    sensu_oschecks.json.j2 is a template with severals templates that can be
+#    disabled and configured
 - name: configure sensu
   template:
-   src=templates/{{ item }}.json.j2
-   dest=/etc/sensu/conf.d/{{ item }}.json
-   owner=sensu
-   group=sensu
+   src: 'templates/{{ item }}.json.j2'
+   dest: '{{sensu_config_path}}/{{ item }}.json'
+   owner: '{{ sensu_owner }}'
+   group: '{{ sensu_group }}'
   with_items:
       - api
       - redis
-      - sensu_checks
+      - sensu_oschecks
   notify:
       - restart sensu
 
+#This task is needed due to the fact that all the templates used to
+#create sensu_oschecks.json can be disabled.
+#All these templates end with a coma ','
+#The last coma ',' needs to be deleted to not let sensu-server crash
+- name: fix sensu_oschecks
+  replace:
+   dest: '{{sensu_config_path}}/sensu_oschecks.json'
+   regexp: ",\n +}}"
+   replace: "\n    }\n}"
+
 - name: ensure sensu is started and enabled at boot
   service:
-   name={{ item }}
-   state=started
-   enabled=yes
+   name: '{{ item }}'
+   state: started
+   enabled: yes
   with_items:
-      - sensu-server
-      - sensu-api
+      - '{{ sensu_server_service_name }}'
+      - '{{ sensu_api_service_name }}'
+  when: manage_services|default(false)
