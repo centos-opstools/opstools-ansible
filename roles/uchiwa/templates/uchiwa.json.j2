@@ -1,5 +1,5 @@
  {
-   "sensu":[{% for datacenter in datacenters %}{
+   "sensu":[{% for datacenter in sensu_datacenters %}{
             "name": "{{ datacenter.name }}",
             "host": "{{ datacenter.host }}",
             "port": {{ datacenter.port }}
