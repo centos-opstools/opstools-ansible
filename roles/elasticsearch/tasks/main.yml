@@ -5,6 +5,12 @@
     state: present
   when: manage_packages|default(false)
 
+- name: enable elasticsearch repository
+  copy:
+      src: elasticsearch.repo
+      dest: '{{yum_repos_d}}/elasticsearch.repo'
+  when: manage_repos|default(false)
+
 - name: install elasticsearch package
   package:
     name: '{{ elasticsearch_package_name }}'

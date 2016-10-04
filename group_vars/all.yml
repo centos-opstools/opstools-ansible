@@ -1,2 +1,4 @@
 manage_packages: true
 manage_services: true
+manage_repos: true
+yum_repos_d: /etc/yum.repos.d
