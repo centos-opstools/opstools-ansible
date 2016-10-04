@@ -1,0 +1,9 @@
+{% if oscheck_enable_keystone %}
+"oschecks-check_keystone_api": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_keystone_api  --os-username :::openstack.username|{{ oscheck_default_username }}::: --os-password :::openstack.password|{{ oscheck_default_password }}::: --os-project-name :::openstack.project_name|{{ oscheck_default_project_name }}::: --os-auth-url :::openstack.auth_url|{{ oscheck_default_auth_url }}:::",
+            "subscribers": [
+                {{ oscheck_subscribers_keystone }}
+            ],
+            "interval": 60
+        },
+{% endif %}
