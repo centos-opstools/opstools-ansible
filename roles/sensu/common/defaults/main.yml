@@ -1,0 +1,15 @@
+---
+sensu_package_name: sensu
+sensu_server_service_name: sensu-server
+sensu_api_service_name: sensu-api
+sensu_client_service_name: sensu-client
+
+sensu_config_path: /etc/sensu/conf.d
+
+sensu_owner: sensu
+sensu_group: sensu
+
+sensu_rabbitmq_user: sensu
+sensu_rabbitmq_password: sensu
+sensu_rabbitmq_vhost: /sensu
+
