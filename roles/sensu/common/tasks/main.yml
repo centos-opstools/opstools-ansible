@@ -1,15 +1,21 @@
 ---
-- name: install sensu
+- name: Enable Sensu repository
+  copy:
+    src: sensu.repo
+    dest: '{{ yum_repos_d }}/sensu.repo'
+  when: manage_repos|default(false)
+
+- name: Install sensu
   yum:
-   name: '{{ sensu_package_name }}'
-   state: installed
+    name: '{{ sensu_package_name }}'
+    state: installed
   when: manage_packages|default(false)
 
-- name: configure rabbitmq on sensu
+- name: Configure rabbitmq on sensu
   template:
-   src: templates/{{ item }}.json.j2
-   dest: '{{ sensu_config_path }}/{{ item }}.json'
-   owner: '{{ sensu_owner }}'
-   group: '{{ sensu_group }}'
+    src: templates/{{ item }}.json.j2
+    dest: '{{ sensu_config_path }}/{{ item }}.json'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
   with_items:
-      - rabbitmq
+    - rabbitmq
