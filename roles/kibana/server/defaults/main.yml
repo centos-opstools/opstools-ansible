@@ -2,7 +2,7 @@
 
 kibana_package_name: kibana
 kibana_service_name: kibana
-kibana_config_dir: /etc/kibana
+kibana_config_dir: /opt/kibana/config
 kibana_config_file: '{{ kibana_config_dir }}/kibana.yml'
 kibana_config_mode: 0644
 kibana_owner: kibana
