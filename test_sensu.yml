@@ -4,5 +4,8 @@
   vars:
       firewall_manage_rules: true
   roles:
+    - redis
+    - rabbitmq/sensu
     - sensu/server
+    - uchiwa
     - firewall/commit

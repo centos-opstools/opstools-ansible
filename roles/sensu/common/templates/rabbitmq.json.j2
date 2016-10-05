@@ -1,10 +1,9 @@
 {
    "rabbitmq": {
-     "port": {{ rabbitmq_port }},
-     "host": "{{ rabbitmq_server }}",
+     "port": {{ sensu_rabbitmq_port }},
+     "host": "{{ sensu_rabbitmq_server }}",
      "user": "{{ sensu_rabbitmq_user }}",
      "password": "{{ sensu_rabbitmq_password }}",
      "vhost": "{{ sensu_rabbitmq_vhost }}"
    }
  }
-
