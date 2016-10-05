@@ -22,5 +22,5 @@
 - name: register uchiwa firewal ports
   set_fact:
     firewall_ports: >
-      {{ firewall_ports + ['{{ uchiwa_port }}'] }}
+      {{ firewall_ports + [ uchiwa_port ] }}
 
