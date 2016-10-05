@@ -13,6 +13,13 @@
     line: "    {tcp_listeners, [{% set comma = joiner(\",\") %}{% for ifc in rabbitmq_interface %}{{ comma() }}{\"{{ ifc }}\", {{ rabbitmq_port }}}{% endfor %}]}"
   notify: restart rabbitmq
 
+#Include the rabbitmq plugin to be able to create a vhost
+- name: Add plugin to manage rabbitmq
+  rabbitmq_plugin:
+    names: rabbitmq_management
+    state: enabled
+  notify: restart rabbitmq
+
 - name: Start the rabbitmq service
   service:
    name: '{{ rabbitmq_service_name }}'

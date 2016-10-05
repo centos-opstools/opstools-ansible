@@ -18,7 +18,11 @@
 
 - hosts: rabbit_hosts
   roles:
-    - rabbitmq
+    - rabbitmq/server
+
+- hosts: sensu_hosts
+  roles:
+    - sensu/server
 
 - hosts: all
   roles:

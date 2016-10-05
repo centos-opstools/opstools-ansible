@@ -9,6 +9,8 @@ sensu_config_path: /etc/sensu/conf.d
 sensu_owner: sensu
 sensu_group: sensu
 
+sensu_rabbitmq_server: "{{ hostvars[groups.rabbit_hosts.0].ansible_default_ipv4.address}}"
+sensu_rabbitmq_port: 5672
 sensu_rabbitmq_user: sensu
 sensu_rabbitmq_password: sensu
 sensu_rabbitmq_vhost: /sensu
