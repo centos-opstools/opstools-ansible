@@ -1,8 +1,13 @@
 ---
+- name: Enable RDO repository
+  yum:
+    name: centos-release-openstack-mitaka
+  when: manage_repos|default(false)
+
 - name: Install rabbitmq-server rpm
   yum:
-   name: '{{ rabbitmq_package_name }}'
-   state: present
+    name: '{{ rabbitmq_package_name }}'
+    state: present
   when: manage_packages|default(false)
 
 - name: Enforce port and interface configuration
@@ -15,15 +20,15 @@
 
 - name: Start the rabbitmq service
   service:
-   name: '{{ rabbitmq_service_name }}'
-   state: started
-   enabled: yes
+    name: '{{ rabbitmq_service_name }}'
+    state: started
+    enabled: yes
   when: manage_services|default(false)
 
 - name: Delete guest user on rabbitmq
   rabbitmq_user:
-     user:  '{{ rabbitmq_default_user }}'
-     state: absent
+    user: '{{ rabbitmq_default_user }}'
+    state: absent
 
 - name: Register rabbitmq firewall ports
   set_fact:
