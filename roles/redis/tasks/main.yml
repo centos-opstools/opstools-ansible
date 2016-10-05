@@ -11,6 +11,8 @@
      regexp: '^port.*\n'
      replace: 'port {{ redis_listen_port }}\n'
   notify: Restart redis
+  when: (not redis_listen_port == 6379) or
+        (manage_packages|default(false))
 
 - name: Add bind interface at the redis config
   replace:

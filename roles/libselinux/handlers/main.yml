@@ -1,0 +1,5 @@
+---
+- name: uninstall libselinux-python
+  yum:
+   name=libselinux-python
+   state=removed

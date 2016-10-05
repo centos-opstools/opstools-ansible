@@ -1,0 +1,6 @@
+---
+dependencies:
+ - common
+ - firewall
+ - libselinux
+ - sensu/server

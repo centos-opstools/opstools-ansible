@@ -1,0 +1,5 @@
+---
+- name: install opstools rpm repo configuration
+  yum:
+   name=http://buildlogs.centos.org/centos/7/opstools/x86_64/common/centos-release-opstools-1-2.el7.noarch.rpm
+   state=installed
