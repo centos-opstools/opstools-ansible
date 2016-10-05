@@ -20,3 +20,4 @@
       state: enabled
   with_items: '{{ firewall_ports }}'
   when: firewall_manage_rules and firewall_use_firewalld
+  notify: reload firewalld
