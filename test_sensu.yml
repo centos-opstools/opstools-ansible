@@ -1,9 +1,0 @@
----
-- name: Test sensu-server role
-  hosts: localhost
-  vars:
-      firewall_manage_rules: true
-  roles:
-    - redis
-    - sensu/server
-    - firewall/commit
