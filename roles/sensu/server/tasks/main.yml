@@ -28,6 +28,28 @@
    regexp: ",\n +}}"
    replace: "\n    }\n}"
 
+- name: Create sensu vhost on rabbitmq
+  delegate_to: "{{ item }}"
+  rabbitmq_vhost:
+   name: '{{ sensu_rabbitmq_vhost }}'
+   state: present
+  notify:
+      - restart rabbitmq
+  with_items: "{{ groups.rabbit_hosts }}"
+
+- name: Configure rabbitmq permissions
+  delegate_to: "{{ item }}"
+  rabbitmq_user:
+    user: '{{ sensu_rabbitmq_user }}'
+    password: '{{ sensu_rabbitmq_password }}'
+    vhost: '{{ sensu_rabbitmq_vhost }}'
+    configure_priv: '.*'
+    read_priv: '.*'
+    write_priv: '.*'
+  notify:
+      - restart rabbitmq
+  with_items: "{{ groups.rabbit_hosts }}"
+
 - name: ensure sensu is started and enabled at boot
   service:
    name: '{{ item }}'

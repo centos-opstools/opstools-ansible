@@ -1,0 +1,29 @@
+- hosts: fluent_hosts
+  roles:
+    - fluentd/server
+    - fluentd/syslog
+    - fluentd/elasticsearch
+
+- hosts: elastic_hosts
+  roles:
+    - elasticsearch
+
+- hosts: kibana_hosts
+  roles:
+    - kibana
+
+- hosts: redis_hosts
+  roles:
+    - redis
+
+- hosts: rabbit_hosts
+  roles:
+    - rabbitmq/server
+
+- hosts: sensu_hosts
+  roles:
+    - sensu/server
+
+- hosts: all
+  roles:
+    - firewall/commit
