@@ -3,7 +3,8 @@ sensu_api_bind: 0.0.0.0
 sensu_api_port: 4567
 sensu_api_server: localhost
 
-sensu_server_interface: localhost
+sensu_redis_host: 127.0.0.1
+sensu_redis_port: 6379
 
 oscheck_default_username: admin
 oscheck_default_password: pass
