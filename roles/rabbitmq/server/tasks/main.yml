@@ -1,6 +1,6 @@
 ---
 - name: Install rabbitmq-server rpm
-  yum:
+  package:
    name: '{{ rabbitmq_package_name }}'
    state: present
   when: manage_packages|default(false)

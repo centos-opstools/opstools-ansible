@@ -1,6 +1,6 @@
 ---
 - name: Install redis
-  yum:
+  package:
    name: '{{ redis_package_name }}'
    state: installed
   when: manage_packages|default(false)

@@ -6,7 +6,7 @@
   when: manage_repos|default(false)
 
 - name: install grafana
-  yum:
+  package:
       name: '{{ grafana_package_name }}'
       state: present
   when: manage_packages|default(false)

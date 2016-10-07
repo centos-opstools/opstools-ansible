@@ -1,9 +1,10 @@
 ---
 
 - name: install httpd
-  yum:
+  package:
       name: '{{ httpd_package_name }}'
       state: present
+  when: manage_packages|default(false)
 
 - name: ensure httpd configuration directory exists
   file:

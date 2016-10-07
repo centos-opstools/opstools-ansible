@@ -1,6 +1,6 @@
 ---
 - name: install uchiwa
-  yum:
+  package:
    name: '{{ uchiwa_package_name }}'
    state: installed
   when: manage_packages|default(false)
