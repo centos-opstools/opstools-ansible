@@ -1,0 +1,10 @@
+RewriteRule {{ kibana_path }}(.*) http://{{ kibana_server_address }}:{{ kibana_server_port }}$1 [P]
+
+<Location {{ kibana_path }}>
+    ProxyPassReverse http://{{ kibana_server_address }}:{{ kibana_server_port }}/
+
+    AuthUserFile {{ kibana_proxy_htpasswd }}
+    AuthName "Restricted kibana Server"
+    AuthType Basic
+    Require valid-user
+</Location>

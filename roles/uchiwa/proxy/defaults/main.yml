@@ -1,0 +1,9 @@
+---
+
+uchiwa_proxy_port: 80
+uchiwa_proxy_dest: 'http://{{ uchiwa_bind }}:{{ uchiwa_port }}'
+uchiwa_proxy_htpasswd: /etc/httpd/conf/htpasswd-uchiwa
+uchiwa_proxy_user: operator
+uchiwa_proxy_pass: changeme
+uchiwa_httpd_conf: '{{ opstools_apache_config_dir }}/uchiwa.conf'
+uchiwa_path: /uchiwa

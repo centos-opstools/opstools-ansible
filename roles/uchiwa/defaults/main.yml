@@ -2,7 +2,8 @@
 uchiwa_package_name: uchiwa
 uchiwa_service_name: uchiwa
 
-uchiwa_bind: 0.0.0.0
+uchiwa_bind: 127.0.0.1
+uchiwa_server_address: localhost
 uchiwa_port: 3000
 uchiwa_refresh: 5
 

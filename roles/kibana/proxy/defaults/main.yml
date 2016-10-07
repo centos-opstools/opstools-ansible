@@ -6,3 +6,4 @@ kibana_proxy_htpasswd: /etc/httpd/conf/htpasswd-kibana
 kibana_proxy_welcome_msg: Restricted Kibana Server
 kibana_proxy_user: operator
 kibana_proxy_pass: changeme
+kibana_httpd_conf: '{{ opstools_apache_config_dir }}/kibana.conf'

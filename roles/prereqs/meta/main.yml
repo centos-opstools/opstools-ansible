@@ -1,4 +1,4 @@
 ---
-
 dependencies:
   - prereqs/libselinuxpython
+  - prereqs/libsemanagepython

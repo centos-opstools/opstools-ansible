@@ -1,0 +1,28 @@
+{% if opstools_apache_http_port|int != 80 %}
+Listen {{ opstools_apache_http_port }}
+{% endif %}
+{% if opstools_apache_https_port|int != 443 %}
+Listen {{ opstools_apache_https_port }} https
+{% endif %}
+
+<VirtualHost *:{{ opstools_apache_http_port }}>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule (.*) https://%{HTTP_HOST}$1 [R,L]
+</VirtualHost>
+
+<VirtualHost *:{{ opstools_apache_https_port }}>
+  RewriteEngine On
+  ProxyRequests Off
+  SSLEngine On
+  SSLProtocol {{ opstools_apache_sslprotocol }}
+  SSLCipherSuite {{ opstools_apache_sslciphersuite }}
+  SSLCertificateFile {{ opstools_apache_sslcert }}
+  SSLCertificateKeyFile {{ opstools_apache_sslkey }}
+
+{% for configline in opstools_apache_extraconfig|default([]) %}
+  {{ configline }}
+{% endfor %}
+
+  IncludeOptional {{ opstools_apache_config_dir }}
+</VirtualHost>

@@ -1,0 +1,9 @@
+---
+opstools_apache_config_file: "{{ httpd_config_parts_dir }}/opstools.conf"
+opstools_apache_config_dir: "{{ opstools_apache_config_file }}.d"
+opstools_apache_sslprotocol: "all -SSLv2"
+opstools_apache_sslciphersuite: "HIGH:MEDIUM:!aNULL:!MD5:!SEED:!IDEA"
+opstools_apache_sslcert: "/etc/pki/tls/certs/localhost.crt"
+opstools_apache_sslkey: "/etc/pki/tls/private/localhost.key"
+opstools_apache_http_port: 80
+opstools_apache_https_port: 443

@@ -1,6 +1,6 @@
 ---
 
 dependencies:
-  - kibana
+  - uchiwa
   - httpd
   - opstoolsvhost

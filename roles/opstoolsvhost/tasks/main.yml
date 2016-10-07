@@ -1,0 +1,21 @@
+---
+- name: Ensure opstools httpd config directory exists
+  file:
+    path: "{{ opstools_apache_config_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Install opstools httpd config file
+  template:
+    src: opstools.conf.j2
+    dest: "{{ opstools_apache_config_file }}"
+    mode: "0644"
+  notify: restart httpd
+
+- name: Register apache firewall  ports
+  set_fact:
+    firewall_ports: >
+      {{ firewall_ports + [item] }}
+  with_items:
+    - '{{ opstools_apache_http_port }}'
+    - '{{ opstools_apache_https_port }}'

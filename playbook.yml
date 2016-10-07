@@ -1,6 +1,7 @@
 ---
 - hosts: all
   roles:
+    - prereqs
     - repos
 
 - name: Install ElasticSearch
@@ -18,7 +19,8 @@
 - name: Install Kibana
   hosts: kibana_hosts
   roles:
-    - kibana
+    - kibana/server
+    - kibana/proxy
 
 - name: Install Redis
   hosts: redis_hosts
@@ -39,6 +41,7 @@
   hosts: uchiwa_hosts
   roles:
     - uchiwa
+    - uchiwa/proxy
 
 - name: Create firewall rules
   hosts: all
