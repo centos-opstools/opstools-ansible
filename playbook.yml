@@ -1,29 +1,41 @@
-- hosts: fluent_hosts
+- name: Install ElasticSearch
+  hosts: elastic_hosts
+  roles:
+    - elasticsearch
+
+- name: Install Fluentd
+  hosts: fluent_hosts
   roles:
     - fluentd/server
     - fluentd/syslog
     - fluentd/elasticsearch
 
-- hosts: elastic_hosts
-  roles:
-    - elasticsearch
-
-- hosts: kibana_hosts
+- name: Install Kibana
+  hosts: kibana_hosts
   roles:
     - kibana
 
-- hosts: redis_hosts
+- name: Install Redis
+  hosts: redis_hosts
   roles:
     - redis
 
-- hosts: rabbit_hosts
+- name: Install RabbitMQ
+  hosts: rabbit_hosts
   roles:
     - rabbitmq/server
 
-- hosts: sensu_hosts
+- name: Install Sensu
+  hosts: sensu_hosts
   roles:
     - sensu/server
 
-- hosts: all
+- name: Install Uchiwa
+  hosts: uchiwa_hosts
+  roles:
+    - uchiwa
+
+- name: Create firewall rules
+  hosts: all
   roles:
     - firewall/commit
