@@ -1,0 +1,6 @@
+---
+
+- name: install libselinux python
+  yum:
+      name: '{{ libselinux_python_package_name }}'
+      state: present
