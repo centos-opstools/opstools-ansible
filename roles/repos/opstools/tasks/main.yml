@@ -1,0 +1,6 @@
+---
+- name: Install centos-opstools repository
+  copy:
+    src: centos-opstools.repo
+    dest: /etc/yum.repos.d/centos-opstools.repo
+  when: manage_repos|default(false)

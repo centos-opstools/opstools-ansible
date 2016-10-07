@@ -1,0 +1,17 @@
+# CentOS-OpsTools.repo
+#
+# Please see http://wiki.centos.org/SpecialInterestGroup/OpsTools for more
+# information
+
+[centos-opstools-testing]
+name=CentOS-7 - OpsTools - testing repo
+baseurl=http://buildlogs.centos.org/centos/7/opstools/$basearch/
+gpgcheck=0
+enabled=1
+#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools
+#
+[centos-opstools-logging]
+name=CentOS-7 - OpsTools - logging testing repo
+baseurl=http://cbs.centos.org/repos/opstools7-elastic-common-testing/$basearch/os/
+gpgcheck=0
+enabled=1
