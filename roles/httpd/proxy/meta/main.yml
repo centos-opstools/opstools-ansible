@@ -1,0 +1,6 @@
+---
+
+dependencies:
+  - firewall
+  - httpd
+  - prereqs/libsemanagepython

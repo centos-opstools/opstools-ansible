@@ -1,0 +1,17 @@
+
+<VirtualHost *:{{ httpd_proxy_port }}>
+
+  <Location />
+    ProxyPassMatch {{ httpd_proxy_dest }}
+    ProxyPassReverse {{ httpd_proxy_dest }}
+
+    AuthUserFile {{ httpd_proxy_htpasswd }}
+    AuthName "{{ httpd_proxy_welcome_msg }}"
+    AuthType Basic
+    Require valid-user
+  </Location>
+
+  ErrorLog "logs/{{ httpd_proxy_service_name }}-error_log"
+  TransferLog "logs/{{ httpd_proxy_service_name }}-access_log"
+  
+</VirtualHost>

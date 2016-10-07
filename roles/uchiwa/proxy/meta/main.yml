@@ -1,0 +1,10 @@
+---
+
+dependencies:
+  - httpd
+  - uchiwa
+  - role: httpd/proxy
+    httpd_proxy_service_name: "uchiwa"
+    httpd_proxy_dest: '{{ uchiwa_proxy_dest }}'
+    httpd_proxy_user: '{{ uchiwa_proxy_user }}'
+    httpd_proxy_pass: '{{ uchiwa_proxy_pass }}'
