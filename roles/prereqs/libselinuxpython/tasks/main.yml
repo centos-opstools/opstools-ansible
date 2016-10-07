@@ -1,6 +1,7 @@
 ---
 
 - name: install libselinux python
-  yum:
+  package:
       name: '{{ libselinux_python_package_name }}'
       state: present
+  when: manage_packages|default(false)
