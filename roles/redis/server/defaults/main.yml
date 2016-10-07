@@ -1,0 +1,9 @@
+---
+redis_config_file: /etc/redis.conf
+redis_interface:
+  - "{{ hostvars[groups.redis_hosts.0].ansible_default_ipv4.address}}"
+
+redis_package_name: redis
+redis_service_name: redis
+
+redis_owner: redis
