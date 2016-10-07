@@ -2,8 +2,8 @@
 
 - name: install httpd
   package:
-      name: '{{ httpd_package_name }}'
-      state: present
+    name: '{{ httpd_package_name }}'
+    state: present
   when: manage_packages|default(false)
 
 - name: ensure httpd configuration directory exists
@@ -18,6 +18,6 @@
 
 - name: enable httpd service
   service:
-      name: '{{ httpd_service_name }}'
-      state: started
-      enabled: yes
+    name: '{{ httpd_service_name }}'
+    state: started
+    enabled: yes

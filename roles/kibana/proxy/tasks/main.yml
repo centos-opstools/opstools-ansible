@@ -1,5 +1,4 @@
 ---
-
 - name: create httpd proxy config for Kibana
   template:
     src: 15-kibana4.conf.j2
@@ -10,11 +9,14 @@
   notify: restart httpd
 
 - name: create kibana htpasswd file
+  tags:
+    - skip_ansible_lint  # ignore ANISBLE0012
   command: >
-    htpasswd -cb {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }} {{ kibana_proxy_pass }}
+    htpasswd -cb {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }}
+    {{ kibana_proxy_pass }}
   notify: restart httpd
 
 - name: insert firewalld rule for kibana
   set_fact:
-      firewall_ports: >
-          {{ firewall_ports + [kibana_proxy_port] }}
+    firewall_ports: >
+      {{ firewall_ports + [kibana_proxy_port] }}

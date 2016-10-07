@@ -1,7 +1,4 @@
 ---
-
-#-------------------------- Enable service ports ------------------------------#
-
 - name: Enable service ports via iptables
   iptables:
       chain: INPUT

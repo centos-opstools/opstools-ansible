@@ -1,3 +1,4 @@
+---
 - name: Determine if firewalld should be used
   command: >
     systemctl is-enabled firewalld

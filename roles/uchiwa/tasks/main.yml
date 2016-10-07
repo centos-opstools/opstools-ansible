@@ -1,26 +1,25 @@
 ---
 - name: install uchiwa
   package:
-   name: '{{ uchiwa_package_name }}'
-   state: installed
+    name: '{{ uchiwa_package_name }}'
+    state: installed
   when: manage_packages|default(false)
 
 - name: configure uchiwa
   template:
-   src: templates/uchiwa.json.j2
-   dest: '{{ uchiwa_file_path }}'
+    src: templates/uchiwa.json.j2
+    dest: '{{ uchiwa_file_path }}'
   notify:
-     - restart uchiwa
+    - restart uchiwa
 
 - name: ensure uchiwa is started and enabled at boot
   service:
-   name: '{{ uchiwa_service_name }}'
-   state: started
-   enabled: yes
+    name: '{{ uchiwa_service_name }}'
+    state: started
+    enabled: yes
   when: manage_services|default(false)
 
 - name: register uchiwa firewal ports
   set_fact:
     firewall_ports: >
       {{ firewall_ports + [ uchiwa_port ] }}
-

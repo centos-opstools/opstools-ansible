@@ -1,5 +1,5 @@
 ---
-#Add the following configuration
+# Add the following configuration
 # api.json -- it configures the sensu-api (server and client)
 # redis.json -- it configures the use of redis for sensu as storage
 # sensu_oscheck.json -- it configures the oschecks to be executed on the clients
@@ -7,34 +7,34 @@
 #    disabled and configured
 - name: configure sensu
   template:
-   src: 'templates/{{ item }}.json.j2'
-   dest: '{{sensu_config_path}}/{{ item }}.json'
-   owner: '{{ sensu_owner }}'
-   group: '{{ sensu_group }}'
+    src: 'templates/{{ item }}.json.j2'
+    dest: '{{sensu_config_path}}/{{ item }}.json'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
   with_items:
-      - api
-      - redis
-      - sensu_oschecks
+    - api
+    - redis
+    - sensu_oschecks
   notify:
-      - restart sensu
+    - restart sensu
 
-#This task is needed due to the fact that all the templates used to
-#create sensu_oschecks.json can be disabled.
-#All these templates end with a coma ','
-#The last coma ',' needs to be deleted to not let sensu-server crash
+# This task is needed due to the fact that all the templates used to
+# create sensu_oschecks.json can be disabled.
+# All these templates end with a coma ','
+# The last coma ',' needs to be deleted to not let sensu-server crash
 - name: fix sensu_oschecks
   replace:
-   dest: '{{sensu_config_path}}/sensu_oschecks.json'
-   regexp: ",\n +}}"
-   replace: "\n    }\n}"
+    dest: '{{sensu_config_path}}/sensu_oschecks.json'
+    regexp: ",\n +}}"
+    replace: "\n    }\n}"
 
 - name: Create sensu vhost on rabbitmq
   delegate_to: "{{ item }}"
   rabbitmq_vhost:
-   name: '{{ sensu_rabbitmq_vhost }}'
-   state: present
+    name: '{{ sensu_rabbitmq_vhost }}'
+    state: present
   notify:
-      - restart rabbitmq
+    - restart rabbitmq
   with_items: "{{ groups.rabbit_hosts }}"
 
 - name: Configure rabbitmq permissions
@@ -47,15 +47,15 @@
     read_priv: '.*'
     write_priv: '.*'
   notify:
-      - restart rabbitmq
+    - restart rabbitmq
   with_items: "{{ groups.rabbit_hosts }}"
 
 - name: ensure sensu is started and enabled at boot
   service:
-   name: '{{ item }}'
-   state: started
-   enabled: yes
+    name: '{{ item }}'
+    state: started
+    enabled: yes
   with_items:
-      - '{{ sensu_server_service_name }}'
-      - '{{ sensu_api_service_name }}'
+    - '{{ sensu_server_service_name }}'
+    - '{{ sensu_api_service_name }}'
   when: manage_services|default(false)
