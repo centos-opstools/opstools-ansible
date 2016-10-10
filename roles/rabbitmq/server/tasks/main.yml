@@ -1,8 +1,8 @@
 ---
 - name: Install rabbitmq-server rpm
   package:
-   name: '{{ rabbitmq_package_name }}'
-   state: present
+    name: '{{ rabbitmq_package_name }}'
+    state: present
   when: manage_packages|default(false)
 
 - name: Enforce port and interface configuration
@@ -10,10 +10,11 @@
     dest: '{{ rabbitmq_config_file }}'
     insertafter: 'Network Connectivity'
     regexp: '^\s*{tcp_listeners,'
+    # yamllint disable-line rule:line-length
     line: "    {tcp_listeners, [{% set comma = joiner(\",\") %}{% for ifc in rabbitmq_interface %}{{ comma() }}{\"{{ ifc }}\", {{ rabbitmq_port }}}{% endfor %}]}"
   notify: restart rabbitmq
 
-#Include the rabbitmq plugin to be able to create a vhost
+# Include the rabbitmq plugin to be able to create a vhost
 - name: Add plugin to manage rabbitmq
   rabbitmq_plugin:
     names: rabbitmq_management
@@ -22,15 +23,15 @@
 
 - name: Start the rabbitmq service
   service:
-   name: '{{ rabbitmq_service_name }}'
-   state: started
-   enabled: yes
+    name: '{{ rabbitmq_service_name }}'
+    state: started
+    enabled: yes
   when: manage_services|default(false)
 
 - name: Delete guest user on rabbitmq
   rabbitmq_user:
-     user:  '{{ rabbitmq_default_user }}'
-     state: absent
+    user: '{{ rabbitmq_default_user }}'
+    state: absent
 
 - name: Register rabbitmq firewall ports
   set_fact:

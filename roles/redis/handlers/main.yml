@@ -3,4 +3,3 @@
   service:
     name: '{{ redis_service_name }}'
     state: restarted
-

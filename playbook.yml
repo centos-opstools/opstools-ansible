@@ -1,3 +1,4 @@
+---
 - name: Install ElasticSearch
   hosts: elastic_hosts
   roles:

@@ -3,8 +3,8 @@ elasticsearch_package_name: elasticsearch
 elasticsearch_service_name: elasticsearch
 elasticsearch_config_dir: /etc/elasticsearch
 elasticsearch_config_yml: '{{ elasticsearch_config_dir }}/elasticsearch.yml'
-#elasticsearch_min_mem:
-#elasticsearch_max_mem:
+# elasticsearch_min_mem:
+# elasticsearch_max_mem:
 elasticsearch_sysconfig: {}
 elasticsearch_sysconfig_path: /etc/sysconfig/elasticsearch
 elasticsearch_cluster_name: elasticsearch

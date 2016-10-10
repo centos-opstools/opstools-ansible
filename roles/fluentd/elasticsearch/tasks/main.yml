@@ -7,4 +7,3 @@
     group: '{{ fluentd_group }}'
     mode: '{{ fluentd_config_mode }}'
   notify: restart fluentd
-

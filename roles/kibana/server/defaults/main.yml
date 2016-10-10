@@ -7,11 +7,13 @@ kibana_config_file: '{{ kibana_config_dir }}/kibana.yml'
 kibana_config_mode: 0644
 kibana_owner: kibana
 kibana_group: kibana
-kibana_elasticsearch_host: "{{ hostvars[groups.elastic_hosts.0].ansible_default_ipv4.address}}"
+kibana_elasticsearch_host: >
+  {{ hostvars[groups.elastic_hosts.0].ansible_default_ipv4.address}}
 kibana_elasticsearch_port: 9200
 
 # "0.0.0.0" to allow public access
 # "localhost" to allow access through proxy only
 kibana_server_bind: localhost
 kibana_server_port: 5601
-kibana_server_elasticsearch_url: 'http://{{ kibana_elasticsearch_host }}:{{ kibana_elasticsearch_port }}'
+kibana_server_elasticsearch_url: >
+  http://{{ kibana_elasticsearch_host }}:{{ kibana_elasticsearch_port }}

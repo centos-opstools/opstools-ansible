@@ -7,8 +7,8 @@
 
 - name: enable elasticsearch repository
   copy:
-      src: elasticsearch.repo
-      dest: '{{yum_repos_d}}/elasticsearch.repo'
+    src: elasticsearch.repo
+    dest: '{{yum_repos_d}}/elasticsearch.repo'
   when: manage_repos|default(false)
 
 - name: install elasticsearch package
