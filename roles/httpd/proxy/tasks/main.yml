@@ -1,0 +1,26 @@
+---
+- name: create httpd proxy config for {{ httpd_proxy_service_name }}
+  template:
+    src: 15-service.conf.j2
+    dest: '{{ httpd_config_parts_dir }}/15-{{ httpd_proxy_service_name }}.conf'
+    owner: '{{ httpd_owner }}'
+    group: '{{ httpd_group }}'
+    mode: '{{ httpd_config_mode }}'
+  notify: restart httpd
+
+- name: create {{ httpd_proxy_service_name }}  htpasswd file
+  command: >
+    htpasswd -cb {{ httpd_proxy_htpasswd }} {{ httpd_proxy_user }}
+    {{ httpd_proxy_pass }}
+  notify: restart httpd
+
+- name: Allow apache proxy connections
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+
+- name: insert firewalld rule for {{ httpd_proxy_service_name }}
+  set_fact:
+    firewall_ports: >
+      {{ firewall_ports + [httpd_proxy_port] }}

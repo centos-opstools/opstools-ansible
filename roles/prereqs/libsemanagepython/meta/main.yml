@@ -1,0 +1,5 @@
+---
+
+dependencies:
+  - role: prereqs/packages
+    prerequisite_package_name: "libsemanage-python"

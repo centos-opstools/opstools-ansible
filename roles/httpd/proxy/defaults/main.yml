@@ -1,0 +1,9 @@
+---
+
+httpd_proxy_service_name: Service
+httpd_proxy_port: 80
+httpd_proxy_dest: 'http://{{ service_server_bind }}:{{ service_server_port }}'
+httpd_proxy_htpasswd: '/etc/httpd/conf/httpasswd-{{ httpd_proxy_service_name }}'
+httpd_proxy_welcome_msg: 'Restricted {{ httpd_proxy_service_name }} Server'
+httpd_proxy_user: operator
+httpd_proxy_pass: changeme

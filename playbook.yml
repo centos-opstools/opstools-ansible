@@ -39,6 +39,7 @@
   hosts: uchiwa_hosts
   roles:
     - uchiwa
+    - uchiwa/proxy
 
 - name: Create firewall rules
   hosts: all
