@@ -1,5 +1,5 @@
 ---
-- name: install rdo repository configuration
+- name: Install rdo repository configuration
   package:
     name: centos-release-openstack-{{rdo_release}}
     state: present

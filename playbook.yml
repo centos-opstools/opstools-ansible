@@ -1,4 +1,8 @@
 ---
+- hosts: all
+  roles:
+    - repos
+
 - name: Install ElasticSearch
   hosts: elastic_hosts
   roles:
