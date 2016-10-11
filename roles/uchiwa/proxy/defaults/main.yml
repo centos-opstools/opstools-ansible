@@ -3,6 +3,5 @@
 uchiwa_proxy_port: 80
 uchiwa_proxy_dest: 'http://{{ uchiwa_bind }}:{{ uchiwa_port }}'
 uchiwa_proxy_htpasswd: /etc/httpd/conf/htpasswd-uchiwa
-uchiwa_proxy_welcome_msg: Restricted Uchiwa Server
 uchiwa_proxy_user: operator
 uchiwa_proxy_pass: changeme
