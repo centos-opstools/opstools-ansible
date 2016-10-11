@@ -19,6 +19,20 @@
     replace: 'bind {{ " ".join(redis_interface) }}\n'
   notify: Restart redis
 
+- name: Ensure protected mode is enabled
+  replace:
+    dest: '{{ redis_config_file }}'
+    regexp: '^protected-mode.*\n'
+    replace: 'protected-mode yes\n'
+  notify: Restart redis
+
+- name: Set password
+  replace:
+    dest: '{{ redis_config_file }}'
+    regexp: '^(# )+requirepass.*\n'
+    replace: 'requirepass {{ redis_password }}\n'
+  notify: Restart redis
+
 - name: Ensure redis is started and enabled at boot
   service:
     name: '{{ redis_service_name }}'

@@ -5,7 +5,8 @@ sensu_api_server: localhost
 
 sensu_redis_server: >
   {{ hostvars[groups.redis_hosts.0].ansible_default_ipv4.address}}
-sensu_redis_port: 6379
+sensu_redis_port: '{{ redis_listen_port }}'
+sensu_redis_password: "{{ redis_password }}"
 
 oscheck_default_username: admin
 oscheck_default_password: pass

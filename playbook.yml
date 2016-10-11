@@ -23,7 +23,7 @@
 - name: Install Redis
   hosts: redis_hosts
   roles:
-    - redis
+    - redis/server
 
 - name: Install RabbitMQ
   hosts: rabbit_hosts
