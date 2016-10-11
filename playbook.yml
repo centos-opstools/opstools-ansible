@@ -23,11 +23,13 @@
 - name: Install Redis
   hosts: redis_hosts
   roles:
+    - rdo
     - redis
 
 - name: Install RabbitMQ
   hosts: rabbit_hosts
   roles:
+    - rdo
     - rabbitmq/server
 
 - name: Install Sensu
