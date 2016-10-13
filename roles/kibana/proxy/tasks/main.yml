@@ -12,3 +12,11 @@
     htpasswd -cb {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }}
     {{ kibana_proxy_pass }}
   notify: restart httpd
+
+- name: Configure default redirect
+  copy:
+    content: |
+      RewriteRule ^/$ {{ kibana_path }} [R=302]
+    dest: '{{ opstools_default_redirect_file }}'
+    force: false
+  notify: restart httpd
