@@ -1,5 +1,0 @@
----
-
-dependencies:
-  - kibana/server
-  - kibana/proxy

@@ -1,0 +1,14 @@
+---
+- name: Install uchiwa configuration for Apache
+  template:
+    src: uchiwa.conf.j2
+    dest: '{{ uchiwa_httpd_conf }}'
+  notify: restart httpd
+
+- name: Create uchiwa htpasswd file
+  tags:
+    - skip_ansible_lint  # ignore ANSIBLE0012
+  command: >
+    htpasswd -cb {{ uchiwa_proxy_htpasswd }} {{ uchiwa_proxy_user }}
+    {{ uchiwa_proxy_pass }}
+  notify: restart httpd

@@ -7,3 +7,5 @@ httpd_config_parts_dir: '{{ httpd_config_dir }}/conf.d'
 httpd_owner: root
 httpd_group: root
 httpd_config_mode: 0644
+httpd_modules:
+  - mod_ssl

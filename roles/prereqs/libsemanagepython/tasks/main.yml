@@ -1,0 +1,6 @@
+---
+- name: Install libsemanage python
+  package:
+      name: '{{ libsemanage_python_package_name }}'
+      state: present
+  when: manage_packages|default(false)

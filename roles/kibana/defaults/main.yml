@@ -1,5 +1,5 @@
 ---
-
+kibana_path: /kibana
 kibana_package_name: kibana
 kibana_service_name: kibana
 kibana_config_dir: /opt/kibana/config
@@ -7,13 +7,19 @@ kibana_config_file: '{{ kibana_config_dir }}/kibana.yml'
 kibana_config_mode: 0644
 kibana_owner: kibana
 kibana_group: kibana
-kibana_elasticsearch_host: >
+kibana_elasticsearch_host: >-
   {{ hostvars[groups.elastic_hosts.0].ansible_default_ipv4.address}}
 kibana_elasticsearch_port: 9200
 
+# This is address to which Kibana should bind
 # "0.0.0.0" to allow public access
 # "localhost" to allow access through proxy only
 kibana_server_bind: localhost
+
+# This is the address to which clients should connect to access Kibana
+# (we can't always use kibana_server_bind for that because 0.0.0.0 is
+# not an address to which we can connect)
+kibana_server_address: '{{ kibana_server_bind }}'
 kibana_server_port: 5601
-kibana_server_elasticsearch_url: >
+kibana_server_elasticsearch_url: >-
   http://{{ kibana_elasticsearch_host }}:{{ kibana_elasticsearch_port }}
