@@ -3,3 +3,20 @@ manage_packages: true
 manage_services: true
 manage_repos: true
 yum_repos_d: /etc/yum.repos.d
+
+rabbit_hosts_ipv4: >
+  {{ groups['rabbit_hosts']|host_addresses(hostvars, 'ipv4') }}"
+redis_hosts_ipv4: >
+  {{ groups['redis_hosts']|host_addresses(hostvars, 'ipv4') }}"
+sensu_hosts_ipv4: >
+  {{ groups['sensu_hosts']|host_addresses(hostvars, 'ipv4') }}"
+uchiwa_hosts_ipv4: >
+  {{ groups['uchiwa_hosts']|host_addresses(hostvars, 'ipv4') }}"
+fluent_hosts_ipv4: >
+  {{ groups['fluent_hosts']|host_addresses(hostvars, 'ipv4') }}"
+elastic_hosts_ipv4: >
+  {{ groups['elastic_hosts']|host_addresses(hostvars, 'ipv4') }}"
+kibana_hosts_ipv4: >
+  {{ groups['kibana_hosts']|host_addresses(hostvars, 'ipv4') }}"
+grafana_hosts_ipv4: >
+  {{ groups['grafana_hosts']|host_addresses(hostvars, 'ipv4') }}"

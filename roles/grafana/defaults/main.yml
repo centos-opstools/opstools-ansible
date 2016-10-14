@@ -1,6 +1,8 @@
 ---
+graphite_listen_address: "{{ grafana_hosts_ipv4 }}"
 graphite_listen_port: 8080
 
+grafana_bind_address: '0.0.0.0'
 grafana_port: 3000
 
 grafana_package_name: grafana

@@ -21,5 +21,13 @@
 
 - name: register uchiwa firewal ports
   set_fact:
-    firewall_ports: >
-      {{ firewall_ports + [ uchiwa_port ] }}
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'source': "{{ item }}",
+          'port': "{{ uchiwa_port }}",
+          'protocol': 'tcp'
+        }
+      ]
+  with_items:
+    - "{{ uchiwa_bind }}"

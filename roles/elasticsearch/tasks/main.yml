@@ -38,5 +38,13 @@
 
 - name: register elasticsearch firewall ports
   set_fact:
-    firewall_ports: >
-      {{ firewall_ports + [elasticsearch_port] }}
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'source': "{{ item }}",
+          'port': "{{ elasticsearch_port }}",
+          'protocol': 'tcp'
+        }
+      ]
+  with_items:
+    - "{{ elasticsearch_interface_ipv4 }}"

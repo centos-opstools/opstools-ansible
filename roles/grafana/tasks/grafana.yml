@@ -21,6 +21,8 @@
   with_items:
     - option: 'http_port'
       value: '{{ grafana_port }}'
+    - option: 'http_addr'
+      value: '{{ grafana_bind_address }}'
   notify: restart grafana-server
 
 - name: enable grafana
@@ -32,5 +34,13 @@
 
 - name: insert firewalld rule for grafana
   set_fact:
-    firewall_ports: >
-      {{ firewall_ports + [grafana_port] }}
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'source': "{{ item }}",
+          'port': "{{ grafana_port }}",
+          'protocol': 'tcp'
+        }
+      ]
+  with_items:
+    - "{{ grafana_bind_address }}"

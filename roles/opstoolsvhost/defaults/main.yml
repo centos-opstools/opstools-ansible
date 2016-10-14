@@ -9,3 +9,4 @@ opstools_apache_http_port: 80
 opstools_apache_https_port: 443
 opstools_default_redirect_file: >-
   {{ opstools_apache_config_dir }}/default_redirect.conf
+opstools_apache_listen_address: 0.0.0.0
