@@ -12,3 +12,11 @@
     htpasswd -cb {{ uchiwa_proxy_htpasswd }} {{ uchiwa_proxy_user }}
     {{ uchiwa_proxy_pass }}
   notify: restart httpd
+
+- name: Configure default redirect
+  copy:
+    content: |
+      RewriteRule ^/$ {{ uchiwa_path }} [R=302]
+    dest: '{{ opstools_default_redirect_file }}'
+    force: false
+  notify: restart httpd

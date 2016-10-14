@@ -7,3 +7,5 @@ opstools_apache_sslcert: "/etc/pki/tls/certs/localhost.crt"
 opstools_apache_sslkey: "/etc/pki/tls/private/localhost.key"
 opstools_apache_http_port: 80
 opstools_apache_https_port: 443
+opstools_default_redirect_file: >-
+  {{ opstools_apache_config_dir }}/default_redirect.conf
