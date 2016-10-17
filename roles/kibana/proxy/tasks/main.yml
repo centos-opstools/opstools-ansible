@@ -5,6 +5,12 @@
     dest: '{{ kibana_httpd_conf }}'
   notify: restart httpd
 
+- name: check if kibana_proxy_user is contained in kibana_proxy_htpasswd
+  shell: '/usr/bin/cat {{kibana_proxy_htpasswd}} |\
+      /usr/bin/grep {{ kibana_proxy_user }}'
+  register: donttouch_kibana_htpasswd
+  failed_when: false
+
 - name: Create kibana htpasswd file
   tags:
     - skip_ansible_lint  # ignore ANSIBLE0012
@@ -12,6 +18,14 @@
     htpasswd -cb {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }}
     {{ kibana_proxy_pass }}
   notify: restart httpd
+  when: donttouch_kibana_htpasswd.stdout== ""
+
+- name: secure htpasswd file
+  file:
+    path: '{{ kibana_proxy_htpasswd }}'
+    owner: apache
+    group: apache
+    mode: 0640
 
 - name: Configure default redirect
   copy:
