@@ -47,3 +47,8 @@
   hosts: all
   roles:
     - firewall/commit
+
+- name: Install CollectD
+  hosts: collectd_hosts
+  roles:
+    - collectd

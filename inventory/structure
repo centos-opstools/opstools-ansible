@@ -29,6 +29,7 @@
 [elastic_hosts]
 [kibana_hosts]
 [grafana_hosts]
+[collectd_hosts]
 
 # ------------------------------------------
 
