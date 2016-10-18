@@ -13,6 +13,13 @@
     {{ kibana_proxy_pass }}
   notify: restart httpd
 
+- name: secure htpasswd file
+  file:
+    path: '{{ kibana_proxy_htpasswd }}'
+    owner: apache
+    group: apache
+    mode: 0640
+
 - name: Configure default redirect
   copy:
     content: |

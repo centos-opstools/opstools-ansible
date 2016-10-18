@@ -13,6 +13,13 @@
     {{ uchiwa_proxy_pass }}
   notify: restart httpd
 
+- name: secure uchiwa htpasswd file
+  file:
+    path: '{{ uchiwa_proxy_htpasswd }}'
+    owner: apache
+    group: apache
+    mode: 0640
+
 - name: Configure default redirect
   copy:
     content: |
