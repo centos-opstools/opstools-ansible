@@ -1,0 +1,13 @@
+---
+chrony_package_name: chrony
+chrony_service_name: chronyd
+chrony_config_file: /etc/chrony.conf
+chrony_driftfile: /var/lib/chrony/drift
+chrony_logdir: /var/log/chrony
+
+chrony_pools:
+  - pool.ntp.org iburst
+
+chrony_default_config:
+  - 'makestep 1.0 3'
+  - 'rtcsync'

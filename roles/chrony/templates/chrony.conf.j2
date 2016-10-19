@@ -1,0 +1,18 @@
+driftfile {{ chrony_driftfile }}
+logdir {{ chrony_logdir }}
+
+{% for pool in chrony_pools|default([]) %}
+pool {{ pool }}
+{% endfor %}
+
+{% for server in chrony_servers|default([]) %}
+server {{ server }}
+{% endfor %}
+
+{% for cfg in chrony_default_config|default([]) %}
+{{ cfg }}
+{% endfor %}
+
+{% for cfg in chrony_extra_config|default([]) %}
+{{ cfg }}
+{% endfor %}

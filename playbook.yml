@@ -3,6 +3,7 @@
   roles:
     - prereqs
     - repos
+    - chrony
 
 - name: Install ElasticSearch
   hosts: elastic_hosts
