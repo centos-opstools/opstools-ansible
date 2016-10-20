@@ -56,3 +56,6 @@ logging_hosts
 
 [grafana_hosts:children]
 pm_hosts
+
+[collectd_hosts:children]
+pm_hosts
