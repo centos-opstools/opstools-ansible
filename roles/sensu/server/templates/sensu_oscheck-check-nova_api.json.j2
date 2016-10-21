@@ -2,7 +2,7 @@
 "oschecks-check_nova_api": {
             "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_nova_api -w :::api.warning|10::: -c :::api.critical|20::: --os-username :::openstack.username|{{ oscheck_default_username }}::: --os-password :::openstack.password|{{ oscheck_default_password }}::: --os-project-name :::openstack.project_name|{{ oscheck_default_project_name }}::: --os-auth-url :::openstack.auth_url|{{ oscheck_default_auth_url }}::: --region_name :::openstack.region_name|{{ oscheck_default_region_name }}:::",
             "subscribers": [
-                {{ oscheck_subscribers_nova }}
+                "{{ oscheck_subscribers_nova_api }}"
             ],
             "interval": 60
         },

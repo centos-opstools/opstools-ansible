@@ -1,8 +1,8 @@
 {% if oscheck_enable_nova %}
  "oschecks-check_nova_instance": {
-            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_nova_instance --os-username :::openstack.username|{{ oscheck_default_username }}::: --os-password :::openstack.password|{{ oscheck_default_password }}::: --os-auth-url :::openstack.auth_url|{{ oscheck_default_auth_url }}::: -os-tenant-name :::openstack.tenant_name|{{ oscheck_default_username }}:::",
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_nova_instance --os-username :::openstack.username|{{ oscheck_default_username }}::: --os-password :::openstack.password|{{ oscheck_default_password }}::: --os-auth-url :::openstack.auth_url|{{ oscheck_default_auth_url }}::: --os-tenant-name :::openstack.tenant_name|{{ oscheck_default_username }}:::",
             "subscribers": [
-                {{ oscheck_subscribers_nova }}
+                "{{ oscheck_subscribers_nova_instance }}"
             ],
             "interval": 60
         },
