@@ -12,35 +12,23 @@ oscheck_default_password: pass
 oscheck_default_project_name: admin
 oscheck_default_auth_url: http://controller:5000/v2.0
 oscheck_default_region_name: RegionOne
-oscheck_default_subscribers: "\"overcloud-controller\""
 
-oscheck_enable_amqp: true
-oscheck_enable_ha: true
-oscheck_enable_ceilometer: true
+oscheck_enable_ceilometer_api: true
 oscheck_enable_ceph: true
-oscheck_enable_cinder: true
-oscheck_enable_glance: true
-oscheck_enable_neutron: true
-oscheck_enable_nova: true
-oscheck_enable_pacemaker: false
-oscheck_enable_keystone: true
+oscheck_enable_cinder_api: true
+oscheck_enable_cinder_volume: true
+oscheck_enable_glance_api: true
+oscheck_enable_neutron_api: true
+oscheck_enable_nova_api: true
+oscheck_enable_nova_instance: true
+oscheck_enable_keystone_api: true
 
-oscheck_subscribers_amqp: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_ha: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_ceilometer: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_ceph: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_cinder: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_glance: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_neutron: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_nova: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_pacemaker: "{{ oscheck_default_subscribers }}"
-oscheck_subscribers_keystone: "{{ oscheck_default_subscribers }}"
-
-oscheck_check_amqp_list:
-  - sensu-client
-  - sensu-server
-  - sensu-api
-
-oscheck_check_pacemaker_host_list:
-  - openstack-cinder-volume
-  - openstack-glance-api
+oscheck_subscribers_ceilometer_api: 'overcloud-ceilometer-api'
+oscheck_subscribers_ceph: 'overcloud-ceph-client'
+oscheck_subscribers_cinder_api: 'overcloud-cinder-api'
+oscheck_subscribers_cinder_api: 'overcloud-cinder-volume'
+oscheck_subscribers_glance_api: 'overcloud-glance-api'
+oscheck_subscribers_neutron_api: 'overcloud-neutron-server'
+oscheck_subscribers_nova_api: 'overcloud-nova-api'
+oscheck_subscribers_nova_instance: 'overcloud-nova-compute'
+oscheck_subscribers_keystone_api: 'overcloud-keystone'
