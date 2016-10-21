@@ -1,4 +1,16 @@
 ---
+# yamllint disable rule:line-length
+- name: Generate openstack auth args for oschecks
+  set_fact:
+    os_auth_args: >-
+      --os-username :::openstack.username|{{ oscheck_default_username }}:::
+      --os-password :::openstack.password|{{ oscheck_default_password }}:::
+      --os-tenant-name :::openstack.project_name|{{ oscheck_default_project_name }}:::
+      --os-auth-url :::openstack.auth_url|{{ oscheck_default_auth_url }}:::
+    os_region_arg: >-
+      --region_name :::openstack.region_name|{{ oscheck_default_region_name }}:::
+# yamllint enable rule:line-length
+
 # Add the following configuration
 # api.json -- it configures the sensu-api (server and client)
 # redis.json -- it configures the use of redis for sensu as storage

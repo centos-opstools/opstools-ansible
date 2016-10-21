@@ -1,15 +1,9 @@
+{% set comma = joiner(",\n") -%}
 {
     "checks": {
-        {% include "sensu_oscheck-check-amqp.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check-ceilometer_api.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check-cinder_api.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check_cinder_volume.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check_ceph_health.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check_ceph_df.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check-glance_api.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check-keystone_api.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check-neutron_api.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check-nova_instance.json.j2" ignore missing %}
-        {% include "sensu_oscheck-check-nova_api.json.j2" ignore missing %}
-        {% include "sensu_oscheck-pacemaker-host-check.json.j2" ignore missing %}
+{% for check in sensu_enabled_oschecks %}
+{{ comma() }}
+{% include "sensu_oscheck-" + check + ".json.j2" %}
+{% endfor %}
 }}
+
