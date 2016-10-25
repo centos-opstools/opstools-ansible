@@ -1,9 +1,0 @@
-{% if oscheck_enable_cinder %}
-"oschecks-check_cinder_volumen": {
-            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_cinder_volume --os-username :::openstack.username|{{ oscheck_default_username }}::: --os-password :::openstack.password|{{ oscheck_default_password }}::: --os-auth-url :::openstack.auth_url|{{ oscheck_default_auth_url }}::: --os-tenant-name :::openstack.tenant_name|{{ oscheck_default_username }}:::",
-            "subscribers": [
-                {{ oscheck_subscribers_cinder }}
-            ],
-            "interval": 60
-        },
-{% endif %}

@@ -1,9 +1,5 @@
-{% if oscheck_enable_neutron %}
         "oschecks-check_neutron_api": {
-            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_neutron_api -w :::api.warning|10::: -c :::api.critical|20::: --os-username :::openstack.username|{{ oscheck_default_username }}::: --os-password :::openstack.password|{{ oscheck_default_password }}::: --os-project-name :::openstack.project_name|{{ oscheck_default_project_name }}::: --os-auth-url :::openstack.auth_url|{{ oscheck_default_auth_url }}::: --region_name :::openstack.region_name|{{ oscheck_default_region_name }}:::",
-            "subscribers": [
-                {{ oscheck_subscribers_neutron }}
-            ],
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_neutron_api -w :::api.warning|10::: -c :::api.critical|20::: {{ os_auth_args }} {{ os_region_arg }}",
+            "subscribers": ["{{ oscheck_subscribers_neutron_api }}"],
             "interval": 60
-        },
-{% endif %}
+        }

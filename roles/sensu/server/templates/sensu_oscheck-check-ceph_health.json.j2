@@ -1,9 +1,5 @@
-{% if oscheck_enable_ceph %}
  "oschecks-check_ceph_health": {
             "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceph_health",
-            "subscribers": [
-                {{ oscheck_subscribers_ceph }}
-            ],
+            "subscribers": ["{{ oscheck_subscribers_ceph }}"],
             "interval": 60
-        },
-{% endif %}
+        }
