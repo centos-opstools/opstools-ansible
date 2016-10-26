@@ -48,5 +48,18 @@
 
 - name: register fluentd firewal ports
   set_fact:
-    firewall_ports: >
-      {{ firewall_ports + [fluentd_port] }}
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'source': "{{ item }}",
+          'port': "{{ fluentd_port }}",
+          'protocol': 'tcp'
+        },
+        {
+          'source': "{{ item }}",
+          'port': "{{ fluentd_port }}",
+          'protocol': 'udp'
+        }
+      ]
+  with_items:
+    - "{{ fluentd_bind_address|default('0.0.0.0') }}"

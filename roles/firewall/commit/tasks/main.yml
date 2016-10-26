@@ -1,20 +1,24 @@
 ---
 - name: Enable service ports via iptables
   iptables:
-      chain: INPUT
-      protocol: tcp
-      destination_port: "{{ item }}"
+      ip_version: "{% if item.source|is_ivp6 %}ipv6{% else %}ipv4{% endif %}"
+      chain: "{{ iptables_chain_name }}"
+      protocol: "{{ item.protocol }}"
+      destination_port: "{{ item.port }}"
+      source: "{{ item.source }}"
       jump: ACCEPT
-  with_items: '{{ firewall_ports }}'
+  with_items: '{{ firewall_data }}'
   when: firewall_manage_rules and firewall_use_iptables
   notify: persist iptables
 
+
 - name: Enable service ports via firewalld
   firewalld:
-      port: "{{ item }}/tcp"
+      port: "{{ item.port }}/{{ item.protocol }}"
+      source: "{{ item.source }}"
       zone: public
       permanent: true
       state: enabled
-  with_items: '{{ firewall_ports }}'
+  with_items: '{{ firewall_data }}'
   when: firewall_manage_rules and firewall_use_firewalld
   notify: reload firewalld

@@ -14,8 +14,18 @@
 
 - name: Register apache firewall  ports
   set_fact:
-    firewall_ports: >
-      {{ firewall_ports + [item] }}
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'source': "{{ item }}",
+          'port': "{{ opstools_apache_http_port }}",
+          'protocol': 'tcp'
+        },
+        {
+          'source': "{{ item }}",
+          'port': "{{ opstools_apache_https_port }}",
+          'protocol': 'tcp'
+        }
+      ]
   with_items:
-    - '{{ opstools_apache_http_port }}'
-    - '{{ opstools_apache_https_port }}'
+    - "{{ opstools_apache_listen_address }}"

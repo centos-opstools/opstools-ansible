@@ -22,3 +22,31 @@
   set_fact:
     firewall_use_iptables: >-
       {{ firewall_use_iptables_cmd.rc == 0 }}
+
+- name: Create new iptables chain
+  command: >
+    iptables -N {{ iptables_chain_name }} &&
+    iptables -I INPUT -j {{ iptables_chain_name }}
+  when: firewall_manage_rules and firewall_use_iptables
+
+- name: Connect new iptables chain with INPUT chain
+  iptables:
+    action: insert
+    ip_version: ipv4
+    chain: INPUT
+    jump: "{{ iptables_chain_name }}"
+  when: firewall_manage_rules and firewall_use_iptables
+
+- name: Create new iptables6 chain
+  command: >
+    ip6tables -N {{ iptables_chain_name }} &&
+    ip6tables -I INPUT -j {{ iptables_chain_name }}
+  when: firewall_manage_rules and firewall_use_iptables
+
+- name: Connect new iptables6 chain with INPUT chain
+  iptables:
+    action: insert
+    ip_version: ipv6
+    chain: INPUT
+    jump: "{{ iptables_chain_name }}"
+  when: firewall_manage_rules and firewall_use_iptables

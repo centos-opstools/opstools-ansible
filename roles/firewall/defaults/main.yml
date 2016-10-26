@@ -1,3 +1,4 @@
 ---
-firewall_ports: []
+firewall_data: []
 firewall_manage_rules: true
+iptables_chain_name: opstools-firewall-rules

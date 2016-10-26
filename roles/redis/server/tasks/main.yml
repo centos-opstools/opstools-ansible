@@ -40,7 +40,15 @@
     enabled: yes
   when: manage_services|default(false)
 
-- name: register redis firewall  port
+- name: Register redis firewall port
   set_fact:
-    firewall_ports: >
-      {{ firewall_ports + [redis_listen_port] }}
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'source': "{{ item }}",
+          'port': "{{ redis_listen_port }}",
+          'protocol': 'tcp'
+        }
+      ]
+  with_items:
+    - "{{ redis_interface }}"
