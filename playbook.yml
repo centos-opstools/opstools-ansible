@@ -1,5 +1,8 @@
 ---
-- hosts: all
+- name: Install prerequisites on all hosts
+  hosts: all
+  tags:
+    - prereqs
   roles:
     - prereqs
     - repos
@@ -7,11 +10,17 @@
 
 - name: Install ElasticSearch
   hosts: elastic_hosts
+  tags:
+    - logging
+    - elasticsearch
   roles:
     - elasticsearch
 
 - name: Install Fluentd
   hosts: fluent_hosts
+  tags:
+    - logging
+    - fluentd
   roles:
     - fluentd/server
     - fluentd/syslog
@@ -19,32 +28,51 @@
 
 - name: Install Kibana
   hosts: kibana_hosts
+  tags:
+    - logging
+    - kibana
+    - web
   roles:
     - kibana/server
     - kibana/proxy
 
 - name: Install Redis
   hosts: redis_hosts
+  tags:
+    - availability
+    - redis
   roles:
     - redis/server
 
 - name: Install RabbitMQ
   hosts: rabbit_hosts
+  tags:
+    - availability
+    - rabbitmq
   roles:
     - rabbitmq/server
 
 - name: Install Sensu
   hosts: sensu_hosts
+  tags:
+    - availability
+    - sensu
   roles:
     - sensu/server
 
 - name: Install Uchiwa
   hosts: uchiwa_hosts
+  tags:
+    - availability
+    - uchiwa
+    - web
   roles:
     - uchiwa
     - uchiwa/proxy
 
 - name: Create firewall rules
   hosts: all
+  tags:
+    - firewall
   roles:
     - firewall/commit
