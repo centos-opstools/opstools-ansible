@@ -9,3 +9,6 @@ rabbitmq_package_name: rabbitmq-server
 
 rabbitmq_default_user: guest
 rabbitmq_config_file: /etc/rabbitmq/rabbitmq.config
+rabbitmq_config_owner: rabbitmq
+rabbitmq_config_group: rabbitmq
+rabbitmq_config_mode: "0644"
