@@ -12,6 +12,11 @@
   notify:
     - restart uchiwa
 
+- name: Add uchiwa user to additional groups
+  user:
+    name: uchiwa
+    groups: '{{ ",".join(uchiwa_extra_groups) }}'
+
 - name: ensure uchiwa is started and enabled at boot
   service:
     name: '{{ uchiwa_service_name }}'

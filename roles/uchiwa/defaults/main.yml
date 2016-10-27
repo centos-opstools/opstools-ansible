@@ -1,6 +1,8 @@
 ---
 uchiwa_package_name: uchiwa
 uchiwa_service_name: uchiwa
+uchiwa_extra_groups:
+  - sensu
 
 uchiwa_bind: 127.0.0.1
 uchiwa_server_address: localhost
