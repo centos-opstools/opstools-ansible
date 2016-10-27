@@ -1,11 +1,25 @@
 ---
-
+# Apache package name.
 httpd_package_name: httpd
+
+# Apache service name.
 httpd_service_name: httpd
+
+# Path to Apache top-level configuration directory.
 httpd_config_dir: /etc/httpd
+
+# Path to directory containing Apache configuration snippets.
 httpd_config_parts_dir: '{{ httpd_config_dir }}/conf.d'
+
+# Owner of Apache configuration files.
 httpd_owner: root
+
+# Group of Apache configuration files.
 httpd_group: root
+
+# Mode of Apache configuration files.
 httpd_config_mode: 0644
+
+# Modules that will be installed along with Apache.
 httpd_modules:
   - mod_ssl

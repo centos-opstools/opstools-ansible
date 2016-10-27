@@ -1,24 +1,47 @@
 ---
+# This is the URL path at which clients can access Kibana.
 kibana_path: /kibana
-kibana_package_name: kibana
-kibana_service_name: kibana
-kibana_config_dir: /opt/kibana/config
-kibana_config_file: '{{ kibana_config_dir }}/kibana.yml'
-kibana_config_mode: 0644
-kibana_owner: kibana
-kibana_group: kibana
-kibana_elasticsearch_host: localhost
-kibana_elasticsearch_port: 9200
 
-# This is address to which Kibana should bind
-# "0.0.0.0" to allow public access
-# "localhost" to allow access through proxy only
+# The Kibana package name.
+kibana_package_name: kibana
+
+# The Kibana service name.
+kibana_service_name: kibana
+
+# Path to the Kibana configuration directory.
+kibana_config_dir: /opt/kibana/config
+
+# Path to the Kibana configuration file.
+kibana_config_file: '{{ kibana_config_dir }}/kibana.yml'
+
+# Mode for the Kibana configuration file.
+kibana_config_mode: 0644
+
+# Owner for the Kibana configuration file.
+kibana_owner: kibana
+
+# Group for the Kibana configuration file.
+kibana_group: kibana
+
+# This is address to which Kibana should bind.
+# Use "0.0.0.0" to listen on all interfaces; use "localhost" to allow
+# access from the local system only.
 kibana_server_bind: localhost
 
 # This is the address to which clients should connect to access Kibana
 # (we can't always use kibana_server_bind for that because 0.0.0.0 is
-# not an address to which we can connect)
+# not an address to which we can connect).
 kibana_server_address: '{{ kibana_server_bind }}'
+
+# The port on which Kibana should listen.
 kibana_server_port: 5601
+
+# Address of the Elasticsearch host.
+kibana_elasticsearch_host: localhost
+
+# Port on which Elasticsearch is listening.
+kibana_elasticsearch_port: 9200
+
+# URL for Kibana to contact Elasticsearch.
 kibana_server_elasticsearch_url: >-
   http://{{ kibana_elasticsearch_host }}:{{ kibana_elasticsearch_port }}

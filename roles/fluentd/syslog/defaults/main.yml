@@ -1,4 +1,9 @@
 ---
-fluentd_syslog_port: 5140
+# Address on which to listen for syslog messages.
 fluentd_syslog_bind_address: 127.0.0.1
+
+# Port on which to listen for syslog messages.
+fluentd_syslog_port: 5140
+
+# Fluentd tag to apply to syslog messages.
 fluentd_syslog_tag: system.messages

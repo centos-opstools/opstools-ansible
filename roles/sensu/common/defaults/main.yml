@@ -1,16 +1,36 @@
 ---
+# Sensu package name.
 sensu_package_name: sensu
+
+# Sensu server service name.
 sensu_server_service_name: sensu-server
+
+# Sensu API service name.
 sensu_api_service_name: sensu-api
+
+# Sensu client service name.
 sensu_client_service_name: sensu-client
 
+# Path to Sensu configuration directory.
 sensu_config_path: /etc/sensu/conf.d
 
+# Owner of Sensu configuration files.
 sensu_owner: sensu
+
+# Group of Sensu configuration files.
 sensu_group: sensu
 
+# Address of RabbitMQ server to which Sensu should connect.
 sensu_rabbitmq_server: localhost
+
+# Port of the RabbitMQ server.
 sensu_rabbitmq_port: 5672
+
+# Authenticate to RabbitMQ server as this user.
 sensu_rabbitmq_user: sensu
+
+# Authenticate to RabbitMQ server with this password.
 sensu_rabbitmq_password: sensu
+
+# RabbitMQ vhost for use by Sensu.
 sensu_rabbitmq_vhost: /sensu

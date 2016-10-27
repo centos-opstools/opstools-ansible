@@ -1,5 +1,10 @@
 ---
+# A list of plugins that will be installed on the fluentd server.
 fluentd_server_plugins:
   - rubygem-fluent-plugin-elasticsearch
+
+# Path to the SSL certificate private key.
 fluentd_private_key_path: '{{ fluentd_config_dir }}/ca_key.pem'
+
+# Additional fluentd configuration.
 fluentd_server_extraconfig: {}

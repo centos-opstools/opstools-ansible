@@ -1,9 +1,16 @@
 ---
-
-kibana_proxy_port: 80
+# The URL for the Kibana service.
 kibana_proxy_dest: 'http://{{ kibana_server_bind }}:{{ kibana_server_port }}'
+
+# Path to the htpasswd file for Kibana.
 kibana_proxy_htpasswd: /etc/httpd/conf/htpasswd-kibana
-kibana_proxy_welcome_msg: Restricted Kibana Server
+
+
+# Initial username for Kibana access to configure in the htpasswd file.
 kibana_proxy_user: operator
+
+# Initial password for Kibana access to configure in the htpasswd file.
 kibana_proxy_pass: changeme
+
+# Path to the Apache configuration file for Kibana.
 kibana_httpd_conf: '{{ opstools_apache_config_dir }}/kibana.conf'
