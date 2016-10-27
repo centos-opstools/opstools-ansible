@@ -5,13 +5,13 @@
     state: present
   when: manage_packages|default(false)
 
-- name: Enforce port and interface configuration
-  lineinfile:
+- name: Generate rabbitmq configuration
+  template:
+    src: rabbitmq.config.j2
     dest: '{{ rabbitmq_config_file }}'
-    insertafter: 'Network Connectivity'
-    regexp: '^\s*{tcp_listeners,'
-    # yamllint disable-line rule:line-length
-    line: "    {tcp_listeners, [{% set comma = joiner(\",\") %}{% for ifc in rabbitmq_interface %}{{ comma() }}{\"{{ ifc }}\", {{ rabbitmq_port }}}{% endfor %}]}"
+    owner: '{{ rabbitmq_config_owner }}'
+    group: '{{ rabbitmq_config_group }}'
+    mode: '{{ rabbitmq_config_mode }}'
   notify: restart rabbitmq
 
 # Include the rabbitmq plugin to be able to create a vhost
@@ -36,4 +36,5 @@
 - name: Register rabbitmq firewall ports
   set_fact:
     firewall_ports: >
-      {{ firewall_ports + [rabbitmq_port] }}
+      {{ firewall_ports + [item.port|default(rabbitmq_port)] }}
+  with_items: '{{ rabbitmq_interface }}'
