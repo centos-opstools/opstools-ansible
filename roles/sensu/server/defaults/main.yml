@@ -1,12 +1,23 @@
 ---
+# Address on which Sensu should listen for connections.
 sensu_api_bind: 0.0.0.0
+
+# Port on which Sensu should listen.
 sensu_api_port: 4567
+
+# Address to which clients should connect to contact the Sensu API.
 sensu_api_server: localhost
 
+# Address of the Redis server to which Sensu should connect.
 sensu_redis_server: 127.0.0.1
+
+# Port on which the Redis server listens.
 sensu_redis_port: '{{ redis_listen_port }}'
+
+# Password for authenticating to Redis.
 sensu_redis_password: "{{ redis_password }}"
 
+# A list of enabled Sensu checks.
 sensu_enabled_oschecks:
   - check-ceilometer_api
   - check-ceph_df
@@ -19,10 +30,19 @@ sensu_enabled_oschecks:
   - check-nova_api
   - check-nova_instance
 
+# Username for openstack checks.
 oscheck_default_username: admin
+
+# Password for openstack checks.
 oscheck_default_password: pass
+
+# Project name (aka tenant) for openstack checks.
 oscheck_default_project_name: admin
+
+# Authentication URL (Keystone server) for openstack checks.
 oscheck_default_auth_url: http://controller:5000/v2.0
+
+# Region name for openstack checks.
 oscheck_default_region_name: RegionOne
 
 oscheck_subscribers_ceilometer_api: 'overcloud-ceilometer-api'

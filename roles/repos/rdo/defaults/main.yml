@@ -1,2 +1,3 @@
 ---
+# Specify which RDO release to use.
 rdo_release: mitaka

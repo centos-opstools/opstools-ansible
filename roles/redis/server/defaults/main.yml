@@ -1,9 +1,16 @@
 ---
+# Path to the Redis configuration file.
 redis_config_file: /etc/redis.conf
+
+# Addresses on which Redis should listen for connections.
 redis_interface:
   - 127.0.0.1
 
+# Redis package name.
 redis_package_name: redis
+
+# Redis service name.
 redis_service_name: redis
 
+# Owner of Redis configuration files.
 redis_owner: redis

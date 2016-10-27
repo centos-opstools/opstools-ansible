@@ -1,13 +1,26 @@
 ---
+# The name of the Chrony package.
 chrony_package_name: chrony
+
+# The name of the Chrony service.
 chrony_service_name: chronyd
+
+# Path to the Chrony configuration file.
 chrony_config_file: /etc/chrony.conf
+
+# Path to the Chrony driftfile.
 chrony_driftfile: /var/lib/chrony/drift
+
+# Path to the Chrony log directory.
 chrony_logdir: /var/log/chrony
 
+# A list of pools to use for synchronziation.  Each item is provided'
+# directly to the `pool` command.
 chrony_pools:
   - pool.ntp.org iburst
 
+# A list of configuration items that will be included verbatim in the
+# Chrony configuration.
 chrony_default_config:
   - 'makestep 1.0 3'
   - 'rtcsync'
