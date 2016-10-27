@@ -1,6 +1,16 @@
 ---
+# Address of the Elasticsearch host.
 fluentd_elasticsearch_host: localhost
+
+# Port on which Elasticsearch is accepting connections.
 fluentd_elasticsearch_port: 9200
+
+# Elasticsearch index name.
 fluentd_elasticsearch_index: fluentd
+
+# Elasticsearch index type.
 fluentd_elasticsearch_type: fluentd
+
+# Additional Fluentd configuration to apply to the Elasticsearch
+# output snippet.
 fluentd_elasticsearch_extraconfig: {}

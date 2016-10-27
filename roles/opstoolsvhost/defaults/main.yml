@@ -1,11 +1,30 @@
 ---
+# Path to the Apache configuration file for the Ops Tools virtual host.
 opstools_apache_config_file: "{{ httpd_config_parts_dir }}/opstools.conf"
+
+# Path to the directory from which we will read additional
+# configuration snipps inside the OpsTools virtual host context.
 opstools_apache_config_dir: "{{ opstools_apache_config_file }}.d"
+
+# Apache SSL protocol settings.
 opstools_apache_sslprotocol: "all -SSLv2"
+
+# Apache SSL cipher suite settings.
 opstools_apache_sslciphersuite: "HIGH:MEDIUM:!aNULL:!MD5:!SEED:!IDEA"
+
+# Path to server SSL certificate.
 opstools_apache_sslcert: "/etc/pki/tls/certs/localhost.crt"
+
+# Path to SSL private key.
 opstools_apache_sslkey: "/etc/pki/tls/private/localhost.key"
+
+# Port on which to listen for HTTP connections.
 opstools_apache_http_port: 80
+
+# Port on which to listen for HTTPS connections.
 opstools_apache_https_port: 443
+
+# Path to configuration file that sets the default redirect for access
+# to the root URL (`/`).
 opstools_default_redirect_file: >-
   {{ opstools_apache_config_dir }}/default_redirect.conf

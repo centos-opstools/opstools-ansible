@@ -1,15 +1,28 @@
 ---
+# Uchiwa package name.
 uchiwa_package_name: uchiwa
+
+# Uchiwa service name.
 uchiwa_service_name: uchiwa
 
+# Address on which Uchiwa should listen for connections.
 uchiwa_bind: 127.0.0.1
+
+# Address to which clients should connect to Uchiwa.
 uchiwa_server_address: localhost
+
+# Port on which Uchiwa should listen.
 uchiwa_port: 3000
+
+# How often Uchiwa should refresh results.
 uchiwa_refresh: 5
 
+# Path to Uchiwa configuration file.
 uchiwa_file_path: /etc/sensu/uchiwa.json
+
 uchiwa_sensu_api_server_name: uchiwa
 
+# List of Sensu datacenters to which Uchiwa should connect.
 sensu_datacenters:
   - name: "{{ uchiwa_sensu_api_server_name }}"
     host: "{{ sensu_api_server }}"
