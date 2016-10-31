@@ -29,6 +29,7 @@
     firewall_data: >
       {{ firewall_data }} + [
         {
+          'source': "{{ uchiwa_bind }}",
           'port': "{{ uchiwa_port }}",
           'protocol': 'tcp'
         }

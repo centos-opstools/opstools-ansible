@@ -76,12 +76,32 @@
   notify:
     - restart sensu
 
-- name: Ensure sensu is started and enabled at boot
-  service:
-    name: '{{ item }}'
-    state: started
-    enabled: yes
-  with_items:
-    - '{{ sensu_server_service_name }}'
-    - '{{ sensu_api_service_name }}'
-  when: manage_services|default(false)
+- name: Register redis firewall port for sensu access
+  set_fact:
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'delegate': "{{ item[0] }}",
+          'source': "{{ item[1] }}",
+          'port': "{{ sensu_redis_port }}",
+          'protocol': 'tcp'
+        }
+      ]
+  with_nested:
+    - "{{ groups.redis_hosts }}"
+    - "{{ sensu_hosts }}"
+
+- name: Register rabbitmq firewall ports for sensu access
+  set_fact:
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'delegate': "{{ item[0] }}",
+          'source': "{{ item[1] }}",
+          'port': "{{ sensu_rabbitmq_port }}",
+          'protocol': 'tcp'
+        }
+      ]
+  with_nested:
+    - "{{ groups.rabbit_hosts }}"
+    - "{{ sensu_hosts }}"

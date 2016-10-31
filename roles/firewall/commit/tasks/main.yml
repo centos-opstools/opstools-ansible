@@ -1,20 +1,24 @@
 ---
 - name: Enable service ports via iptables
+  delegate_to: "{{ item.delegate|default(inventory_hostname) }}"
   iptables:
       chain: INPUT
-      protocol: "{{ item.protocol }}"
       destination_port: "{{ item.port }}"
       jump: ACCEPT
-  with_items: '{{ firewall_data }}'
+      protocol: "{{ item.protocol }}"
+      source: "{{ item.source|default(omit) }}"
+  with_items: "{{ firewall_data }}"
   when: firewall_manage_rules and firewall_use_iptables
   notify: persist iptables
 
 - name: Enable service ports via firewalld
+  delegate_to: "{{ item.delegate|default(inventory_hostname) }}"
   firewalld:
-      port: "{{ item.port }}/{{ item.protocol }}"
-      zone: public
       permanent: true
+      port: "{{ item.port }}/{{ item.protocol }}"
+      source: "{{ item.source|default(omit) }}"
       state: enabled
-  with_items: '{{ firewall_data }}'
+      zone: public
+  with_items: "{{ firewall_data }}"
   when: firewall_manage_rules and firewall_use_firewalld
   notify: reload firewalld

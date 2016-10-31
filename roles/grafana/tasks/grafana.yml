@@ -30,12 +30,30 @@
     enabled: yes
   when: manage_services|default(false)
 
-- name: Insert firewalld rule for grafana
+- name: Register grafana firewall ports
   set_fact:
     firewall_data: >
       {{ firewall_data }} + [
         {
+          'source': "{{ grafana_bind_address }}"
           'port': "{{ grafana_port }}",
           'protocol': 'tcp'
         }
       ]
+  with_items:
+    - "{{ graphite_hosts }}"
+
+- name: Register graphite firewall ports for grafana access
+  set_fact:
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'delegate': "{{ item[0] }}",
+          'source': "{{ item[1] }}",
+          'port': "{{ graphite_listen_port }}",
+          'protocol': 'tcp'
+        }
+      ]
+  with_nested:
+    - "{{ groups.graphite_hosts }}"
+    - "{{ grafana_hosts }}"
