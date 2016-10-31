@@ -3,3 +3,4 @@ dependencies:
   - redis
   - sensu/common
   - rabbitmq
+  - firewall

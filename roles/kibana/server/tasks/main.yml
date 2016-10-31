@@ -31,3 +31,18 @@
     state: running
     enabled: true
   when: manage_services|default(false)
+
+- name: Register elasticsearch firewall ports for kibana access
+  set_fact:
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'delegate': "{{ item[0] }}",
+          'source': "{{ item[1] }}",
+          'port': "{{ kibana_elasticsearch_port }}",
+          'protocol': 'tcp'
+        }
+      ]
+  with_nested:
+    - "{{ groups.elastic_hosts }}"
+    - "{{ kibana_hosts }}"
