@@ -49,5 +49,10 @@
 
 - name: Insert firewalld rule for graphite
   set_fact:
-    firewall_ports: >
-      {{ firewall_ports + [graphite_listen_port] }}
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'port': "{{ graphite_listen_port }}",
+          'protocol': 'tcp'
+        }
+      ]
