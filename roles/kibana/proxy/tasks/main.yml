@@ -13,7 +13,7 @@
     {{ kibana_proxy_pass }}
   notify: restart httpd
 
-- name: secure htpasswd file
+- name: Secure htpasswd file
   file:
     path: '{{ kibana_proxy_htpasswd }}'
     owner: apache

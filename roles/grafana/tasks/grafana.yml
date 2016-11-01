@@ -1,11 +1,11 @@
 ---
-- name: enable grafana repository
+- name: Enable grafana repository
   copy:
     src: grafana.repo
     dest: '{{yum_repos_d}}/grafana.repo'
   when: manage_repos|default(false)
 
-- name: install grafana
+- name: Install grafana
   package:
     name: '{{ grafana_package_name }}'
     state: present
@@ -23,14 +23,14 @@
       value: '{{ grafana_port }}'
   notify: restart grafana-server
 
-- name: enable grafana
+- name: Enable grafana
   service:
     name: '{{ grafana_service_name }}'
     state: started
     enabled: yes
   when: manage_services|default(false)
 
-- name: insert firewalld rule for grafana
+- name: Insert firewalld rule for grafana
   set_fact:
     firewall_ports: >
       {{ firewall_ports + [grafana_port] }}
