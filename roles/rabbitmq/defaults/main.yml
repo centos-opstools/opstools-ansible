@@ -1,14 +1,31 @@
 ---
+# Port on which RabbitMQ should listen.
 rabbitmq_port: 5672
+
+# Address to which clients should connect to the RabbitMQ service.
 rabbitmq_server: localhost
+
+# Addresses on which RabbitMQ should listen for connections.
 rabbitmq_interface:
   - "::"
 
-rabbitmq_service_name: rabbitmq-server
+# RabbitMQ package name.
 rabbitmq_package_name: rabbitmq-server
 
+# RabbitMQ service name.
+rabbitmq_service_name: rabbitmq-server
+
+# Default RabbitMQ user.
 rabbitmq_default_user: guest
+
+# Path to RabbitMQ configuration file.
 rabbitmq_config_file: /etc/rabbitmq/rabbitmq.config
+
+# Owner of RabbitMQ configuration files.
 rabbitmq_config_owner: rabbitmq
+
+# Group of RabbitMQ configuration files.
 rabbitmq_config_group: rabbitmq
+
+# Mode of RabbitMQ configuration files.
 rabbitmq_config_mode: "0644"

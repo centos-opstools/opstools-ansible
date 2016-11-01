@@ -1,18 +1,36 @@
 ---
+# Name of the Elasticsearch pacakge
 elasticsearch_package_name: elasticsearch
+
+# Name of the Elasticsearch service.
 elasticsearch_service_name: elasticsearch
+
+# Path to the Elasticsearch configuration directory.
 elasticsearch_config_dir: /etc/elasticsearch
+
+# Path to the main Elasticsearch configuration file.
 elasticsearch_config_yml: '{{ elasticsearch_config_dir }}/elasticsearch.yml'
-# elasticsearch_min_mem:
-# elasticsearch_max_mem:
+
+# Values that will be set in /etc/sysconfig/elasticsearch.
 elasticsearch_sysconfig: {}
+
+# Path to Elasticsearch sysconfig file.
 elasticsearch_sysconfig_path: /etc/sysconfig/elasticsearch
+
+# Elasticsearch cluster name.
 elasticsearch_cluster_name: elasticsearch
+
+# Port on which Elasticsearch should listen.
 elasticsearch_port: 9200
+
+# Addresses on which Elasticsearch should listten.
 elasticsearch_interface:
   - 127.0.0.1
   - ::1
 
+# Configuration data for Elasticsearch.  The contents of this variable
+# will be rendered as YAML in the file referenced by
+# `elasticsearch_config_yml`.
 elasticsearch_config:
   cluster.name: '{{ elasticsearch_cluster_name }}'
   http.cors.enabled: true
@@ -20,4 +38,10 @@ elasticsearch_config:
   network.host: '{{ elasticsearch_interface }}'
   http.port: '{{ elasticsearch_port }}'
 
+# Additional configuration data for Elasticsearch.  Use this if you
+# want to add options to `elasticsearch.yml` without replacing the
+# defaults in `elasticsearch_config`.
+elasticsearch_extraconfig: {}
+
+# Name of the package that provides a Java runtime environment.
 java_package_name: java

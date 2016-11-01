@@ -1,3 +1,4 @@
 ---
+# URL to the CentOS OpsTools SIG repository configuration file.
 # yamllint disable-line rule:line-length
 opstools_repo_config: https://raw.githubusercontent.com/centos-opstools/centos-release-opstools/master/CentOS-OpsTools.repo
