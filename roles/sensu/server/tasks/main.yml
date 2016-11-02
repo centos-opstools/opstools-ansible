@@ -62,6 +62,20 @@
     - restart rabbitmq
   with_items: "{{ groups.rabbit_hosts }}"
 
+# This is a workaround for https://github.com/sensu/sensu/issues/1478
+- name: Ensure correct ownership on directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: sensu
+    group: sensu
+    recurse: true
+  with_items:
+    - /var/log/sensu
+    - /var/run/sensu
+  notify:
+    - restart sensu
+
 - name: ensure sensu is started and enabled at boot
   service:
     name: '{{ item }}'

@@ -5,6 +5,28 @@
     dest: '{{ yum_repos_d }}/sensu.repo'
   when: manage_repos|default(false)
 
+- name: Ensure repoquery command is available
+  package:
+    name: yum-utils
+    state: present
+  when: manage_packages|default(false)
+
+- name: Check for obsolete sensu package
+  command: >
+    repoquery --installed --whatprovides
+    '{{ sensu_package_name }} <= {{ sensu_minimum_version }}'
+  changed_when: false
+  failed_when: false
+  register: sensu_version
+  when: manage_packages|default(false)
+
+- name: Remove obsolete sensu package
+  package:
+    name: '{{ item }}'
+    state: absent
+  with_items: '{{ sensu_version.stdout_lines }}'
+  when: manage_packages|default(false)
+
 - name: Install sensu
   package:
     name: '{{ sensu_package_name }}'
