@@ -1,22 +1,22 @@
 ---
-- name: enable kibana repository
+- name: Enable kibana repository
   copy:
     src: kibana.repo
     dest: '{{yum_repos_d}}/kibana.repo'
   when: manage_repos|default(false)
 
-- name: install kibana package
+- name: Install kibana package
   package:
     name: '{{ kibana_package_name }}'
     state: present
   when: manage_packages|default(false)
 
-- name: ensure kibana configuration directory exists
+- name: Ensure kibana configuration directory exists
   file:
     path: '{{ kibana_config_dir }}'
     state: directory
 
-- name: create kibana configuration file
+- name: Create kibana configuration file
   template:
     src: kibana.yml.j2
     dest: '{{ kibana_config_file }}'
@@ -25,7 +25,7 @@
     mode: '{{ kibana_config_mode }}'
   notify: restart kibana
 
-- name: enable kibana service
+- name: Enable kibana service
   service:
     name: '{{ kibana_service_name }}'
     state: running

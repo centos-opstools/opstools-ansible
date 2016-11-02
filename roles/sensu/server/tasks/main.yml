@@ -17,7 +17,7 @@
 # sensu_oscheck.json -- it configures the oschecks to be executed on the clients
 #    sensu_oschecks.json.j2 is a template with severals templates that can be
 #    disabled and configured
-- name: configure sensu
+- name: Configure sensu
   template:
     src: 'templates/{{ item }}.json.j2'
     dest: '{{sensu_config_path}}/{{ item }}.json'
@@ -34,7 +34,7 @@
 # create sensu_oschecks.json can be disabled.
 # All these templates end with a coma ','
 # The last coma ',' needs to be deleted to not let sensu-server crash
-- name: fix sensu_oschecks
+- name: Fix sensu_oschecks
   replace:
     dest: '{{sensu_config_path}}/sensu_oschecks.json'
     regexp: ",\n +}}"
@@ -76,7 +76,7 @@
   notify:
     - restart sensu
 
-- name: ensure sensu is started and enabled at boot
+- name: Ensure sensu is started and enabled at boot
   service:
     name: '{{ item }}'
     state: started

@@ -1,5 +1,5 @@
 ---
-- name: install fluentd plugins (server)
+- name: Install fluentd plugins (server)
   package:
     name: '{{ item }}'
     state: present
@@ -7,17 +7,17 @@
   when: manage_packages|default(false)
   notify: restart fluentd
 
-- name: set fluentd_port fact (non-ssl)
+- name: Set fluentd_port fact (non-ssl)
   set_fact:
     fluentd_port: 24224
   when: not fluentd_use_ssl and not fluentd_port is defined
 
-- name: set fluentd_port fact (ssl)
+- name: Set fluentd_port fact (ssl)
   set_fact:
     fluentd_port: 24284
   when: fluentd_use_ssl and not fluentd_port is defined
 
-- name: install non-ssl aggregator endpoint
+- name: Install non-ssl aggregator endpoint
   template:
     src: listen_no_ssl.conf
     dest: '{{ fluentd_config_parts_dir }}/100-source-forward.conf'
@@ -27,7 +27,7 @@
   when: not fluentd_use_ssl
   notify: restart fluentd
 
-- name: install ssl aggregator endpoint
+- name: Install ssl aggregator endpoint
   template:
     src: listen_ssl.conf
     dest: '{{ fluentd_config_parts_dir }}/100-source-forward.conf'
@@ -37,7 +37,7 @@
   when: fluentd_use_ssl
   notify: restart fluentd
 
-- name: install fluentd private key
+- name: Install fluentd private key
   copy:
     content: '{{ fluentd_private_key }}'
     dest: '{{ fluentd_private_key_path }}'

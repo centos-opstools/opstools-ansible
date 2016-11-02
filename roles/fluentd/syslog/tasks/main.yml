@@ -1,11 +1,11 @@
 ---
-- name: install fluentd rsyslog config
+- name: Install fluentd rsyslog config
   template:
     src: rsyslog.conf
     dest: '{{ rsyslog_config_dir }}/fluentd.conf'
   notify: restart rsyslogd
 
-- name: install fluentd syslog source
+- name: Install fluentd syslog source
   template:
     src: listen-syslog.conf
     dest: '{{ fluentd_config_parts_dir }}/100-listen-rsyslog.conf'

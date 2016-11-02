@@ -1,5 +1,5 @@
 ---
-- name: 'install fluentd->elasticsearch config'
+- name: 'Install fluentd->elasticsearch config'
   template:
     src: elasticsearch.conf
     dest: '{{ fluentd_config_parts_dir }}/300-elasticsearch.conf'

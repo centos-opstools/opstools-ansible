@@ -1,28 +1,28 @@
 ---
-- name: install fluentd package
+- name: Install fluentd package
   package:
     name: '{{ fluentd_package_name }}'
     state: present
   when: manage_packages|default(false)
 
-- name: install fluentd plugins
+- name: Install fluentd plugins
   package:
     name: '{{ item }}'
     state: present
   with_items: '{{ fluentd_plugins }}'
   when: manage_packages|default(false)
 
-- name: ensure fluentd configuration directory exists
+- name: Ensure fluentd configuration directory exists
   file:
     path: '{{ fluentd_config_dir }}'
     state: directory
 
-- name: ensure fluentd config.d directory exists
+- name: Ensure fluentd config.d directory exists
   file:
     path: '{{ fluentd_config_parts_dir }}'
     state: directory
 
-- name: create fluentd.conf
+- name: Create fluentd.conf
   template:
     src: fluentd.conf
     dest: '{{ fluentd_config_file }}'
@@ -31,7 +31,7 @@
     mode: '{{ fluentd_config_mode }}'
   notify: restart fluentd
 
-- name: install fluentd certificate
+- name: Install fluentd certificate
   copy:
     content: '{{ fluentd_ca_cert }}'
     dest: '{{ fluentd_ca_cert_path }}'
@@ -40,7 +40,7 @@
     mode: '{{ fluentd_config_mode }}'
   when: fluentd_use_ssl
 
-- name: activate fluentd service
+- name: Activate fluentd service
   service:
     name: '{{ fluentd_service_name }}'
     state: running
