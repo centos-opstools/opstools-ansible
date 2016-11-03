@@ -17,5 +17,9 @@ README.html: README.md docs/metadata.yml
 	docs/metadata.yml README.md -o $@ \
 	--standalone --toc --toc-depth 2
 
+Documentation.txt: README.md docs/metadata.yml roles/*
+	python tools/documentator.py -f playbook.yml \
+        -t 'Ansible OpsTools Documentation' > $@ 
+
 clean:
 	rm -f $(MARKDOWN) $(HTML)
