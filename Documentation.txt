@@ -1,0 +1,882 @@
+Ansible OpsTools Documentation
+==============================
+
+# Install prerequisites on all hosts
+
+This will be applied on all
+
+## Prereqs
+
+This role installs packages and configuration that are required for
+the successful operation of the opstools-ansible playbooks.
+
+
+
+      prereqs/libselinuxpython : Install libselinux python
+      prereqs/libsemanagepython : Install libsemanage python
+
+## Repos
+
+This role is a collection of roles for configuring additional package
+repositories.
+
+
+
+      repos/rdo : Install rdo repository configuration
+      repos/opstools : Install centos-opstools repository
+
+## Chrony
+
+Installs and configures an NTP client ([Chrony][]) to ensure that the
+server keeps correct time.  Clock skew between the server and clients
+can cause unexpected behaviors.
+
+[chrony]: https://chrony.tuxfamily.org/
+
+
+### Actions
+      *  Install chrony package
+      *  Generate chrony configuration
+      *  Activate chrony service
+
+
+
+### Configuration
+
+
+
+- `chrony_package_name` (default: `"chrony"`)
+
+
+
+    The name of the Chrony package.
+
+
+
+- `chrony_service_name` (default: `"chronyd"`)
+
+
+
+    The name of the Chrony service.
+
+
+
+- `chrony_config_file` (default: `"/etc/chrony.conf"`)
+
+
+
+    Path to the Chrony configuration file.
+
+
+
+- `chrony_driftfile` (default: `"/var/lib/chrony/drift"`)
+
+
+
+    Path to the Chrony driftfile.
+
+
+
+- `chrony_logdir` (default: `"/var/log/chrony"`)
+
+
+
+    Path to the Chrony log directory.
+
+
+
+- `chrony_pools` (default: `["pool.ntp.org iburst"]`)
+
+
+
+    A list of pools to use for synchronziation.  Each item is provided'
+    directly to the `pool` command.
+
+
+
+- `chrony_default_config` (default: `["makestep 1.0 3", "rtcsync"]`)
+
+
+
+    A list of configuration items that will be included verbatim in the
+    Chrony configuration.
+
+
+
+
+
+# Install ElasticSearch
+
+This will be applied on elastic_hosts
+
+## Elasticsearch
+
+[Elasticsearch][] is a search and analytics engine used by Ops Tools
+to collect, index, search, and analyze logs.
+
+[elasticsearch]: https://www.elastic.co/products/elasticsearch
+
+
+### Actions
+      *  Install java package
+      *  Enable elasticsearch repository
+      *  Install elasticsearch package
+      *  Install elasticsearch service configuration
+      *  Install elasticsearch configuration
+      *  Activate elasticsearch service
+      *  Register elasticsearch firewall ports
+
+
+
+### Configuration
+
+
+
+- `elasticsearch_package_name` (default: `"elasticsearch"`)
+
+
+
+    Name of the Elasticsearch pacakge
+
+
+
+- `elasticsearch_service_name` (default: `"elasticsearch"`)
+
+
+
+    Name of the Elasticsearch service.
+
+
+
+- `elasticsearch_config_dir` (default: `"/etc/elasticsearch"`)
+
+
+
+    Path to the Elasticsearch configuration directory.
+
+
+
+- `elasticsearch_config_yml` (default: `"{{ elasticsearch_config_dir }}/elasticsearch.yml"`)
+
+
+
+    Path to the main Elasticsearch configuration file.
+
+
+
+- `elasticsearch_sysconfig` (default: `{}`)
+
+
+
+    Values that will be set in /etc/sysconfig/elasticsearch.
+
+
+
+- `elasticsearch_sysconfig_path` (default: `"/etc/sysconfig/elasticsearch"`)
+
+
+
+    Path to Elasticsearch sysconfig file.
+
+
+
+- `elasticsearch_cluster_name` (default: `"elasticsearch"`)
+
+
+
+    Elasticsearch cluster name.
+
+
+
+- `elasticsearch_port` (default: `9200`)
+
+
+
+    Port on which Elasticsearch should listen.
+
+
+
+- `elasticsearch_interface` (default: `["127.0.0.1", "::1"]`)
+
+
+
+    Addresses on which Elasticsearch should listten.
+
+
+
+- `elasticsearch_config` (default: `{"cluster.name": "{{ elasticsearch_cluster_name }}", "network.host": "{{ elasticsearch_interface }}", "http.cors.enabled": true, "http.port": "{{ elasticsearch_port }}", "http.cors.allow-origin": "/.*/"}`)
+
+
+
+    Configuration data for Elasticsearch.  The contents of this variable
+    will be rendered as YAML in the file referenced by
+    `elasticsearch_config_yml`.
+
+
+
+- `elasticsearch_extraconfig` (default: `{}`)
+
+
+
+    Additional configuration data for Elasticsearch.  Use this if you
+    want to add options to `elasticsearch.yml` without replacing the
+    defaults in `elasticsearch_config`.
+
+
+
+- `java_package_name` (default: `"java"`)
+
+
+
+    Name of the package that provides a Java runtime environment.
+
+
+
+
+
+# Install Fluentd
+
+This will be applied on fluent_hosts
+
+## Fluentd/Server
+
+This role configures a Fluentd listener that will listen for remote
+connections from other Fluentd clients.
+
+
+### Actions
+      *  Install fluentd plugins (server)
+      *  Set fluentd_port fact (non-ssl)
+      *  Set fluentd_port fact (ssl)
+      *  Install non-ssl aggregator endpoint
+      *  Install ssl aggregator endpoint
+      *  Install fluentd private key
+      *  register fluentd firewal ports
+
+
+
+### Configuration
+
+
+
+- `fluentd_server_plugins` (default: `["rubygem-fluent-plugin-elasticsearch"]`)
+
+
+
+    A list of plugins that will be installed on the fluentd server.
+
+
+
+- `fluentd_private_key_path` (default: `"{{ fluentd_config_dir }}/ca_key.pem"`)
+
+
+
+    Path to the SSL certificate private key.
+
+
+
+- `fluentd_server_extraconfig` (default: `{}`)
+
+
+
+    Additional fluentd configuration.
+
+
+
+
+
+
+## Fluentd/Syslog
+
+This roles installs the necessary configuration to send logs from the
+local syslog server to a Fluentd instance.
+
+
+### Actions
+      *  Install fluentd rsyslog config
+      *  Install fluentd syslog source
+
+
+
+### Configuration
+
+
+
+- `fluentd_syslog_bind_address` (default: `"127.0.0.1"`)
+
+
+
+    Address on which to listen for syslog messages.
+
+
+
+- `fluentd_syslog_port` (default: `5140`)
+
+
+
+    Port on which to listen for syslog messages.
+
+
+
+- `fluentd_syslog_tag` (default: `"system.messages"`)
+
+
+
+    Fluentd tag to apply to syslog messages.
+
+
+
+
+
+
+## Fluentd/Elasticsearch
+
+This role contains contains configuration to send logs from Fluentd to
+an Elasticsearch instance.
+
+
+### Actions
+      *  Install fluentd->elasticsearch config
+
+
+
+### Configuration
+
+
+
+- `fluentd_elasticsearch_host` (default: `"localhost"`)
+
+
+
+    Address of the Elasticsearch host.
+
+
+
+- `fluentd_elasticsearch_port` (default: `9200`)
+
+
+
+    Port on which Elasticsearch is accepting connections.
+
+
+
+- `fluentd_elasticsearch_index` (default: `"fluentd"`)
+
+
+
+    Elasticsearch index name.
+
+
+
+- `fluentd_elasticsearch_type` (default: `"fluentd"`)
+
+
+
+    Elasticsearch index type.
+
+
+
+- `fluentd_elasticsearch_extraconfig` (default: `{}`)
+
+
+
+    Additional Fluentd configuration to apply to the Elasticsearch
+    output snippet.
+
+
+
+
+
+# Install Kibana
+
+This will be applied on kibana_hosts
+
+## Kibana/Server
+
+This role installs the Kibana web application.  Configuration is taken
+from the main `kibana` role.
+
+
+### Actions
+      *  Enable kibana repository
+      *  Install kibana package
+      *  Ensure kibana configuration directory exists
+      *  Create kibana configuration file
+      *  Enable kibana service
+
+
+
+
+## Kibana/Proxy
+
+This role configures the Apache proxy for Kibana.
+
+
+### Actions
+      *  Install kibana configuration for Apache
+      *  Create kibana htpasswd file
+      *  Secure htpasswd file
+      *  Configure default redirect
+
+
+
+### Configuration
+
+
+
+- `kibana_proxy_dest` (default: `"http://{{ kibana_server_bind }}:{{ kibana_server_port }}"`)
+
+
+
+    The URL for the Kibana service.
+
+
+
+- `kibana_proxy_htpasswd` (default: `"/etc/httpd/conf/htpasswd-kibana"`)
+
+
+
+    Path to the htpasswd file for Kibana.
+
+
+
+- `kibana_proxy_user` (default: `"operator"`)
+
+
+
+    Initial username for Kibana access to configure in the htpasswd file.
+
+
+
+- `kibana_proxy_pass` (default: `"changeme"`)
+
+
+
+    Initial password for Kibana access to configure in the htpasswd file.
+
+
+
+- `kibana_httpd_conf` (default: `"{{ opstools_apache_config_dir }}/kibana.conf"`)
+
+
+
+    Path to the Apache configuration file for Kibana.
+
+
+
+
+
+# Install Redis
+
+This will be applied on redis_hosts
+
+## Redis/Server
+
+This role is responsible for installing and configuring the Redis
+service.
+
+
+### Actions
+      *  Install redis
+      *  Set listen port at redis config
+      *  Add bind interface at the redis config
+      *  Ensure protected mode is enabled
+      *  Set password
+      *  Ensure redis is started and enabled at boot
+      *  register redis firewall  port
+
+
+
+### Configuration
+
+
+
+- `redis_config_file` (default: `"/etc/redis.conf"`)
+
+
+
+    Path to the Redis configuration file.
+
+
+
+- `redis_interface` (default: `["127.0.0.1"]`)
+
+
+
+    Addresses on which Redis should listen for connections.
+
+
+
+- `redis_package_name` (default: `"redis"`)
+
+
+
+    Redis package name.
+
+
+
+- `redis_service_name` (default: `"redis"`)
+
+
+
+    Redis service name.
+
+
+
+- `redis_owner` (default: `"redis"`)
+
+
+
+    Owner of Redis configuration files.
+
+
+
+
+
+# Install RabbitMQ
+
+This will be applied on rabbit_hosts
+
+## Rabbitmq/Server
+
+This role is responsible for installing and starting the RabbitMQ
+messaging service.
+
+
+### Actions
+      *  Install rabbitmq-server rpm
+      *  Generate rabbitmq configuration
+      *  Add plugin to manage rabbitmq
+      *  Start the rabbitmq service
+      *  Delete guest user on rabbitmq
+      *  Register rabbitmq firewall ports
+
+
+
+# Install Sensu
+
+This will be applied on sensu_hosts
+
+## Sensu/Server
+
+This role is responsible for installing and configuring the Sensu
+server.
+
+
+### Actions
+      *  Generate openstack auth args for oschecks
+      *  Configure sensu
+      *  Fix sensu_oschecks
+      *  Create sensu vhost on rabbitmq
+      *  Configure rabbitmq permissions
+      *  Ensure correct ownership on directories
+      *  Ensure sensu is started and enabled at boot
+
+
+
+### Configuration
+
+
+
+- `sensu_api_bind` (default: `"0.0.0.0"`)
+
+
+
+    Address on which Sensu should listen for connections.
+
+
+
+- `sensu_api_port` (default: `4567`)
+
+
+
+    Port on which Sensu should listen.
+
+
+
+- `sensu_api_server` (default: `"localhost"`)
+
+
+
+    Address to which clients should connect to contact the Sensu API.
+
+
+
+- `sensu_redis_server` (default: `"127.0.0.1"`)
+
+
+
+    Address of the Redis server to which Sensu should connect.
+
+
+
+- `sensu_redis_port` (default: `"{{ redis_listen_port }}"`)
+
+
+
+    Port on which the Redis server listens.
+
+
+
+- `sensu_redis_password` (default: `"{{ redis_password }}"`)
+
+
+
+    Password for authenticating to Redis.
+
+
+
+- `sensu_enabled_oschecks` (default: `["check-ceilometer_api", "check-ceph_df", "check-ceph_health", "check-cinder_api", "check-cinder_volume", "check-glance_api", "check-keystone_api", "check-neutron_api", "check-nova_api", "check-nova_instance"]`)
+
+
+
+    A list of enabled Sensu checks.
+
+
+
+- `oscheck_default_username` (default: `"admin"`)
+
+
+
+    Username for openstack checks.
+
+
+
+- `oscheck_default_password` (default: `"pass"`)
+
+
+
+    Password for openstack checks.
+
+
+
+- `oscheck_default_project_name` (default: `"admin"`)
+
+
+
+    Project name (aka tenant) for openstack checks.
+
+
+
+- `oscheck_default_auth_url` (default: `"http://controller:5000/v2.0"`)
+
+
+
+    Authentication URL (Keystone server) for openstack checks.
+
+
+
+- `oscheck_subscribers_cinder_volume` (default: `"overcloud-cinder-volume"`)
+
+
+
+    Region name for openstack checks.
+
+
+
+
+
+# Install Uchiwa
+
+This will be applied on uchiwa_hosts
+
+## Uchiwa
+
+[Uchiwa][] is a web interface to [Sensu][].  This role installs and
+configures the Uchiwa service.
+
+[sensu]: http://sensuapp.org/
+[uchiwa]: https://uchiwa.io/
+
+
+### Actions
+      *  Install uchiwa
+      *  Configure uchiwa
+      *  Add uchiwa user to additional groups
+      *  Ensure uchiwa is started and enabled at boot
+      *  Register uchiwa firewal ports
+
+
+
+### Configuration
+
+
+
+- `uchiwa_package_name` (default: `"uchiwa"`)
+
+
+
+    Uchiwa package name.
+
+
+
+- `uchiwa_service_name` (default: `"uchiwa"`)
+
+
+
+    Uchiwa service name.
+
+
+
+- `uchiwa_bind` (default: `"127.0.0.1"`)
+
+
+
+    Address on which Uchiwa should listen for connections.
+
+
+
+- `uchiwa_server_address` (default: `"localhost"`)
+
+
+
+    Address to which clients should connect to Uchiwa.
+
+
+
+- `uchiwa_port` (default: `3000`)
+
+
+
+    Port on which Uchiwa should listen.
+
+
+
+- `uchiwa_refresh` (default: `5`)
+
+
+
+    How often Uchiwa should refresh results.
+
+
+
+- `uchiwa_file_path` (default: `"/etc/sensu/uchiwa.json"`)
+
+
+
+    Path to Uchiwa configuration file.
+
+
+
+- `sensu_datacenters` (default: `[{"host": "{{ sensu_api_server }}", "name": "{{ uchiwa_sensu_api_server_name }}", "port": "{{ sensu_api_port }}"}]`)
+
+
+
+    List of Sensu datacenters to which Uchiwa should connect.
+
+
+
+
+
+
+## Uchiwa/Proxy
+
+This role configures the Apache proxy for Uchiwa.
+
+
+### Actions
+      *  Install uchiwa configuration for Apache
+      *  Create uchiwa htpasswd file
+      *  Secure uchiwa htpasswd file
+      *  Configure default redirect
+
+
+
+### Configuration
+
+
+
+- `uchiwa_proxy_dest` (default: `"http://{{ uchiwa_bind }}:{{ uchiwa_port }}"`)
+
+
+
+    URL for backend Uchiwa service.
+
+
+
+- `uchiwa_proxy_htpasswd` (default: `"/etc/httpd/conf/htpasswd-uchiwa"`)
+
+
+
+    Path to htpasswd file for controlling access to Uchiwa.
+
+
+
+- `uchiwa_proxy_user` (default: `"operator"`)
+
+
+
+    User to create in htpasswd file.
+
+
+
+- `uchiwa_proxy_pass` (default: `"changeme"`)
+
+
+
+    Password for user in htpasswd file.
+
+
+
+- `uchiwa_httpd_conf` (default: `"{{ opstools_apache_config_dir }}/uchiwa.conf"`)
+
+
+
+    Path to the Apache configuration snippet for the Uchiwa proxy.
+
+
+
+- `uchiwa_path` (default: `"/uchiwa"`)
+
+
+
+    URL path at which to host Uchiwa.
+
+
+
+
+
+# Create firewall rules
+
+This will be applied on all
+
+## Firewall/Commit
+
+This role instantiates the firewall rules that were registered by
+other roles during the playbook run.
+
+
+### Actions
+      *  Enable service ports via iptables
+      *  Enable service ports via firewalld
+
+
+
+# Install CollectD
+
+This will be applied on collectd_hosts
+
+
+### Actions
+      *  Install collectd
+      *  Install collectd plugins
+      *  Place write_graphite-config
+      *  Enable collectd
+      *  Set collectd_tcp_network_connect
+
+
+
+### Configuration
+
+
+
+- `collectd_service_name` (default: `"collectd"`)
+
+
+
+
+
+
+
+
+
