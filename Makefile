@@ -2,6 +2,9 @@ DEFAULTS = $(shell find roles -path '*/defaults/main.yml')
 READMES = $(shell find roles -name README.md)
 PANDOC_EXTENSIONS = yaml_metadata_block+auto_identifiers+implicit_header_references
 
+TASKS = $(shell find roles -path '*/tasks/main.yml')
+METAS = $(shell find roles -path '*/meta/main.yml')
+
 MARKDOWN = README.md
 HTML = $(MARKDOWN:.md=.html)
 
@@ -17,7 +20,7 @@ README.html: README.md docs/metadata.yml
 	docs/metadata.yml README.md -o $@ \
 	--standalone --toc --toc-depth 2
 
-Documentation.txt: README.md docs/metadata.yml roles/*
+Documentation.txt: $(TASKS) $(METAS)
 	python tools/documentator.py -f playbook.yml \
         -t 'Ansible OpsTools Documentation' > $@ 
 

@@ -2,11 +2,11 @@
 import argparse
 import sys
 import os
-import yaml
-import json
+#import yaml
+#import json
 
-from cStringIO import StringIO
-from parser import HashCommentParser
+#from cStringIO import StringIO
+#from parser import HashCommentParser
 
 from ansible.parsing.dataloader import DataLoader
 from ansible.vars import VariableManager
@@ -47,67 +47,39 @@ for play in pb.get_plays():
     for host in play.hosts:
         print host.encode('utf-8'),
     print
-
+    print     
+    print ".Roles:"
+    print "----"
+    for role in play.get_roles():
+        print role.get_name()
+    print "----"
 
     for role in play.get_roles():
         print 
-
+        print "##",role
         PATH= role.get_loader().get_basedir()+"/roles/"+role.get_name()
-        README=PATH+"/README.md"
-        DEFAULTS = os.path.join(PATH, 'defaults', 'main.yml')
-
-        if os.path.isfile(README):
-            with open(README, 'r') as fd:
-                print(fd.read())
 
         if (len(role.get_task_blocks())>0):
-            print "\n### Actions"
+            if len(role.get_all_dependencies())>0:
+                print ".Dependencies:"
+                print "----"
+                done=[]
+                for dep in role.get_all_dependencies():
+                    if not dep.get_name() in done:
+                        print dep.get_name()
+                        done.append(dep.get_name())
+                print '----'
+
+            print "\n.Actions"
+            print "----"
             for bl in role.get_task_blocks():
                 for b in bl.block:
                     print "      * ",b.name
-            print
-
-
-        if os.path.isfile(DEFAULTS):
-            print('\n')
-            print('### Configuration')
-            print('\n\n')
-
-            with open(DEFAULTS) as fd:
-                parser = HashCommentParser(fd)
-                for codeblock, doc in parser:
-                    codebuf = StringIO('\n'.join(codeblock))
-                    code = yaml.load(codebuf)
-
-                    if not isinstance(code, dict):
-                        continue
-
-                    varname, varval = code.items()[0]
-
-                    print('- `{}` (default: `{}`)'.format(
-                        varname, json.dumps(varval)))
-                    print('\n\n')
-
-                    # This prints out the lines of the doc chunk indented
-                    # by four spaces.  This should allow us to format
-                    # multi-paragraph documentation chunks correctly.
-                    print('\n'.join('    %s' % line.rstrip()
-                                           for line in doc))
-                    print('\n\n')
-
-        print('\n')
-
+            print "----"
 
         if role.get_task_blocks()==[]:
             for dep in role.get_all_dependencies():
                 for blck in dep.get_task_blocks():
                     for task in blck.block:
                         print "     ",task.get_name()
-        '''
-        else:
-            print "      Dependencies:"
-            for dep in rol.get_all_dependencies():
-                print "           ",dep.get_name()
-        '''
-
 sys.exit(0)
