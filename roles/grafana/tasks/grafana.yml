@@ -32,5 +32,10 @@
 
 - name: Insert firewalld rule for grafana
   set_fact:
-    firewall_ports: >
-      {{ firewall_ports + [grafana_port] }}
+    firewall_data: >
+      {{ firewall_data }} + [
+        {
+          'port': "{{ grafana_port }}",
+          'protocol': 'tcp'
+        }
+      ]
