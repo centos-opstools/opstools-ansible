@@ -1,5 +1,5 @@
 ---
-- name: restart chronyd
+- name: Restart chronyd
   service:
     name: '{{ chrony_service_name }}'
     state: restarted
