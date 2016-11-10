@@ -54,6 +54,14 @@ While there are more groups defined in the
 `inventory/structure` file, use of those for more granular service
 placement is neither tested nor supported at this time.
 
+You can also run post-install playbook after overcloud deployment to finish
+server side configuration dependent on the information about the overcloud.
+For that you will need to add undercloud host to the inventory. So for example,
+after deploying overcloud via tripleo-quickstart tool, you should add something
+like following to the inventory file before running the playbook:
+
+undercloud_host ansible_user=stack ansible_host=undercloud ansible_ssh_extra_args='-F "/root/.quickstart/ssh.config.ansible"'
+
 ## Create a configuration file
 
 Put any necessary configuration into an Ansible variables file (which
@@ -80,7 +88,7 @@ options.
 Once you have your inventory and configuration in place, you can run
 the playbook like this:
 
-    ansible-playbook playbook.yml -i inventory -e @config.yml
+    ansible-playbook playbook.yml -e @config.yml
 
 # Roles
 
