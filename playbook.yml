@@ -71,14 +71,26 @@
     - uchiwa
     - uchiwa/proxy
 
+- name: Install CollectD
+  hosts: collectd_hosts
+  tags:
+    - performance
+    - collectd
+  roles:
+    - collectd
+
+- name: Install Grafana
+  hosts: grafana_hosts
+  tags:
+    - performance
+    - grafana
+    - web
+  roles:
+    - grafana
+
 - name: Create firewall rules
   hosts: all:!undercloud_host
   tags:
     - firewall
   roles:
     - firewall/commit
-
-- name: Install CollectD
-  hosts: collectd_hosts
-  roles:
-    - collectd
