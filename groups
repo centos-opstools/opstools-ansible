@@ -1,3 +1,5 @@
-# UUID                                  	Group Name
-#
-4b0082d1447f31d6694a4be6928907ac03886159	centos-opstools/opstools-ansible-ptl
+# UUID          Group Name
+False 	Non-Interactive Users
+cc59ec0f123d46fd6268396c14635cd15b66ce80       	centos-opstools/opstools-ansible-core
+4b0082d1447f31d6694a4be6928907ac03886159        	centos-opstools/opstools-ansible-ptl
+global:Registered-Users		Registered Users
