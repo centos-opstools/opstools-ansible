@@ -17,11 +17,11 @@
     firewall_data: >
       {{ firewall_data }} + [
         {
-          'port': "{{ opstools_apache_http_port }}",
-          'protocol': 'tcp'
-        },
-        {
-          'port': "{{ opstools_apache_https_port }}",
+          'source': '0.0.0.0',
+          'port': "{{ item }}",
           'protocol': 'tcp'
         }
       ]
+  with_items:
+    - "{{ opstools_apache_http_port }}"
+    - "{{ opstools_apache_https_port }}"
