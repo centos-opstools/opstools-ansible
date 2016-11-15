@@ -1,0 +1,314 @@
+Ansible OpsTools Documentation
+==============================
+
+# Install prerequisites on all hosts
+
+This will be applied on all
+
+.Roles:
+----
+prereqs
+repos
+chrony
+----
+
+## prereqs
+      prereqs/libselinuxpython : Install libselinux python
+      prereqs/libsemanagepython : Install libsemanage python
+
+## repos
+      repos/rdo : Install rdo repository configuration
+      repos/opstools : Install centos-opstools repository
+
+## chrony
+
+.Actions
+----
+      *  Install chrony package
+      *  Generate chrony configuration
+      *  Activate chrony service
+----
+# Install ElasticSearch
+
+This will be applied on elastic_hosts
+
+.Roles:
+----
+elasticsearch
+----
+
+## elasticsearch
+.Dependencies:
+----
+firewall
+----
+
+.Actions
+----
+      *  Install java package
+      *  Enable elasticsearch repository
+      *  Install elasticsearch package
+      *  Install elasticsearch service configuration
+      *  Install elasticsearch configuration
+      *  Activate elasticsearch service
+      *  Register elasticsearch firewall ports
+----
+# Install Fluentd
+
+This will be applied on fluent_hosts
+
+.Roles:
+----
+fluentd/server
+fluentd/syslog
+fluentd/elasticsearch
+----
+
+## fluentd/server
+.Dependencies:
+----
+fluentd
+firewall
+----
+
+.Actions
+----
+      *  Install fluentd plugins (server)
+      *  Set fluentd_port fact (non-ssl)
+      *  Set fluentd_port fact (ssl)
+      *  Install non-ssl aggregator endpoint
+      *  Install ssl aggregator endpoint
+      *  Install fluentd private key
+      *  register fluentd firewal ports
+----
+
+## fluentd/syslog
+.Dependencies:
+----
+rsyslog
+fluentd
+----
+
+.Actions
+----
+      *  Install fluentd rsyslog config
+      *  Install fluentd syslog source
+----
+
+## fluentd/elasticsearch
+.Dependencies:
+----
+fluentd
+----
+
+.Actions
+----
+      *  Install fluentd->elasticsearch config
+----
+# Install Kibana
+
+This will be applied on kibana_hosts
+
+.Roles:
+----
+kibana/server
+kibana/proxy
+----
+
+## kibana/server
+.Dependencies:
+----
+kibana
+----
+
+.Actions
+----
+      *  Enable kibana repository
+      *  Install kibana package
+      *  Ensure kibana configuration directory exists
+      *  Create kibana configuration file
+      *  Enable kibana service
+----
+
+## kibana/proxy
+.Dependencies:
+----
+kibana
+httpd
+firewall
+opstoolsvhost
+----
+
+.Actions
+----
+      *  Install kibana configuration for Apache
+      *  Create kibana htpasswd file
+      *  Secure htpasswd file
+      *  Configure default redirect
+----
+# Install Redis
+
+This will be applied on redis_hosts
+
+.Roles:
+----
+redis/server
+----
+
+## redis/server
+.Dependencies:
+----
+firewall
+redis
+----
+
+.Actions
+----
+      *  Install redis
+      *  Set listen port at redis config
+      *  Add bind interface at the redis config
+      *  Ensure protected mode is enabled
+      *  Set password
+      *  Ensure redis is started and enabled at boot
+      *  register redis firewall  port
+----
+# Install RabbitMQ
+
+This will be applied on rabbit_hosts
+
+.Roles:
+----
+rabbitmq/server
+----
+
+## rabbitmq/server
+.Dependencies:
+----
+firewall
+rabbitmq
+----
+
+.Actions
+----
+      *  Install rabbitmq-server rpm
+      *  Generate rabbitmq configuration
+      *  Add plugin to manage rabbitmq
+      *  Start the rabbitmq service
+      *  Delete guest user on rabbitmq
+      *  Register rabbitmq firewall ports
+----
+# Install Sensu
+
+This will be applied on sensu_hosts
+
+.Roles:
+----
+sensu/server
+----
+
+## sensu/server
+.Dependencies:
+----
+redis
+sensu/common
+rabbitmq
+----
+
+.Actions
+----
+      *  Generate openstack auth args for oschecks
+      *  Configure sensu
+      *  Fix sensu_oschecks
+      *  Create sensu vhost on rabbitmq
+      *  Configure rabbitmq permissions
+      *  Ensure correct ownership on directories
+      *  Ensure sensu is started and enabled at boot
+----
+# Install Uchiwa
+
+This will be applied on uchiwa_hosts
+
+.Roles:
+----
+uchiwa
+uchiwa/proxy
+----
+
+## uchiwa
+.Dependencies:
+----
+firewall
+redis
+sensu/common
+rabbitmq
+sensu/server
+----
+
+.Actions
+----
+      *  Install uchiwa
+      *  Configure uchiwa
+      *  Add uchiwa user to additional groups
+      *  Ensure uchiwa is started and enabled at boot
+      *  Register uchiwa firewal ports
+----
+
+## uchiwa/proxy
+.Dependencies:
+----
+firewall
+redis
+sensu/common
+rabbitmq
+sensu/server
+uchiwa
+httpd
+opstoolsvhost
+----
+
+.Actions
+----
+      *  Install uchiwa configuration for Apache
+      *  Create uchiwa htpasswd file
+      *  Secure uchiwa htpasswd file
+      *  Configure default redirect
+----
+# Create firewall rules
+
+This will be applied on all
+
+.Roles:
+----
+firewall/commit
+----
+
+## firewall/commit
+.Dependencies:
+----
+firewall
+----
+
+.Actions
+----
+      *  Enable service ports via iptables
+      *  Enable service ports via firewalld
+----
+# Install CollectD
+
+This will be applied on collectd_hosts
+
+.Roles:
+----
+collectd
+----
+
+## collectd
+
+.Actions
+----
+      *  Install collectd
+      *  Install collectd plugins
+      *  Place write_graphite-config
+      *  Enable collectd
+      *  Set collectd_tcp_network_connect
+----
