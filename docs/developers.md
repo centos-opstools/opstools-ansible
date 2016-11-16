@@ -1,11 +1,12 @@
 # Contributing to opstools-ansible
 
 You can contribute bug fixes or enhancements to the
-[opstools-ansible][] project by [submitting a pull request][] on
-Github.
+[opstools-ansible][] project by submitting a patch review via git review
+following the same process as described in [submitting a patch][]. The
+required .gitreview file is already contained in the repository.
 
 [opstools-ansible]: https://github.com/centos-opstools/opstools-ansible/
-[submitting a pull request]: https://help.github.com/articles/creating-a-pull-request/
+[submitting a patch]: http://docs.openstack.org/infra/manual/developers.html
 
 ## Conventions
 
