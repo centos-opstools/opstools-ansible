@@ -12,6 +12,10 @@ monitoring.
 [tripleo]:https://wiki.openstack.org/wiki/TripleO
 [opstools-ansible]: https://github.com/larsks/opstools-ansible/
 
+# Requirements
+
+- Ansible 2.2+
+
 # Using opstools-ansible
 
 ## Before you begin
