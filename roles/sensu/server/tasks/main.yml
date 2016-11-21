@@ -64,3 +64,9 @@
     - '{{ sensu_server_service_name }}'
     - '{{ sensu_api_service_name }}'
   when: manage_services|default(false)
+
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: sensu_hosts

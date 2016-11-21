@@ -47,12 +47,8 @@
     replace: "<VirtualHost *:{{ graphite_listen_port }}>"
   notify: restart httpd
 
-- name: Insert firewalld rule for graphite
-  set_fact:
-    firewall_data: >
-      {{ firewall_data }} + [
-        {
-          'port': "{{ graphite_listen_port }}",
-          'protocol': 'tcp'
-        }
-      ]
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: graphite_hosts

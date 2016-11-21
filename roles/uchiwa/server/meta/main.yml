@@ -1,4 +1,5 @@
 ---
 dependencies:
   - firewall
-  - sensu/server
+  - firewall/gather
+  - sensu
