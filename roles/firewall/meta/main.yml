@@ -1,0 +1,13 @@
+---
+
+dependencies:
+  - collectd
+  - elasticsearch
+  - fluentd
+  - grafana
+  - kibana
+  - opstoolsvhost
+  - rabbitmq
+  - redis
+  - sensu
+  - uchiwa
