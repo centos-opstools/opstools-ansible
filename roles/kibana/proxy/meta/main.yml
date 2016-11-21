@@ -1,6 +1,8 @@
 ---
 
 dependencies:
+  - firewall
+  - firewall/gather
   - kibana
   - httpd
-  - opstoolsvhost
+  - opstoolsvhost/configuration
