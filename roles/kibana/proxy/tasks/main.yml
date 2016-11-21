@@ -27,3 +27,9 @@
     dest: '{{ opstools_default_redirect_file }}'
     force: false
   notify: restart httpd
+
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: kibana_hosts

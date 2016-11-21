@@ -1,5 +1,6 @@
 ---
+
 dependencies:
   - firewall
   - firewall/gather
-  - fluentd/service
+  - collectd
