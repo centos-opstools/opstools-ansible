@@ -24,12 +24,14 @@
     enabled: yes
   when: manage_services|default(false)
 
-- name: Register uchiwa firewal ports
-  set_fact:
-    firewall_data: >
-      {{ firewall_data }} + [
-        {
-          'port': "{{ uchiwa_port }}",
-          'protocol': 'tcp'
-        }
-      ]
+- name: Create appropriate firewall rules
+  include: ../../../firewall/commit/tasks/main.yml
+  vars:
+    firewall_rules: uchiwa_hosts
+
+# TO-DO: Use following instead of the above when Ansible 2.2 will be available
+#- name: Create appropriate firewall rules
+#  include_role:
+#    name: firewall/commit
+#  vars:
+#    firewall_rules: uchiwa_hosts
