@@ -4,17 +4,20 @@
       chain: INPUT
       protocol: "{{ item.protocol }}"
       destination_port: "{{ item.port }}"
+      source: "{{ item.source }}"
+      ip_version: "{% if item.source|ipv6 %}ipv6{% else %}ipv4{% endif %}"
       jump: ACCEPT
-  with_items: '{{ firewall_data }}'
+  with_items: '{{ firewall_data[firewall_rules] }}'
   when: firewall_manage_rules and firewall_use_iptables
   notify: persist iptables
 
 - name: Enable service ports via firewalld
   firewalld:
       port: "{{ item.port }}/{{ item.protocol }}"
+      source: "{{ item.source }}"
       zone: public
       permanent: true
       state: enabled
-  with_items: '{{ firewall_data }}'
+  with_items: '{{ firewall_data[firewall_rules] }}'
   when: firewall_manage_rules and firewall_use_firewalld
   notify: reload firewalld
