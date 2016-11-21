@@ -1,0 +1,43 @@
+---
+- name: Enable grafana repository
+  copy:
+    src: grafana.repo
+    dest: '{{yum_repos_d}}/grafana.repo'
+  when: manage_repos|default(false)
+
+- name: Install grafana
+  package:
+    name: '{{ grafana_package_name }}'
+    state: present
+  when: manage_packages|default(false)
+
+- name: Configure grafana server section
+  ini_file:
+    dest: '{{ grafana_config_file }}'
+    section: server
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+    backup: yes
+  with_items:
+    - option: 'http_port'
+      value: '{{ grafana_port }}'
+  notify: restart grafana-server
+
+- name: Enable grafana
+  service:
+    name: '{{ grafana_service_name }}'
+    state: started
+    enabled: yes
+  when: manage_services|default(false)
+
+- name: Create appropriate firewall rules
+  include: ../../../firewall/commit/tasks/main.yml
+  vars:
+    firewall_rules: grafana_hosts
+
+# TO-DO: Use following instead of the above when Ansible 2.2 will be available
+#- name: Create appropriate firewall rules
+#  include_role:
+#    name: firewall/commit
+#  vars:
+#    firewall_rules: grafana_hosts
