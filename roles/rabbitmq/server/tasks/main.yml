@@ -33,13 +33,8 @@
     user: '{{ rabbitmq_default_user }}'
     state: absent
 
-- name: Register rabbitmq firewall ports
-  set_fact:
-    firewall_data: >
-      {{ firewall_data }} + [
-        {
-          'port': "{{ item.port|default(rabbitmq_port) }}",
-          'protocol': 'tcp'
-        }
-      ]
-  with_items: '{{ rabbitmq_interface }}'
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: rabbit_hosts
