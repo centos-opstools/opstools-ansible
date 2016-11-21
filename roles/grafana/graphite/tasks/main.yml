@@ -1,0 +1,54 @@
+---
+- name: Install graphite
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - graphite-web
+    - httpd
+    - python-carbon
+  when: manage_packages|default(false)
+
+- name: Check if graphitedb already created
+  stat:
+    path: /var/lib/graphite-web/graphite.db
+  register: graphitedb
+
+- name: Create database for graphite
+  command: su apache -s /bin/bash -c "/usr/bin/graphite-manage syncdb --noinput"
+  when: graphitedb.stat.exists == False
+
+- name: Enable services
+  service:
+    name: carbon-cache
+    state: started
+    enabled: yes
+  when: manage_services|default(false)
+
+- name: Tweak httpd config
+  replace:
+    dest: '{{ httpd_config_parts_dir }}/graphite-web.conf'
+    regexp: "Require local$"
+    replace: "Require all granted"
+  notify: restart httpd
+
+- name: Listen on port 8080
+  lineinfile:
+    dest: '{{ httpd_config_parts_dir }}/graphite-web.conf'
+    create: yes
+    state: present
+    insertafter: "# Graphite Web Basic mod_wsgi vhost"
+    line: "Listen {{ graphite_listen_port }}"
+
+- name: Change port on graphite conf
+  replace:
+    dest: '{{ httpd_config_parts_dir }}/graphite-web.conf'
+    regexp: '^\<VirtualHost \*:80\>'
+    replace: "<VirtualHost *:{{ graphite_listen_port }}>"
+  notify: restart httpd
+
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: graphite_hosts

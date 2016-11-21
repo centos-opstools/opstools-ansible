@@ -2,3 +2,5 @@
 
 dependencies:
   - firewall
+  - firewall/gather
+  - grafana

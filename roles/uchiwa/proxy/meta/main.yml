@@ -3,4 +3,4 @@
 dependencies:
   - uchiwa
   - httpd
-  - opstoolsvhost
+  - opstoolsvhost/configuration
