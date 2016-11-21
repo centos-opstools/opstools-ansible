@@ -3,3 +3,21 @@ manage_packages: true
 manage_services: true
 manage_repos: true
 yum_repos_d: /etc/yum.repos.d
+localhost_ip: 127.0.0.1
+
+rabbit_hosts: >-
+  {{ groups['rabbit_hosts']|map('extract', hostvars, ['ansible_host'])|list }}
+redis_hosts: >-
+  {{ groups['redis_hosts']|map('extract', hostvars, ['ansible_host'])|list }}
+sensu_hosts: >-
+  {{ groups['sensu_hosts']|map('extract', hostvars, ['ansible_host'])|list }}
+uchiwa_hosts: >-
+  {{ groups['uchiwa_hosts']|map('extract', hostvars, ['ansible_host'])|list }}
+fluent_hosts: >-
+  {{ groups['fluent_hosts']|map('extract', hostvars, ['ansible_host'])|list }}
+elastic_hosts: >-
+  {{ groups['elastic_hosts']|map('extract', hostvars, ['ansible_host'])|list }}
+kibana_hosts: >-
+  {{ groups['kibana_hosts']|map('extract', hostvars, ['ansible_host'])|list }}
+grafana_hosts: >-
+  {{ groups['grafana_hosts']|map('extract', hostvars, ['ansible_host'])|list }}
