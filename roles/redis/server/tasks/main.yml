@@ -40,12 +40,8 @@
     enabled: yes
   when: manage_services|default(false)
 
-- name: Register redis firewall port
-  set_fact:
-    firewall_data: >
-      {{ firewall_data }} + [
-        {
-          'port': "{{ redis_listen_port }}",
-          'protocol': 'tcp'
-        }
-      ]
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: redis_hosts

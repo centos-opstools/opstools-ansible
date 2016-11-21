@@ -80,12 +80,8 @@
     enabled: yes
   when: manage_services|default(false)
 
-- name: Register firewall rule for collectd
-  set_fact:
-    firewall_data: >
-      {{ firewall_data }} + [
-        {
-          'port': "{{ collectd_listen_port }}",
-          'protocol': 'tcp'
-        }
-      ]
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: collectd_hosts
