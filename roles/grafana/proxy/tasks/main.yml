@@ -22,6 +22,7 @@
     timeout: 120
   ignore_errors: yes
 
+# yamllint disable-line rule:line-length
 - name: create data source for grafana server
   uri:
     method: POST
@@ -29,9 +30,9 @@
     body: "{{ lookup('template', 'data_source.json.j2') |to_json }}"
     body_format: json
     url: >
-      https://{{grafana_username}}:{{grafana_password}}@
-      {{grafana_server_address}}{{grafana_path}}/api/datasources
+      https://{{grafana_username}}:{{grafana_password}}@{{grafana_server_address}}{{grafana_path}}/api/datasources
     username: '{{ grafana_username }}'
     password: '{{ grafana_password }}'
     validate_certs: no
     force_basic_auth: yes
+# yamllint enable-line rule:line-length

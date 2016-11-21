@@ -1,9 +1,84 @@
 ---
-# A list of ports that should be exposed in the system firewall.
-# Roles register ports by appending them to this list using the
-# `set_fact` module.
-firewall_data: []
 
 # Set this to False if you do not want the playbooks to make changes
 # to the system firewall.
 firewall_manage_rules: true
+
+# A lists of hashes containing data for configuration firewall rules
+# to be created on each host groups
+firewall_data:
+  rabbit_hosts:
+   # RabbitMQ for Sensu
+    - port: "{{ rabbitmq_port }}"
+      source: "{{ sensu_hosts.0 }}"
+      protocol: tcp
+  redis_hosts:
+    # Redis for Sensu
+    - port: "{{ redis_listen_port }}"
+      source: "{{ sensu_hosts.0 }}"
+      protocol: tcp
+  sensu_hosts:
+    # Sensu API for public access
+    - port: "{{ sensu_api_port }}"
+      source: '0.0.0.0'
+      protocol: tcp
+    - port: "{{ sensu_api_port }}"
+      source: '::'
+      protocol: tcp
+  uchiwa_hosts:
+    # Uchiwa web UI for public access
+    - port: "{{ uchiwa_port }}"
+      source: "{{ uchiwa_bind }}"
+      protocol: tcp
+    - port: "{{ uchiwa_port }}"
+      source: '::'
+      protocol: tcp
+    # Apache public access
+    - port: "{{ opstools_apache_https_port }}"
+      source: '0.0.0.0'
+      protocol: tcp
+    - port: "{{ opstools_apache_http_port }}"
+      source: '::'
+      protocol: tcp
+  fluent_hosts:
+    # Fluentd aggregator for public access
+    - port: "{{ fluentd_port|default(24224) }}"
+      source: '0.0.0.0'
+      protocol: tcp
+    - port: "{{ fluentd_port|default(24224) }}"
+      source: '::'
+      protocol: tcp
+    - port: "{{ fluentd_port|default(24224) }}"
+      source: '0.0.0.0'
+      protocol: udp
+    - port: "{{ fluentd_port|default(24224) }}"
+      source: '::'
+      protocol: udp
+  elastic_hosts:
+    - port: "{{ elasticsearch_port }}"
+      source: "{{ fluent_hosts.0 }}"
+      protocol: tcp
+  kibana_hosts:
+    # Kibana server
+    - port: "{{ kibana_server_port }}"
+      source: "{{ kibana_server_bind }}"
+      protocol: tcp
+    # Apache public access
+    - port: "{{ opstools_apache_https_port }}"
+      source: '0.0.0.0'
+      protocol: tcp
+    - port: "{{ opstools_apache_http_port }}"
+      source: '::'
+      protocol: tcp
+  grafana_hosts:
+    # Apache public access
+    - port: "{{ opstools_apache_https_port }}"
+      source: '0.0.0.0'
+      protocol: tcp
+    - port: "{{ opstools_apache_http_port }}"
+      source: '::'
+      protocol: tcp
+  graphite_hosts:
+    - port: "{{ graphite_port }}"
+      source: "{{ grafana_hosts.0 }}"
+      protocol: tcp
