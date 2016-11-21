@@ -5,7 +5,7 @@
       protocol: "{{ item.protocol }}"
       destination_port: "{{ item.port }}"
       jump: ACCEPT
-  with_items: '{{ firewall_data }}'
+  with_items: '{{ firewall_data[firewall_rules] }}'
   when: firewall_manage_rules and firewall_use_iptables
   notify: persist iptables
 
@@ -15,6 +15,6 @@
       zone: public
       permanent: true
       state: enabled
-  with_items: '{{ firewall_data }}'
+  with_items: '{{ firewall_data[firewall_rules] }}'
   when: firewall_manage_rules and firewall_use_firewalld
   notify: reload firewalld

@@ -46,16 +46,14 @@
     mode: '0400'
   when: fluentd_use_ssl
 
-- name: Register fluentd firewal ports
-  set_fact:
-    firewall_data: >
-      {{ firewall_data }} + [
-        {
-          'port': "{{ fluentd_port }}",
-          'protocol': 'tcp'
-        },
-        {
-          'port': "{{ fluentd_port }}",
-          'protocol': 'udp'
-        }
-      ]
+- name: Create appropriate firewall rules
+  include: ../../../firewall/commit/tasks/main.yml
+  vars:
+    firewall_rules: fluent_hosts
+
+# TO-DO: Use following instead of the above when Ansible 2.2 will be available
+#- name: Create appropriate firewall rules
+#  include_role:
+#    name: firewall/commit
+#  vars:
+#    firewall_rules: fluent_hosts
