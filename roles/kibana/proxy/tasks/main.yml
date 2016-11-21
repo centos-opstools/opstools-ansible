@@ -27,3 +27,15 @@
     dest: '{{ opstools_default_redirect_file }}'
     force: false
   notify: restart httpd
+
+- name: Create appropriate firewall rules
+  include: ../../../firewall/commit/tasks/main.yml
+  vars:
+    firewall_data: kibana_hosts
+
+# TO-DO: Use following instead of the above when Ansible 2.2 will be available
+#- name: Create appropriate firewall rules
+#  include_role:
+#    name: firewall/commit
+#  vars:
+#    firewall_data: kibana_hosts
