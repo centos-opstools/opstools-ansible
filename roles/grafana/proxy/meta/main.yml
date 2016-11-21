@@ -3,4 +3,4 @@
 dependencies:
   - grafana
   - httpd
-  - opstoolsvhost
+  - opstoolsvhost/configuration
