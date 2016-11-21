@@ -1,0 +1,43 @@
+---
+- name: Install java package
+  package:
+    name: '{{ java_package_name }}'
+    state: present
+  when: manage_packages|default(false)
+
+- name: Enable elasticsearch repository
+  copy:
+    src: elasticsearch.repo
+    dest: '{{yum_repos_d}}/elasticsearch.repo'
+  when: manage_repos|default(false)
+
+- name: Install elasticsearch package
+  package:
+    name: '{{ elasticsearch_package_name }}'
+    state: present
+  when: manage_packages|default(false)
+
+- name: Install elasticsearch service configuration
+  template:
+    src: elasticsearch.sysconfig
+    dest: '{{ elasticsearch_sysconfig_path }}'
+  notify: restart elasticsearch
+
+- name: Install elasticsearch configuration
+  template:
+    src: elasticsearch.yml
+    dest: '{{ elasticsearch_config_yml }}'
+  notify: restart elasticsearch
+
+- name: Activate elasticsearch service
+  service:
+    name: '{{ elasticsearch_service_name }}'
+    state: running
+    enabled: true
+  when: manage_services|default(false)
+
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: elastic_hosts
