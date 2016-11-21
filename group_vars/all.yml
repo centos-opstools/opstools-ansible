@@ -3,3 +3,4 @@ manage_packages: true
 manage_services: true
 manage_repos: true
 yum_repos_d: /etc/yum.repos.d
+localhost_ip: 127.0.0.1
