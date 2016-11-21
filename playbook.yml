@@ -1,9 +1,10 @@
 ---
-- name: Install prerequisites on all hosts
+- name: Install prerequisites on all hosts and gather facts
   hosts: all:!undercloud_host
   tags:
     - prereqs
   roles:
+    - firewall/gather
     - prereqs
     - repos
     - chrony
@@ -14,7 +15,7 @@
     - logging
     - elasticsearch
   roles:
-    - elasticsearch
+    - elasticsearch/server
 
 - name: Install Fluentd
   hosts: fluent_hosts
@@ -68,23 +69,17 @@
     - uchiwa
     - web
   roles:
-    - uchiwa
+    - uchiwa/server
     - uchiwa/proxy
-
-- name: Create firewall rules
-  hosts: all:!undercloud_host
-  tags:
-    - firewall
-  roles:
-    - firewall/commit
 
 - name: Install CollectD
   hosts: collectd_hosts
   roles:
-    - collectd
+    - collectd/server
 
 - name: Install Grafana
   hosts: grafana_hosts
   roles:
-    - grafana
+    - grafana/graphite
+    - grafana/server
     - grafana/proxy
