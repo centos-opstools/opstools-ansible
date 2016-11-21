@@ -1,0 +1,31 @@
+---
+- name: Install uchiwa
+  package:
+    name: '{{ uchiwa_package_name }}'
+    state: installed
+  when: manage_packages|default(false)
+
+- name: Configure uchiwa
+  template:
+    src: templates/uchiwa.json.j2
+    dest: '{{ uchiwa_file_path }}'
+  notify:
+    - restart uchiwa
+
+- name: Add uchiwa user to additional groups
+  user:
+    name: uchiwa
+    groups: '{{ ",".join(uchiwa_extra_groups) }}'
+
+- name: Ensure uchiwa is started and enabled at boot
+  service:
+    name: '{{ uchiwa_service_name }}'
+    state: started
+    enabled: yes
+  when: manage_services|default(false)
+
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: uchiwa_hosts

@@ -1,20 +1,28 @@
 ---
+# yamllint disable-line rule:line-length
 - name: Enable service ports via iptables
   iptables:
     chain: INPUT
     protocol: "{{ item.protocol }}"
     destination_port: "{{ item.port }}"
+    source: "{% if item.source == 'localhost' %}{{ localhost_ip }}{% else %}{{ item.source }}{% endif %}"
+    ip_version: "{% if item.source|ipv6 %}ipv6{% else %}ipv4{% endif %}"
     jump: ACCEPT
-  with_items: '{{ firewall_data }}'
+  with_items: '{{ firewall_data[firewall_rules] }}'
   when: firewall_manage_rules and firewall_use_iptables
   notify: persist iptables
 
+
 - name: Enable service ports via firewalld
   firewalld:
-    port: "{{ item.port }}/{{ item.protocol }}"
+    rich_rule: >
+      rule family="{% if item.source|ipv6 %}ipv6{% else %}ipv4{% endif %}"
+      source address="{% if item.source == 'localhost' %}{{ localhost_ip }}{% else %}{{ item.source }}{% endif %}"
+      port protocol="{{ item.protocol }}" port="{{ item.port }}" accept
     zone: public
     permanent: true
     state: enabled
-  with_items: '{{ firewall_data }}'
+  with_items: '{{ firewall_data[firewall_rules] }}'
   when: firewall_manage_rules and firewall_use_firewalld
   notify: reload firewalld
+# yamllint enable-line rule:line-length
