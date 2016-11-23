@@ -1,0 +1,5 @@
+"check-{{ check.name }}-remote": {
+    "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_{{ check.name|replace('-', '_') }} {{ check.args|default(os_auth_args) }}",
+    "subscribers": {{ check.subscribers|default([sensu_client_subscription])|to_json }},
+    "interval": {{ check.interval|default(60) }}
+}

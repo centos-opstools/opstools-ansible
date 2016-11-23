@@ -97,20 +97,52 @@ sensu_overcloud_checks:
     service: pacemaker
   - name: swift-proxy
 
-# A list of sensu checks that will run on an opstools server
-sensu_remote_checks: []
-
 # Username for openstack checks.
-oscheck_default_username: admin
+os_default_username: admin
 
 # Password for openstack checks.
-oscheck_default_password: pass
+os_default_password: pass
 
 # Project name (aka tenant) for openstack checks.
-oscheck_default_project_name: admin
+os_default_project: admin
 
 # Authentication URL (Keystone server) for openstack checks.
-oscheck_default_auth_url: http://controller:5000/v2.0
+os_default_auth_url: http://controller:5000/v2.0
 
 # Region name for openstack checks.
-oscheck_default_region_name: RegionOne
+os_default_region: regionOne
+
+# Most common set of arguments user by remote API checks a.k.a. oschecks
+os_auth_args: >-
+  --os-username :::openstack.username|{{ os_default_username }}:::
+  --os-password :::openstack.password|{{ os_default_password }}:::
+  --os-tenant-name :::openstack.project_name|{{ os_default_project }}:::
+  --os-auth-url :::openstack.auth_url|{{ os_default_auth_url }}:::
+  --region_name :::openstack.region_name|{{ os_default_region }}:::
+
+# A list of sensu checks that will run on an opstools server. List has the same
+# format as sensu_overcloud_checks with the difference that subscribers
+# defaults to the value of variable sensu_client_subscription
+sensu_remote_checks:
+  - name: cinder-api
+  - name: glance-api
+  - name: keystone-api
+    args: >-
+      --os-username :::openstack.username|{{ os_default_username }}:::
+      --os-password :::openstack.password|{{ os_default_password }}:::
+      --os-tenant-name :::openstack.project_name|{{ os_default_project }}:::
+      --os-auth-url :::openstack.auth_url|{{ os_default_auth_url }}:::
+  - name: neutron-api
+  - name: nova-api
+  - name: cinder-volume
+    args: >-
+      --username :::openstack.username|{{ os_default_username }}:::
+      --password :::openstack.password|{{ os_default_password }}:::
+      --auth_url :::openstack.auth_url|{{ os_default_auth_url }}:::
+      --tenant :::openstack.tenant_name|{{ os_default_project }}:::
+  - name: nova_instance
+    args: >-
+      --os-username :::openstack.username|{{ os_default_username }}:::
+      --os-password :::openstack.password|{{ os_default_password }}:::
+      --os-tenant-name :::openstack.project_name|{{ os_default_project }}:::
+      --os-auth-url :::openstack.auth_url|{{ os_default_auth_url }}:::
