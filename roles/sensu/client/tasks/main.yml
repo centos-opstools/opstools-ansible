@@ -1,0 +1,37 @@
+---
+
+# Add the following configuration
+# client.json -- it configures the sensu-client
+- name: Configure sensu client
+  template:
+    src: 'templates/{{ item }}.json.j2'
+    dest: '{{sensu_config_path}}/{{ item }}.json'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+  with_items:
+    - client
+  notify:
+    - restart sensu client services
+
+# This is a workaround for https://github.com/sensu/sensu/issues/1478
+- name: Ensure correct ownership on directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+    recurse: true
+  with_items:
+    - '{{ sensu_log_path }}'
+    - '{{ sensu_runtime_path }}'
+  notify:
+    - restart sensu client services
+
+- name: Ensure sensu-client is started and enabled at boot
+  service:
+    name: '{{ item }}'
+    state: started
+    enabled: yes
+  with_items:
+    - '{{ sensu_client_service_name }}'
+  when: manage_services|default(false)

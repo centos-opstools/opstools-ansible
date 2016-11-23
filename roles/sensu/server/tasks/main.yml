@@ -28,7 +28,7 @@
     - redis
     - sensu_oschecks
   notify:
-    - restart sensu
+    - restart sensu server services
 
 # This task is needed due to the fact that all the templates used to
 # create sensu_oschecks.json can be disabled.
@@ -67,14 +67,14 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: sensu
-    group: sensu
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
     recurse: true
   with_items:
-    - /var/log/sensu
-    - /var/run/sensu
+    - '{{ sensu_log_path }}'
+    - '{{ sensu_runtime_path }}'
   notify:
-    - restart sensu
+    - restart sensu server services
 
 - name: Ensure sensu is started and enabled at boot
   service:
