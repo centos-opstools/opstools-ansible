@@ -14,6 +14,12 @@ sensu_client_service_name: sensu-client
 # Path to Sensu configuration directory.
 sensu_config_path: /etc/sensu/conf.d
 
+# Path to Sensu log directory.
+sensu_log_path: /var/log/sensu
+
+# Path to Sensu runtime directory.
+sensu_runtime_path: /var/run/sensu
+
 # Owner of Sensu configuration files.
 sensu_owner: sensu
 
@@ -36,3 +42,6 @@ sensu_rabbitmq_password: sensu
 sensu_rabbitmq_vhost: /sensu
 
 sensu_minimum_version: "1:0.26.0"
+
+# Subscription string for monitoring host
+sensu_client_subscription: 'monitoring-node'
