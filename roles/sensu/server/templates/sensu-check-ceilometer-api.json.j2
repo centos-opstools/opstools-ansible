@@ -1,0 +1,5 @@
+ "check-ceilometer-api": {
+            "command": "systemctl is-active openstack-ceilometer-api || exit 1",
+            "subscribers": ["{{ sensu_subscribers_ceilometer_api }}"],
+            "interval": 60
+        }

@@ -1,0 +1,5 @@
+"check-nova-api": {
+            "command": "systemctl is-active openstack-nova-api || exit 1",
+            "subscribers": ["{{ sensu_subscribers_nova_api }}"],
+            "interval": 60
+        }

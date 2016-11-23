@@ -1,0 +1,5 @@
+"check-neutron-api": {
+    "command": "systemctl is-active openstack-neutron-server || exit 1",
+    "subscribers": ["{{ sensu_subscribers_neutron_api }}"],
+    "interval": 60
+}

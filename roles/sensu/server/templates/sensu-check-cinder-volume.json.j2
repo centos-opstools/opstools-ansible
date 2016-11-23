@@ -1,0 +1,5 @@
+"check-cinder-volume": {
+            "command": "systemctl is-active openstack-cinder-volume || exit 1",
+            "subscribers": ["{{ sensu_subscribers_cinder_volume }}"],
+            "interval": 900
+        }

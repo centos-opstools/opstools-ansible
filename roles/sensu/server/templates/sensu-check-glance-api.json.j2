@@ -1,0 +1,5 @@
+"check-glance-api": {
+            "command": "systemctl is-active openstack-glance-api || exit 1",
+            "subscribers": ["{{ sensu_subscribers_glance_api }}"],
+            "interval": 60
+        }

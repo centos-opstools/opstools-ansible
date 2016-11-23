@@ -1,9 +1,0 @@
-{% set comma = joiner(",\n") -%}
-{
-    "checks": {
-{% for check in sensu_enabled_oschecks %}
-{{ comma() }}
-{% include "sensu_oscheck-" + check + ".json.j2" %}
-{% endfor %}
-}}
-

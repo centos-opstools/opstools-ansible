@@ -18,17 +18,22 @@ sensu_redis_port: '{{ redis_listen_port }}'
 sensu_redis_password: "{{ redis_password }}"
 
 # A list of enabled Sensu checks.
-sensu_enabled_oschecks:
-  - check-ceilometer_api
-  - check-ceph_df
-  - check-ceph_health
-  - check-cinder_api
-  - check-cinder_volume
-  - check-glance_api
-  - check-keystone_api
-  - check-neutron_api
-  - check-nova_api
-  - check-nova_instance
+sensu_enabled_checks:
+  - ceilometer-api
+  - ceph-df
+  - ceph-health
+  - cinder-api
+  - cinder-volume
+  - glance-api
+  - keystone-api
+  - neutron-api
+  - nova-api
+  - nova-scheduler
+  - nova-conductor
+  - nova-novncproxy
+  - nova-consoleauth
+  - nova-instance
+  - haproxy
 
 # Username for openstack checks.
 oscheck_default_username: admin
@@ -45,12 +50,21 @@ oscheck_default_auth_url: http://controller:5000/v2.0
 # Region name for openstack checks.
 oscheck_default_region_name: RegionOne
 
-oscheck_subscribers_ceilometer_api: 'overcloud-ceilometer-api'
-oscheck_subscribers_ceph: 'overcloud-ceph-client'
-oscheck_subscribers_cinder_api: 'overcloud-cinder-api'
-oscheck_subscribers_cinder_volume: 'overcloud-cinder-volume'
-oscheck_subscribers_glance_api: 'overcloud-glance-api'
-oscheck_subscribers_neutron_api: 'overcloud-neutron-server'
-oscheck_subscribers_nova_api: 'overcloud-nova-api'
-oscheck_subscribers_nova_instance: 'overcloud-nova-compute'
-oscheck_subscribers_keystone_api: 'overcloud-keystone'
+sensu_subscribers_ceilometer_api: 'overcloud-ceilometer-api'
+sensu_subscribers_ceph: 'overcloud-ceph-client'
+sensu_subscribers_cinder_api: 'overcloud-cinder-api'
+sensu_subscribers_cinder_volume: 'overcloud-cinder-volume'
+sensu_subscribers_glance_api: 'overcloud-glance-api'
+sensu_subscribers_neutron_api: 'overcloud-neutron-server'
+sensu_subscribers_nova_api: 'overcloud-nova-api'
+sensu_subscribers_nova_scheduler: 'overcloud-nova-scheduler'
+sensu_subscribers_nova_conductor: 'overcloud-nova-conductor'
+
+# LKS: Note the intentional mis-spelling here to match the
+# mis-spelling in tripleo.
+sensu_subscribers_nova_novncproxy: 'overcloud-nova-vncproxy'
+
+sensu_subscribers_nova_consoleauth: 'overcloud-nova-consoleauth'
+sensu_subscribers_nova_instance: 'overcloud-nova-compute'
+sensu_subscribers_keystone_api: 'overcloud-keystone'
+sensu_subscribers_haproxy: 'overcloud-haproxy'

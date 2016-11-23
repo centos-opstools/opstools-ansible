@@ -1,0 +1,5 @@
+"check-nova-novncproxy": {
+            "command": "systemctl is-active openstack-nova-novncproxy || exit 1",
+            "subscribers": ["{{ sensu_subscribers_nova_novncproxy }}"],
+            "interval": 60
+        }

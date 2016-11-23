@@ -1,0 +1,5 @@
+"check-nova-conductor": {
+            "command": "systemctl is-active openstack-nova-conductor || exit 1",
+            "subscribers": ["{{ sensu_subscribers_nova_conductor }}"],
+            "interval": 60
+        }

@@ -1,0 +1,5 @@
+"check-nova-scheduler": {
+            "command": "systemctl is-active openstack-nova-scheduler || exit 1",
+            "subscribers": ["{{ sensu_subscribers_nova_scheduler }}"],
+            "interval": 60
+        }

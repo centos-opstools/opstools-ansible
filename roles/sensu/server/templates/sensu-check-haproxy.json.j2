@@ -1,0 +1,5 @@
+"check-haproxy": {
+            "command": "systemctl is-active haproxy || exit 1",
+            "subscribers": ["{{ sensu_subscribers_haproxy }}"],
+            "interval": 60
+        }

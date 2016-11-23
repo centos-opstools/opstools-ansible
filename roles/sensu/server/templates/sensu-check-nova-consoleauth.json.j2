@@ -1,0 +1,5 @@
+"check-nova-consoleauth": {
+            "command": "systemctl is-active openstack-nova-consoleauth || exit 1",
+            "subscribers": ["{{ sensu_subscribers_nova_consoleauth }}"],
+            "interval": 60
+        }

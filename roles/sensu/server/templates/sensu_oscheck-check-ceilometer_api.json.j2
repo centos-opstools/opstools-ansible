@@ -1,5 +1,0 @@
- "oschecks-check_ceilometer_api": {
-            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceilometer_api -w :::api.warning|10::: -c :::api.critical|20::: {{ os_auth_args }} {{ os_region_arg }}",
-            "subscribers": ["{{ oscheck_subscribers_ceilometer_api }}"],
-            "interval": 60
-        }
