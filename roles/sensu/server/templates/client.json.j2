@@ -1,0 +1,14 @@
+{
+  "client": {
+    "name": "{{ ansible_fqdn }}",
+    "address": "{{ sensu_api_server }}",
+    "subscriptions": [
+      "{{ ansible_hostname }}",
+      "{{ oscheck_subscribers_monitoring_host }}"
+    ],
+    "socket": {
+      "bind": "{{ sensu_client_bind }}",
+      "port": {{ sensu_client_port }}
+    }
+  }
+}

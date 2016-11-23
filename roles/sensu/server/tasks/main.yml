@@ -26,6 +26,7 @@
   with_items:
     - api
     - redis
+    - client
     - sensu_oschecks
   notify:
     - restart sensu
@@ -84,4 +85,5 @@
   with_items:
     - '{{ sensu_server_service_name }}'
     - '{{ sensu_api_service_name }}'
+    - '{{ sensu_client_service_name }}'
   when: manage_services|default(false)

@@ -2,11 +2,17 @@
 # Address on which Sensu should listen for connections.
 sensu_api_bind: 0.0.0.0
 
-# Port on which Sensu should listen.
+# Port on which Sensu API should listen.
 sensu_api_port: 4567
 
 # Address to which clients should connect to contact the Sensu API.
 sensu_api_server: localhost
+
+# Address on which Sensu client should listen for connections.
+sensu_client_bind: 127.0.0.1
+
+# Port on which Sensu client should listen.
+sensu_client_port: 3030
 
 # Address of the Redis server to which Sensu should connect.
 sensu_redis_server: 127.0.0.1
@@ -54,3 +60,4 @@ oscheck_subscribers_neutron_api: 'overcloud-neutron-server'
 oscheck_subscribers_nova_api: 'overcloud-nova-api'
 oscheck_subscribers_nova_instance: 'overcloud-nova-compute'
 oscheck_subscribers_keystone_api: 'overcloud-keystone'
+oscheck_subscribers_monitoring_host: 'monitoring-host'
