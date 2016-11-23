@@ -36,3 +36,6 @@ sensu_rabbitmq_password: sensu
 sensu_rabbitmq_vhost: /sensu
 
 sensu_minimum_version: "1:0.26.0"
+
+# Subscription string for monitoring host
+sensu_client_subscription: 'monitoring-node'

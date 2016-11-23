@@ -1,0 +1,8 @@
+---
+- name: restart sensu client services
+  service:
+    name: '{{ item }}'
+    state: restarted
+  with_items:
+    - '{{ sensu_client_service_name }}'
+  when: manage_services|default(false)
