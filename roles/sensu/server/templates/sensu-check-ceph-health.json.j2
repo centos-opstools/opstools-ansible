@@ -1,0 +1,5 @@
+"check-ceph-health": {
+    "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceph_health",
+    "subscribers": {{ check.subscribers|default(["overcloud-ceph-client"])|to_json }},
+    "interval": 60
+}
