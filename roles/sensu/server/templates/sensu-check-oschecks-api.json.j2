@@ -1,0 +1,25 @@
+      "ping-cinder-api": {
+        "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_cinder_api -w :::api.warning|10::: -c :::api.critical|20::: {{ os_auth_args }} {{ os_region_arg }}",
+        "subscribers": ["{{ sensu_subscribers_oschecks_api }}"],
+        "interval": 60
+      },
+      "ping-glance-api": {
+        "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_glance_api -w :::api.warning|10::: -c :::api.critical|20::: {{ os_auth_args }} {{ os_region_arg }}",
+        "subscribers": ["{{ sensu_subscribers_oschecks_api }}"],
+        "interval": 60
+      },
+      "ping-keystone-api": {
+        "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_keystone_api  {{ os_auth_args }} {{ os_region_arg }}",
+        "subscribers": ["{{ sensu_subscribers_oschecks_api }}"],
+        "interval": 60
+      },
+      "ping-neutron-api": {
+        "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_neutron_api -w :::api.warning|10::: -c :::api.critical|20::: {{ os_auth_args }} {{ os_region_arg }}",
+        "subscribers": ["{{ sensu_subscribers_oschecks_api }}"],
+        "interval": 60
+      },
+      "ping-nova-api": {
+        "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_nova_api -w :::api.warning|10::: -c :::api.critical|20::: {{ os_auth_args }} {{ os_region_arg }}",
+        "subscribers": ["{{ sensu_subscribers_oschecks_api }}"],
+        "interval": 60
+      }

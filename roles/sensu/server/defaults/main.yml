@@ -34,6 +34,9 @@ sensu_enabled_checks:
   - nova-consoleauth
   - nova-instance
   - haproxy
+  - oschecks-api
+  - oschecks-ceph
+  - oschecks-resources
 
 # Username for openstack checks.
 oscheck_default_username: admin
@@ -48,7 +51,7 @@ oscheck_default_project_name: admin
 oscheck_default_auth_url: http://controller:5000/v2.0
 
 # Region name for openstack checks.
-oscheck_default_region_name: RegionOne
+oscheck_default_region_name: regionOne
 
 sensu_subscribers_ceilometer_api: 'overcloud-ceilometer-api'
 sensu_subscribers_ceph: 'overcloud-ceph-client'
@@ -68,3 +71,6 @@ sensu_subscribers_nova_consoleauth: 'overcloud-nova-consoleauth'
 sensu_subscribers_nova_instance: 'overcloud-nova-compute'
 sensu_subscribers_keystone_api: 'overcloud-keystone'
 sensu_subscribers_haproxy: 'overcloud-haproxy'
+sensu_subscribers_oschecks_api: "{{ sensu_client_subscription }}"
+sensu_subscribers_oschecks_ceph: 'overcloud-ceph-osd'
+sensu_subscribers_oschecks_resources: "{{ sensu_client_subscription }}"

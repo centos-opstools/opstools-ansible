@@ -1,0 +1,10 @@
+      "check-ceph-df": {
+        "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceph_df :::ceph.warning|60::: :::ceph.critical|80:::",
+        "subscribers": ["{{ sensu_subscribers_oschecks_ceph }}"],
+        "interval": 60
+      },
+      "check-ceph-health": {
+        "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceph_health",
+        "subscribers": ["{{ sensu_subscribers_oschecks_ceph }}"],
+        "interval": 60
+      }
