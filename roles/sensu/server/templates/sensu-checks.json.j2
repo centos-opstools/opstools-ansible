@@ -1,0 +1,12 @@
+{% set comma = joiner(",\n") -%}
+{
+    "checks": {
+{% for check in sensu_enabled_checks %}
+{{ comma() }}
+{% include [
+    "sensu-check-" + check.name + ".json.j2",
+    "sensu-check-systemd.json.j2"
+] %}
+{% endfor %}
+}}
+
