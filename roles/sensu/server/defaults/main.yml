@@ -19,7 +19,6 @@ sensu_redis_password: "{{ redis_password }}"
 
 # A list of enabled Sensu checks.
 sensu_enabled_oschecks:
-  - check-ceilometer_api
   - check-ceph_df
   - check-ceph_health
   - check-cinder_api
@@ -45,13 +44,12 @@ oscheck_default_auth_url: http://controller:5000/v2.0
 # Region name for openstack checks.
 oscheck_default_region_name: RegionOne
 
-oscheck_subscribers_ceilometer_api: 'overcloud-ceilometer-api'
-oscheck_subscribers_ceph: 'overcloud-ceph-client'
-oscheck_subscribers_cinder_api: 'overcloud-cinder-api'
-oscheck_subscribers_cinder_volume: 'overcloud-cinder-volume'
-oscheck_subscribers_glance_api: 'overcloud-glance-api'
-oscheck_subscribers_neutron_api: 'overcloud-neutron-server'
-oscheck_subscribers_nova_api: 'overcloud-nova-api'
-oscheck_subscribers_nova_instance: 'overcloud-nova-compute'
-oscheck_subscribers_keystone_api: 'overcloud-keystone'
-oscheck_subscribers_monitoring_host: 'monitoring-host'
+oscheck_subscribers_ceph: 'overcloud-ceph-osd'
+oscheck_subscribers_ceilometer_api: "{{ sensu_client_subscription }}"
+oscheck_subscribers_cinder_api: "{{ sensu_client_subscription }}"
+oscheck_subscribers_cinder_volume: "{{ sensu_client_subscription }}"
+oscheck_subscribers_glance_api: "{{ sensu_client_subscription }}"
+oscheck_subscribers_neutron_api: "{{ sensu_client_subscription }}"
+oscheck_subscribers_nova_api: "{{ sensu_client_subscription }}"
+oscheck_subscribers_nova_instance: "{{ sensu_client_subscription }}"
+oscheck_subscribers_keystone_api: "{{ sensu_client_subscription }}"
