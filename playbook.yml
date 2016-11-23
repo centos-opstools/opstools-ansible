@@ -59,6 +59,7 @@
     - sensu
   roles:
     - sensu/server
+    - sensu/client
 
 - name: Install Uchiwa
   hosts: uchiwa_hosts
