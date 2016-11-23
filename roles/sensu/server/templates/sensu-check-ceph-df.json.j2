@@ -1,0 +1,5 @@
+"check-ceph-df": {
+    "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceph_df :::ceph.warning|60::: :::ceph.critical|80:::",
+    "subscribers": {{ check.subscribers|default(["overcloud-ceph-client"])|to_json }},
+    "interval": 60
+}
