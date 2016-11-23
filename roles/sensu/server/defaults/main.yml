@@ -17,18 +17,88 @@ sensu_redis_port: '{{ redis_listen_port }}'
 # Password for authenticating to Redis.
 sensu_redis_password: "{{ redis_password }}"
 
-# A list of enabled Sensu checks.
-sensu_enabled_oschecks:
-  - check-ceilometer_api
-  - check-ceph_df
-  - check-ceph_health
-  - check-cinder_api
-  - check-cinder_volume
-  - check-glance_api
-  - check-keystone_api
-  - check-neutron_api
-  - check-nova_api
-  - check-nova_instance
+# A list of Sensu checks that will run on the overcloud hosts. The
+# only required key for each item is `name`. The systemd `service`
+# used in `systemctl` checks defaults to `openstack-<name>`, and the
+# `subscribers` key defaults to `[ "overcloud-<name>" ]`.
+#
+# The following checks are disabled because the corresponding services
+# are run as WSGI applications under Apache.  This means that we don't
+# have a good client-side healthcheck until we make changes either to
+# sensu packaging or our tripleo integration.
+#
+#     - name: ceilometer-api
+#     - name: keystone-api
+#       subscribers:
+#         - overcloud-keystone
+#         - overcloud-kestone
+#     - name: aodh-api
+#       subscribers:
+#         - overcloud-ceilometer-aodh-api
+#
+sensu_overcloud_checks:
+  - name: aodh-evaluator
+    subscribers:
+      - overcloud-ceilometer-aodh-evaluator
+  - name: aodh-listener
+    subscribers:
+      - overcloud-ceilometer-aodh-listener
+  - name: aodh-notifier
+    subscribers:
+      - overcloud-ceilometer-aodh-notifier
+  - name: ceilometer-central
+    subscribers:
+      - overcloud-ceilometer-agent-central
+  - name: ceilometer-collector
+  - name: ceilometer-compute
+  - name: ceilometer-compute
+    subscribers:
+      - overcloud-ceilometer-agent-compute
+  - name: ceilometer-notification
+    subscribers:
+      - overcloud-ceilometer-agent-notification
+  - name: ceilometer-polling
+  - name: ceph-df
+  - name: ceph-health
+  - name: cinder-api
+  - name: cinder-scheduler
+  - name: cinder-volume
+  - name: glance-api
+  - name: glance-registry
+  - name: haproxy
+    service: haproxy
+  - name: heat-api
+  - name: heat-api-cfn
+  - name: heat-api-cloudwatch
+  - name: heat-engine
+  - name: memcached
+    service: memcached
+  - name: neutron-api
+    service: neutron-server
+  - name: neutron-l3-agent
+    service: neutron-l3-agent
+  - name: neutron-metadata-agent
+    service: neutron-metadata-agent
+    subscribers:
+      - overcloud-neutron-metadata
+  - name: neutron-ovs-agent
+    service: neutron-openvswitch-agent
+  - name: nova-api
+  - name: nova-compute
+  - name: nova-conductor
+  - name: nova-consoleauth
+  - name: nova-libvirt
+    service: libvirtd
+  - name: nova-novncproxy
+    subscribers:
+      - overcloud-nova-vncproxy
+  - name: nova-scheduler
+  - name: pacemaker
+    service: pacemaker
+  - name: swift-proxy
+
+# A list of sensu checks that will run on an opstools server
+sensu_remote_checks: []
 
 # Username for openstack checks.
 oscheck_default_username: admin
@@ -44,13 +114,3 @@ oscheck_default_auth_url: http://controller:5000/v2.0
 
 # Region name for openstack checks.
 oscheck_default_region_name: RegionOne
-
-oscheck_subscribers_ceilometer_api: 'overcloud-ceilometer-api'
-oscheck_subscribers_ceph: 'overcloud-ceph-client'
-oscheck_subscribers_cinder_api: 'overcloud-cinder-api'
-oscheck_subscribers_cinder_volume: 'overcloud-cinder-volume'
-oscheck_subscribers_glance_api: 'overcloud-glance-api'
-oscheck_subscribers_neutron_api: 'overcloud-neutron-server'
-oscheck_subscribers_nova_api: 'overcloud-nova-api'
-oscheck_subscribers_nova_instance: 'overcloud-nova-compute'
-oscheck_subscribers_keystone_api: 'overcloud-keystone'
