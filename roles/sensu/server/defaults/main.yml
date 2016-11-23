@@ -98,7 +98,10 @@ sensu_overcloud_checks:
   - name: swift-proxy
 
 # A list of sensu checks that will run on an opstools server
-sensu_remote_checks: []
+sensu_remote_checks:
+  - name: oschecks-api
+  - name: oschecks-ceph
+  - name: oschecks-resources
 
 # Username for openstack checks.
 oscheck_default_username: admin
@@ -113,4 +116,9 @@ oscheck_default_project_name: admin
 oscheck_default_auth_url: http://controller:5000/v2.0
 
 # Region name for openstack checks.
-oscheck_default_region_name: RegionOne
+oscheck_default_region_name: regionOne
+
+# Name of subscriber that will run remote checks
+sensu_subscribers_oschecks_api: oschecks-remote-api
+sensu_subscribers_oschecks_resources: oschecks-remote-resources
+sensu_subscribers_oschecks_ceph: oschecks-remote-ceph
