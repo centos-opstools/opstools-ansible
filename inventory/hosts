@@ -1,0 +1,4 @@
+
+# undercloud_host is required for post-install configuration. It is required to connect
+# as a user which has stackrc in it's home directory
+# undercloud_host ansible_user=stack ansible_host=undercloud ansible_ssh_extra_args='-F "/root/.quickstart/ssh.config.ansible"'
