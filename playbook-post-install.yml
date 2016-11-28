@@ -1,0 +1,9 @@
+---
+
+- name: Complete Sensu client configuration
+  hosts: sensu_hosts
+  tags:
+    - availability
+    - sensu
+  roles:
+    - sensu/post-install
