@@ -1,6 +1,14 @@
 ---
 - name: Install prerequisites on all hosts
-  hosts: all
+  hosts:
+    - elastic_hosts
+    - fluent_hosts
+    - kibana_hosts
+    - redis_hosts
+    - rabbit_hosts
+    - sensu_hosts
+    - uchiwa_hosts
+    - collectd_hosts
   tags:
     - prereqs
   roles:
@@ -72,7 +80,15 @@
     - uchiwa/proxy
 
 - name: Create firewall rules
-  hosts: all
+  hosts:
+    - elastic_hosts
+    - fluent_hosts
+    - kibana_hosts
+    - redis_hosts
+    - rabbit_hosts
+    - sensu_hosts
+    - uchiwa_hosts
+    - collectd_hosts
   tags:
     - firewall
   roles:
