@@ -45,3 +45,15 @@ sensu_minimum_version: "1:0.26.0"
 
 # Subscription string for monitoring host
 sensu_client_subscription: 'monitoring-node'
+
+# Address on which Sensu client should listen on monitoring host.
+sensu_client_bind: 127.0.0.1
+
+# Port on which Sensu client should listen on monitoring host.
+sensu_client_port: 3030
+
+# Name for client service displayed in Uchiwa
+sensu_client_name: '{{ ansible_fqdn }}'
+
+# Address for client service displayed in Uchiwa
+sensu_client_address: '{{ ansible_default_ipv4.address }}'

@@ -1,0 +1,20 @@
+{
+  "client": {
+    "name": "{{ sensu_client_name }}",
+    "address": "{{ sensu_client_address }}",
+    "subscriptions": [
+      "{{ sensu_client_subscription }}"
+    ],
+    "socket": {
+      "bind": "{{ sensu_client_bind }}",
+      "port": {{ sensu_client_port }}
+    },
+    "openstack": {
+      "auth_url": "{{ openstack_auth_url }}",
+      "password": "{{ openstack_password }}",
+      "region": "{{ openstack_region }}",
+      "tenant_name": "{{ openstack_tenant_name }}",
+      "username": "{{ openstack_username }}"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+---
+
+- name: Fetch stack user home directory
+  delegate_to: undercloud_host
+  shell: >
+    echo -n $HOME
+  register: echo_home
+
+# yamllint disable rule:line-length
+- name: Fetch overcloud node address
+  delegate_to: undercloud_host
+  shell: >
+    source {{ echo_home.stdout }}/stackrc;
+    nova list | grep 'ctlplane=' | awk -F'|' '{ print $7 }' | sed -e 's/\s*//'g | sed -e 's/ctlplane=//' | head -n1
+  register: nova_list
+
+- name: Gather configuration data on overcloud node
+  delegate_to: undercloud_host
+  command: >
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null heat-admin@{{ nova_list.stdout }}
+      "sudo jq '.client.openstack.{{ item }}' {{ sensu_config_path }}/client.json | sed -e 's/\"*//'g"
+  register: auth_data
+  with_items:
+    - username
+    - tenant_name
+    - password
+    - region
+    - auth_url
+# yamllint enable rule:line-length
+
+- name: Set facts from result data
+  set_fact: {'openstack_{{ item.item }}':'{{ item.stdout }}'}
+  with_items:
+    - '{{ auth_data.results }}'
+
+- name: Update client configuration on monitoring host
+  template:
+    src: 'templates/client.json.j2'
+    dest: '{{ sensu_config_path }}/client.json'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+  notify:
+    - restart sensu client service
