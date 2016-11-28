@@ -1,0 +1,37 @@
+---
+
+- name: Fetch stack user home directory
+  delegate_to: undercloud_host
+  shell: >
+    echo -n $HOME
+  register: echo_home
+
+- name: Fetch overcloud node address
+  delegate_to: undercloud_host
+  shell: >
+    cat {{ echo_home.stdout }}/overcloudrc | grep {{ item.rc_param }} |
+    sed -e 's/export.*=\(.*\)/\1/' | sed -e 's/\s*//'g
+  register: rcdata
+  with_items:
+    - rc_param: OS_AUTH_URL
+      cfg_param: openstack_auth_url
+    - rc_param: OS_USERNAME
+      cfg_param: openstack_username
+    - rc_param: OS_PASSWORD
+      cfg_param: openstack_password
+    - rc_param: OS_TENANT_NAME
+      cfg_param: openstack_tenant_name
+
+- name: Set facts from result data
+  set_fact: {'{{ item.item.cfg_param }}': '{{ item.stdout }}'}
+  with_items:
+    - '{{ rcdata.results }}'
+
+- name: Update client configuration on monitoring host
+  template:
+    src: 'templates/client.json.j2'
+    dest: '{{ sensu_config_path }}/client.json'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+  notify:
+    - restart sensu client service
