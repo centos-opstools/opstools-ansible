@@ -1,6 +1,6 @@
 ---
 - name: Install prerequisites on all hosts
-  hosts: all
+  hosts: all:!undercloud_host
   tags:
     - prereqs
   roles:
@@ -72,7 +72,7 @@
     - uchiwa/proxy
 
 - name: Create firewall rules
-  hosts: all
+  hosts: all:!undercloud_host
   tags:
     - firewall
   roles:
