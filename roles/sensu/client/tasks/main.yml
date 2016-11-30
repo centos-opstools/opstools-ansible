@@ -27,6 +27,17 @@
   notify:
     - restart sensu client services
 
+# Copied the HA Proxy check script
+- name: Copy the ha proxy check script
+  copy:
+    src: sensu-haproxy-check.py
+    dest: '{{ sensu_plugin_path }}/sensu-haproxy-check.py'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+    mode: 0740
+  notify:
+    - restart sensu client services
+
 - name: Ensure sensu-client is started and enabled at boot
   service:
     name: '{{ item }}'
