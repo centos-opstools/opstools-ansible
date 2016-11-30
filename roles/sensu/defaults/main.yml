@@ -14,6 +14,9 @@ sensu_client_service_name: sensu-client
 # Path to Sensu configuration directory.
 sensu_config_path: /etc/sensu/conf.d
 
+# Path to Sensu plugin directory
+sensu_plugin_path: /etc/sensu/plugins
+
 # Path to Sensu log directory.
 sensu_log_path: /var/log/sensu
 

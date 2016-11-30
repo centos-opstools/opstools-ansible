@@ -14,6 +14,13 @@
       "password": "{{ openstack_password }}",
       "tenant_name": "{{ openstack_tenant_name }}",
       "username": "{{ openstack_username }}"
+    },
+    "haproxy": {
+     "auth": "{{ haproxy_data.stdout_lines[1] }}",
+     "uristats": "{{ haproxy_data.stdout_lines[0] }}"
+    },
+    "sensu":{
+     "api": "http://{{ sensu_api_server }}:{{ sensu_api_port }}"
     }
   }
 }
