@@ -27,6 +27,24 @@
   notify:
     - restart sensu client services
 
+# Ensure that curl is installed
+- name: Ensure repoquery command is available
+  package:
+    name: curl
+    state: present
+  when: manage_packages|default(false)
+
+# Copied the HA Proxy check script
+- name: Copy the ha proxy check script
+  copy:
+    src: sensu-haproxy-check.sh
+    dest: '{{ sensu_plugin_path }}/sensu-haproxy-check.sh'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+    mode: 0740
+  notify:
+    - restart sensu client services
+
 - name: Ensure sensu-client is started and enabled at boot
   service:
     name: '{{ item }}'

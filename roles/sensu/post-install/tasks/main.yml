@@ -11,7 +11,7 @@
   delegate_to: undercloud_host
   shell: >
     source {{ echo_home.stdout }}/stackrc;
-    nova list | grep 'ctlplane=' | awk -F'|' '{ print $7 }' | sed -e 's/\s*//'g | sed -e 's/ctlplane=//' | head -n1
+    nova list | grep 'ctlplane=' | grep 'controller' | awk -F'|' '{ print $7 }' | sed -e 's/\s*//'g | sed -e 's/ctlplane=//' | head -n1
   register: nova_list
 
 - name: Gather configuration data on overcloud node
@@ -26,6 +26,14 @@
     - password
     - region
     - auth_url
+
+- name: Get the HA Proxy data on the overcloud node
+  delegate_to: undercloud_host
+  shell: >
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null heat-admin@{{ nova_list.stdout }} \
+    "awk 'BEGIN {PRINT=0;}{if( \$2 == \"haproxy.stats\") {PRINT=1;} else if ( PRINT==1 ) {if (\$1 == \"bind\") URI=\$2; if (\$1 == \"mode\") MODE=\$2;if (\$1 == \"stats\" && \$2 == \"auth\") USER=\$3; if (\$1 == \"listen\" ) { exit }} }END{ print MODE\"://\"URI\"\n\"USER}' /etc/haproxy/haproxy.cfg"
+  register: haproxy_data
+
 # yamllint enable rule:line-length
 
 - name: Set facts from result data
