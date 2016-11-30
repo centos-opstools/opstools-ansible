@@ -27,6 +27,7 @@
     - api
     - redis
     - sensu-checks
+    - sensu-haproxy-check
   notify:
     - restart sensu server services
 

@@ -1,0 +1,12 @@
+{
+  "checks": {
+    "execute_haproxy_check": {
+      "command": "sensu-haproxy-check.sh :::haproxy.auth::: :::haproxy.uristats::: :::sensu.api:::",
+      "subscribers": [
+        "{{ sensu_client_subscription  }}"
+      ],
+      "interval": 60
+    }
+  }
+}
+
