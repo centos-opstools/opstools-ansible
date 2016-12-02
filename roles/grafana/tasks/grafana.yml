@@ -14,13 +14,23 @@
 - name: Configure grafana server section
   ini_file:
     dest: '{{ grafana_config_file }}'
-    section: server
+    section: '{{ item.section }}'
     option: '{{ item.option }}'
     value: '{{ item.value }}'
     backup: yes
   with_items:
-    - option: 'http_port'
+    - section: server
+      option: 'http_port'
       value: '{{ grafana_port }}'
+    - section: server
+      option: 'root_url'
+      value: 'http://{{ grafana_server_bind}}{{grafana_path}}'
+    - section: security
+      option: 'admin_user'
+      value: '{{grafana_username}}'
+    - section: security
+      option: 'admin_password'
+      value: '{{grafana_password}}'
   notify: restart grafana-server
 
 - name: Enable grafana
@@ -39,3 +49,4 @@
           'protocol': 'tcp'
         }
       ]
+
