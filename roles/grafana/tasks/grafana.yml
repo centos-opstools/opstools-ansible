@@ -21,6 +21,12 @@
   with_items:
     - option: 'http_port'
       value: '{{ grafana_port }}'
+    - option: 'root_url'
+      value: 'http://{{ grafana_server_bind}}{{grafana_path}}'
+    - option: 'admin_user'
+      value: '{{grafana_username}}'
+    - option: 'admin_password'
+      value: '{{grafana_password}}'
   notify: restart grafana-server
 
 - name: Enable grafana
@@ -39,3 +45,21 @@
           'protocol': 'tcp'
         }
       ]
+
+- name: wait for grafana to be started
+  wait_for:
+    host: '{{ grafana_server_bind }}'
+    port: '{{ grafana_port }}'
+    delay: 5
+    timeout: 30
+
+- name: create data source for grafana server
+  uri:
+    method: POST
+    header: 'Content-Type: application/json'
+    body: "{{ lookup('template', 'data_source.json.j2') |to_json }}"
+    body_format: json
+    url: https://{{grafana_server_address}}{{grafana_path}}/api/datasources
+    username: '{{ grafana_username }}'
+    password: '{{ grafana_password }}'
+  connection: local

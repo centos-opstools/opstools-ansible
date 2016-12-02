@@ -1,0 +1,15 @@
+---
+- name: Install grafana configuration for Apache
+  template:
+    src: grafana.conf.j2
+    dest: '{{ grafana_httpd_conf }}'
+  notify: restart httpd
+
+- name: Configure default redirect
+  copy:
+    content: |
+      RewriteRule ^/$ {{ grafana_path }} [R=302]
+    dest: '{{ opstools_default_redirect_file }}'
+    force: false
+  notify: restart httpd
+
