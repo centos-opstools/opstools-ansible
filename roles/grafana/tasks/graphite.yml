@@ -27,14 +27,14 @@
 
 - name: Tweak httpd config
   replace:
-    dest: '{{ httpd_config_parts_dir }}/15-graphite-web.conf'
+    dest: '{{ httpd_config_parts_dir }}/graphite-web.conf'
     regexp: "Require local$"
     replace: "Require all granted"
   notify: restart httpd
 
 - name: Listen on port 8080
   lineinfile:
-    dest: '{{ httpd_config_parts_dir }}/15-graphite-web.conf'
+    dest: '{{ httpd_config_parts_dir }}/graphite-web.conf'
     create: yes
     state: present
     insertafter: "# Graphite Web Basic mod_wsgi vhost"
@@ -42,7 +42,7 @@
 
 - name: Change port on graphite conf
   replace:
-    dest: '{{ httpd_config_parts_dir }}/15-graphite-web.conf'
+    dest: '{{ httpd_config_parts_dir }}/graphite-web.conf'
     regexp: '^\<VirtualHost \*:80\>'
     replace: "<VirtualHost *:{{ graphite_listen_port }}>"
   notify: restart httpd
