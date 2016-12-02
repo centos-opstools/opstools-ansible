@@ -1,0 +1,10 @@
+
+---
+# URL for backend Grafana service.
+grafana_proxy_dest: 'http://{{ grafana_bind }}:{{ grafana_port }}'
+
+# Path to the Apache configuration snippet for the Grafana proxy.
+grafana_httpd_conf: '{{ opstools_apache_config_dir }}/grafana.conf'
+
+# URL path at which to host Grafana.
+grafana_path: /grafana

@@ -1,0 +1,35 @@
+---
+- name: Install grafana configuration for Apache
+  template:
+    src: grafana.conf.j2
+    dest: '{{ grafana_httpd_conf }}'
+  notify: restart httpd
+
+- name: Configure default redirect
+  copy:
+    content: |
+      RewriteRule ^/$ {{ grafana_path }} [R=302]
+    dest: '{{ opstools_default_redirect_file }}'
+    force: false
+  notify: restart httpd
+
+- name: wait for grafana to be started
+  wait_for:
+    host: '{{ grafana_server_bind }}'
+    port: '{{ grafana_port }}'
+    delay: 5
+    timeout: 30
+  ignore_errors: yes
+
+- name: create data source for grafana server
+  uri:
+    method: POST
+    header: 'Content-Type: application/json'
+    body: "{{ lookup('template', 'data_source.json.j2') |to_json }}"
+    body_format: json
+    url: https://{{grafana_username}}:{{grafana_password}}@{{grafana_server_address}}{{grafana_path}}/api/datasources
+    username: '{{ grafana_username }}'
+    password: '{{ grafana_password }}'
+    validate_certs: no
+    force_basic_auth: yes
+  connection: local
