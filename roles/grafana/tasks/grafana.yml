@@ -21,6 +21,8 @@
   with_items:
     - option: 'http_port'
       value: '{{ grafana_port }}'
+    - option: 'root_url'
+      value: 'http://{{ grafana_server_bind}}{{grafana_path}}'
   notify: restart grafana-server
 
 - name: Enable grafana

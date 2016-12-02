@@ -1,0 +1,6 @@
+RewriteRule ^({{ grafana_path }})$ https://%{HTTP_HOST}$1/ [R=301]
+
+<Location {{ grafana_path }}>
+    ProxyPass http://{{ grafana_server_address }}:{{ grafana_port }}
+    ProxyPassReverse http://{{ grafana_server_address }}:{{ grafana_port }}
+</Location>
