@@ -82,3 +82,9 @@
   hosts: collectd_hosts
   roles:
     - collectd
+
+- name: Install Grafana
+  hosts: grafana_hosts
+  roles:
+      - grafana
+      - grafana/proxy
