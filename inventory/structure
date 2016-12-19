@@ -31,6 +31,8 @@
 [uchiwa_hosts]
 [fluent_hosts]
 [fluent_clients]
+[fluent_http_input_hosts]
+[fluent_ovirt_processing_hosts]
 [elastic_hosts]
 [kibana_hosts]
 [grafana_hosts]
@@ -54,6 +56,12 @@ am_hosts
 logging_hosts
 
 [fluent_clients:children]
+ovirt_nodes
+
+[fluent_http_input_hosts:children]
+ovirt_nodes
+
+[fluent_ovirt_processing_hosts:children]
 ovirt_nodes
 
 [elastic_hosts:children]

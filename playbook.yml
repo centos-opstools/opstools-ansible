@@ -40,6 +40,22 @@
   roles:
     - fluentd/client
 
+- name: Install Fluentd http input
+  hosts: fluent_http_input_hosts
+  tags:
+    - logging
+    - fluentd
+  roles:
+    - fluentd/http_input
+
+- name: Install Fluentd oVirt processing
+  hosts: fluent_ovirt_processing_hosts
+  tags:
+    - logging
+    - fluentd
+  roles:
+    - fluentd/ovirt_processing
+
 - name: Install Kibana
   hosts: kibana_hosts
   tags:
