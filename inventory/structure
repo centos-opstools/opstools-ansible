@@ -26,6 +26,8 @@
 [sensu_hosts]
 [uchiwa_hosts]
 [fluent_hosts]
+[fluent_clients]
+[fluent_http_input_hosts]
 [elastic_hosts]
 [kibana_hosts]
 [grafana_hosts]
@@ -47,6 +49,10 @@ am_hosts
 
 [fluent_hosts:children]
 logging_hosts
+
+[fluent_clients:children]
+
+[fluent_http_input_hosts:children]
 
 [elastic_hosts:children]
 logging_hosts

@@ -26,6 +26,22 @@
     - fluentd/syslog
     - fluentd/elasticsearch
 
+- name: Install Fluentd client
+  hosts: fluent_clients
+  tags:
+    - logging
+    - fluentd
+  roles:
+    - fluentd/client
+
+- name: Install Fluentd http input
+  hosts: fluent_http_input_hosts
+  tags:
+    - logging
+    - fluentd
+  roles:
+    - fluentd/http_input
+
 - name: Install Kibana
   hosts: kibana_hosts
   tags:
