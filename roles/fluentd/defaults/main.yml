@@ -15,13 +15,16 @@ fluentd_config_file: '{{ fluentd_config_dir }}/fluent.conf'
 fluentd_config_parts_dir: '{{ fluentd_config_dir }}/config.d'
 
 # User that will own Fluentd config files.
-fluentd_owner: fluentd
+fluentd_owner: root
 
 # Group that will own Fluentd config files.
 fluentd_group: fluentd
 
 # File mode for Fluentd configuration files.
-fluentd_config_mode: 0644
+fluentd_config_mode: 0640
+
+# File mode for Fluentd configuration directories.
+fluentd_config_dir_mode: 0750
 
 # A list of Fluentd plugins to install along with Fluentd.
 fluentd_plugins:
