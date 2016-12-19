@@ -19,10 +19,32 @@
     dest: '{{ collectd_config_file }}'
   notify: restart collectd
 
+- name: Place read_statsd-config
+  template:
+    src: 10-read-statsd.conf.j2
+    dest: /etc/collectd.d/10-read-statsd.conf
+  when: collectd_read_statsd|default(false)
+  notify: restart collectd
+
+- name: Place builtins-conf-for-ovirt-config
+  template:
+    src: 20-builtins-conf-for-ovirt.conf.j2
+    dest: /etc/collectd.d/20-builtins-conf-for-ovirt.conf
+  when: collectd_configure_builtins_for_ovirt|default(false)
+  notify: restart collectd
+
 - name: Place write_graphite-config
   template:
     src: 10-write-graphite.conf.j2
     dest: /etc/collectd.d/10-write_graphite.conf
+  when: collectd_write_to_graphite|default(false)
+  notify: restart collectd
+
+- name: Place write_http-config
+  template:
+    src: 10-write-http.conf.j2
+    dest: /etc/collectd.d/10-write_http.conf
+  when: collectd_write_to_fluentd|default(false)
   notify: restart collectd
 
 - name: Enable collectd

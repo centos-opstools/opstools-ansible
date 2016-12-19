@@ -9,6 +9,24 @@ collectd_config_file: /etc/collectd.conf
 graphite_port: 2003
 graphite_host: localhost
 
+collectd_write_to_graphite: true
+
+collectd_read_statsd: false
+collectd_read_statsd_port: 8125
+collectd_read_statsd_bind_host: localhost
+
+collectd_configure_builtins_for_ovirt: false
+
+collectd_write_to_fluentd: false
+
+collectd_write_to_fluentd_host: localhost
+collectd_write_to_fluentd_port: 9880
+collectd_write_to_fluentd_path: ""
+collectd_write_to_fluentd_url: "http://{{ collectd_write_to_fluentd_host }}:{{ collectd_write_to_fluentd_port }}/{{ collectd_write_to_fluentd_path }}"
+
 collectd_plugins:
   - collectd-sensors
   - collectd-virt
+  - collectd-disk
+  - collectd-netlink
+  - collectd-write_http
