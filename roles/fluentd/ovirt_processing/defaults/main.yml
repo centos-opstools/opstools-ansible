@@ -1,0 +1,5 @@
+---
+# A list of plugins needed for oVirt processing.
+fluentd_ovirt_processing_plugins:
+  - rubygem-fluent-plugin-rewrite-tag-filter
+
