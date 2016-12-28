@@ -88,7 +88,7 @@ options.
 Once you have your inventory and configuration in place, you can run
 the playbook like this:
 
-    ansible-playbook playbook.yml -i inventory -e @config.yml
+    ansible-playbook playbook.yml -e @config.yml
 
 # Roles
 
