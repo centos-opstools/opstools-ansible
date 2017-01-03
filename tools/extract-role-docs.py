@@ -3,9 +3,9 @@ from parser import HashCommentParser
 import argparse
 import os
 import sys
-import textwrap
 import yaml
 import json
+
 
 def generate_docs(roles, output=sys.stdout):
     for dirpath, dirnames, filenames in os.walk(roles):
@@ -51,17 +51,20 @@ def generate_docs(roles, output=sys.stdout):
 
         output.write('\n')
 
+
 def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument('--roles', '-r', default='roles')
     p.add_argument('--output', '-o', default='-')
     return p.parse_args()
 
+
 def main():
     args = parse_args()
 
     with sys.stdout if args.output == '-' else open(args.output, 'w') as fd:
         generate_docs(args.roles, output=fd)
+
 
 if __name__ == '__main__':
     sys.exit(main())
