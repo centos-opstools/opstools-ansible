@@ -57,3 +57,5 @@ sensu_client_name: '{{ ansible_fqdn }}'
 
 # Address for client service displayed in Uchiwa
 sensu_client_address: '{{ ansible_default_ipv4.address }}'
+
+oschecks_package_name: osops-tools-monitoring-oschecks

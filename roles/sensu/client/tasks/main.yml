@@ -35,3 +35,9 @@
   with_items:
     - '{{ sensu_client_service_name }}'
   when: manage_services|default(false)
+
+- name: Install oschecks package
+  package:
+    name: '{{ oschecks_package_name }}'
+    state: present
+  when: manage_packages|default(false)
