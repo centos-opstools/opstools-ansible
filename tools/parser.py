@@ -1,6 +1,8 @@
 # This class is responsible for transforming a file containing a mix
 # of code and documentation into a set of `(code, documentation)`
 # pairs.
+
+
 class HashCommentParser(object):
     def __init__(self, fd):
         self.fd = fd
