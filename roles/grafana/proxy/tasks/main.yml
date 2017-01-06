@@ -28,7 +28,9 @@
     header: 'Content-Type: application/json'
     body: "{{ lookup('template', 'data_source.json.j2') |to_json }}"
     body_format: json
-    url: https://{{grafana_username}}:{{grafana_password}}@{{grafana_server_address}}{{grafana_path}}/api/datasources
+    url: >
+      https://{{grafana_username}}:{{grafana_password}}@
+      {{grafana_server_address}}{{grafana_path}}/api/datasources
     username: '{{ grafana_username }}'
     password: '{{ grafana_password }}'
     validate_certs: no

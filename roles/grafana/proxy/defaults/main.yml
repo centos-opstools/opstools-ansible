@@ -1,4 +1,3 @@
-
 ---
 # URL for backend Grafana service.
 grafana_proxy_dest: 'http://{{ grafana_bind }}:{{ grafana_port }}'
