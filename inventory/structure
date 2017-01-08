@@ -6,13 +6,17 @@
 # set up typical groups of services.
 
 [am_hosts]
-# Availability monitoring
+# Availability monitoring servers
 
 [pm_hosts]
-# Performance monitoring
+# Performance monitoring servers
 
 [logging_hosts]
-# Logging
+# Logging servers
+
+[ovirt_nodes]
+# clients, sending metrics/logs to servers
+# Other possible names for this: ovirt_hosts, ovirt_hypervisors . TODO - pick a good name
 
 # ------------------------------------------
 # Low-level hostgroups
@@ -26,6 +30,7 @@
 [sensu_hosts]
 [uchiwa_hosts]
 [fluent_hosts]
+[fluent_clients]
 [elastic_hosts]
 [kibana_hosts]
 [grafana_hosts]
@@ -48,6 +53,9 @@ am_hosts
 [fluent_hosts:children]
 logging_hosts
 
+[fluent_clients:children]
+ovirt_nodes
+
 [elastic_hosts:children]
 logging_hosts
 
@@ -59,6 +67,7 @@ pm_hosts
 
 [collectd_hosts:children]
 pm_hosts
+ovirt_nodes
 
 [chrony_hosts:children]
 pm_hosts
