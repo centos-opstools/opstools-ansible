@@ -1,0 +1,15 @@
+[ovirt_nodes]
+
+[ovirt_nodes:children]
+ovirt_up_metrics_hosts
+
+[ovirt_nodes:vars]
+ansible_ssh_private_key_file=/etc/pki/ovirt-engine/keys/engine_id_rsa
+collectd_write_to_graphite=False
+fluentd_use_ssl=True
+collectd_write_to_fluentd=True
+manage_packages=False
+manage_repos=False
+collectd_write_to_fluentd_path=ovirt_collectd
+collectd_read_statsd=True
+collectd_configure_builtins_for_ovirt=True
