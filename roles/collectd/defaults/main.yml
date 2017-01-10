@@ -2,6 +2,10 @@
 collectd_package_name: collectd
 collectd_service_name: collectd
 
+# Main collectd config file. We overwrite the rather-large default one
+# with a tiny one only doing Include.
+collectd_config_file: /etc/collectd.conf
+
 graphite_port: 2003
 graphite_host: localhost
 

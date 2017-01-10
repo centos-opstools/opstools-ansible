@@ -13,6 +13,12 @@
   when: manage_packages|default(false)
   notify: restart collectd
 
+- name: Create collectd.conf
+  template:
+    src: collectd.conf
+    dest: '{{ collectd_config_file }}'
+  notify: restart collectd
+
 - name: Place write_graphite-config
   template:
     src: 10-write-graphite.conf.j2
