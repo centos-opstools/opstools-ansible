@@ -7,3 +7,7 @@ grafana_httpd_conf: '{{ opstools_apache_config_dir }}/grafana.conf'
 
 # URL path at which to host Grafana.
 grafana_path: /grafana
+
+# helper for API access
+gauth: 'https://{{grafana_username}}:{{grafana_password}}@'
+gurl: '{{grafana_server_address}}{{grafana_path}}/api/datasources'
