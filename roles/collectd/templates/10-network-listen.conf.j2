@@ -1,0 +1,11 @@
+LoadPlugin network
+
+<Plugin network>
+	<Listen "{{ collectd_listen_address }}" "{{ collectd_listen_port }}">
+		SecurityLevel {{ collectd_securitylevel }}
+
+{% if collectd_securitylevel in ['Sign', 'Encrypt'] %}
+		AuthFile "{{ collectd_auth_file }}"
+{% endif %}
+	</Listen>
+</Plugin>

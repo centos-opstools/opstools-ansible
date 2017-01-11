@@ -1,10 +1,64 @@
 ---
+# name of the collectd package.
 collectd_package_name: collectd
+
+# name of the collectd service.
 collectd_service_name: collectd
 
-graphite_port: 2003
+# a list of additional packages to install (presumably ones that
+# provide collectd plugins).
+collectd_plugin_packages:
+  - collectd-disk
+  - collectd-ipmi
+  - collectd-iptables
+  - collectd-sensors
+
+# additional plugin configuration for collectd.  each key in this
+# dictionary will be used as the base of a filename, and the contents
+# of that file will be the corresponding value.
+collectd_plugin_config: {}
+
+# where collectd configuration snippets are located.
+collectd_config_dir: /etc/collectd.d
+
+# path to the main collectd configuration file
+collectd_config_file: /etc/collectd.conf
+
+# path to the file that will contain collectd network authentication
+# credentials.
+collectd_auth_file: /etc/collectd.auth
+
+# owner of collectd config files and directories
+collectd_config_owner: root
+collectd_config_group: root
+
+# mode for collectd credentials file
+collectd_auth_file_mode: "0600"
+
+# mode for collectd config files
+collectd_config_file_mode: "0600"
+
+# mode for collect config directory
+collectd_config_dir_mode: "0700"
+
+# target address for write_graphite plugin
 graphite_host: localhost
 
-collectd_plugins:
-  - collectd-sensors
-  - collectd-virt
+# target port for write_graphite plugin
+graphite_port: 2003
+
+# address on which collectd should listen for network connections
+collectd_listen_address: 0.0.0.0
+
+# port on which collectd should listen for network connections
+collectd_listen_port: 25826
+
+# This can be one of None, Sign, or Encrypt.
+collectd_securitylevel: None
+collectd_users: []
+
+# if true, remove all configuration snippets from collectd_config_dir
+collectd_purge: true
+
+# if true, replace main collectd.conf with generated config
+collectd_purge_config: true
