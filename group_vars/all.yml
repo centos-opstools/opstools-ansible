@@ -3,3 +3,5 @@ manage_packages: true
 manage_services: true
 manage_repos: true
 yum_repos_d: /etc/yum.repos.d
+
+opstools_ansible_config_dir: /etc/opstools-ansible

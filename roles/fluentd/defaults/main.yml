@@ -41,8 +41,13 @@ fluentd_use_ssl: false
 # Shared secret key for SSL connections.
 fluentd_shared_key:
 
-# Where to find the Fluentd server certificate authority certificate.
+# Where to find the Fluentd server certificate authority certificate
+# on the target.
 fluentd_ca_cert_path: '{{ fluentd_config_dir }}/ca_cert.pem'
+
+# Where to find the Fluentd server certificate authority certificate
+# on the control machine.
+opstools_ansible_fluentd_ca_cert_path: '{{ opstools_ansible_config_dir }}/fluentd_ca_cert.pem'
 
 # Content of an x509 certificate that will be used to identify the
 # server to clients.
