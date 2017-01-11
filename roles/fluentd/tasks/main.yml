@@ -37,6 +37,15 @@
     mode: '{{ fluentd_config_mode }}'
   notify: restart fluentd
 
+- name: Check if local fluentd certificate exists
+  local_action: stat path={{ opstools_ansible_fluentd_ca_cert_path }}
+  register: opstools_ansible_fluentd_ca_cert_path_exists
+
+- name: Read fluentd certificate
+  set_fact:
+    fluentd_ca_cert: "{{ lookup('file', opstools_ansible_fluentd_ca_cert_path) }}"
+  when: opstools_ansible_fluentd_ca_cert_path_exists|success
+
 - name: Install fluentd certificate
   copy:
     content: '{{ fluentd_ca_cert }}'
