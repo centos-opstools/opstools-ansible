@@ -5,26 +5,66 @@
     state: present
   when: manage_packages|default(false)
 
-- name: Install collectd plugins
+- name: Install collectd plugin packages
   package:
     name: '{{ item }}'
     state: present
-  with_items: '{{ collectd_plugins }}'
+  with_items: '{{ collectd_plugin_packages }}'
   when: manage_packages|default(false)
   notify: restart collectd
 
-- name: Place write_graphite-config
+- name: Purge collectd configuration file
+  file:
+    path: "{{ collectd_config_file }}"
+    state: absent
+  when: "{{ collectd_purge_config }}"
+
+- name: Ensure collectd configuration file exists
+  template:
+    src: collectd.conf.j2
+    dest: "{{ collectd_config_file }}"
+    owner: "{{ collectd_config_owner }}"
+    group: "{{ collectd_config_group }}"
+    mode: "{{ collectd_config_file_mode }}"
+
+- name: Purge collectd configuration directory
+  file:
+    path: "{{ collectd_config_dir }}/"
+    state: absent
+  when: "{{ collectd_purge }}"
+
+- name: Ensure collectd configuration directory exists
+  file:
+    path: "{{ collectd_config_dir }}"
+    state: directory
+    owner: "{{ collectd_config_owner }}"
+    group: "{{ collectd_config_group }}"
+    mode: "{{ collectd_config_dir_mode }}"
+
+- name: Generate write_graphite configuration
   template:
     src: 10-write-graphite.conf.j2
-    dest: /etc/collectd.d/10-write_graphite.conf
+    dest: "{{ collectd_config_dir }}/10-write_graphite.conf"
   notify: restart collectd
 
-- name: Enable collectd
-  service:
-    name: '{{ collectd_service_name }}'
-    state: started
-    enabled: yes
-  when: manage_services|default(false)
+- name: Generate collectd network server configuration
+  template:
+    src: 10-network-listen.conf.j2
+    dest: "{{ collectd_config_dir }}/10-network-listen.conf"
+
+- name: Generate collectd plugin configuration
+  copy:
+    dest: "{{ collectd_config_dir }}/{{item.key}}.conf"
+    content: "{{ item.value }}"
+  with_dict: "{{ collectd_plugin_config }}"
+
+- name: Generate collectd credentials file
+  template:
+    src: collectd.auth.j2
+    dest: "{{ collectd_auth_file }}"
+    owner: "{{ collectd_config_owner }}"
+    group: "{{ collectd_config_group }}"
+    mode: "{{ collectd_auth_file_mode }}"
 
 - name: Set collectd_tcp_network_connect
   seboolean:
@@ -32,3 +72,20 @@
     state: yes
     persistent: yes
   when: '"{{ ansible_selinux.mode }}" in ["enforcing", "permissive"]'
+
+- name: Enable collectd service
+  service:
+    name: '{{ collectd_service_name }}'
+    state: started
+    enabled: yes
+  when: manage_services|default(false)
+
+- name: Register firewall rule for collectd
+  set_fact:
+    firewall_data: >
+      {{ firewall_data + [
+        {
+          'port': "{{ collectd_listen_port }}",
+          'protocol': 'tcp'
+        }
+      ] }}
