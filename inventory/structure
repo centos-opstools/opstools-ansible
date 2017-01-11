@@ -59,3 +59,8 @@ pm_hosts
 
 [collectd_hosts:children]
 pm_hosts
+
+[chrony_hosts:children]
+pm_hosts
+logging_hosts
+am_hosts

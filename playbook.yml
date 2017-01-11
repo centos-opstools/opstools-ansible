@@ -6,6 +6,12 @@
   roles:
     - prereqs
     - repos
+
+- name: Install chrony
+  hosts: chrony_hosts
+  tags:
+    - prereqs
+  roles:
     - chrony
 
 - name: Install ElasticSearch
