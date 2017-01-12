@@ -3,17 +3,18 @@
   package:
     name: '{{ chrony_package_name }}'
     state: present
-  when: manage_packages|default(false)
+  when: manage_packages|default(false) and configure_chrony|default(false)
 
 - name: Generate chrony configuration
   template:
     src: chrony.conf.j2
     dest: '{{ chrony_config_file }}'
   notify: Restart chronyd
+  when: configure_chrony|default(false)
 
 - name: Activate chrony service
   service:
     name: '{{ chrony_service_name }}'
     state: running
     enabled: true
-  when: manage_services|default(false)
+  when: manage_services|default(false) and configure_chrony|default(false)

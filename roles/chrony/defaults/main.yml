@@ -5,6 +5,9 @@ chrony_package_name: chrony
 # The name of the Chrony service.
 chrony_service_name: chronyd
 
+# Whether or not to configure Chrony.
+configure_chrony: true
+
 # Path to the Chrony configuration file.
 chrony_config_file: /etc/chrony.conf
 
