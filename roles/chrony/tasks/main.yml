@@ -10,6 +10,7 @@
     src: chrony.conf.j2
     dest: '{{ chrony_config_file }}'
   notify: Restart chronyd
+  when: configure_chrony|default(false)
 
 - name: Activate chrony service
   service:
