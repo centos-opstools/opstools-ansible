@@ -1,5 +1,4 @@
 ansible-lint
 yamllint
 flake8
-hacking
 pep8
