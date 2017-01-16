@@ -83,6 +83,21 @@
   roles:
     - collectd
 
+- name: Install CollectD write_graphite plugin
+  hosts: collectd_write_graphite_hosts
+  roles:
+    - collectd/write_graphite
+
+- name: Install CollectD write_http plugin
+  hosts: collectd_write_http_hosts
+  roles:
+    - collectd/write_http
+
+- name: Install CollectD read_statsd plugin
+  hosts: collectd_read_statsd_hosts
+  roles:
+    - collectd/read_statsd
+
 - name: Install Grafana
   hosts: grafana_hosts
   roles:
