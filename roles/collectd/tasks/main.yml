@@ -13,12 +13,6 @@
   when: manage_packages|default(false)
   notify: restart collectd
 
-- name: Place write_graphite-config
-  template:
-    src: 10-write-graphite.conf.j2
-    dest: /etc/collectd.d/10-write_graphite.conf
-  notify: restart collectd
-
 - name: Enable collectd
   service:
     name: '{{ collectd_service_name }}'
