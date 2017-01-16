@@ -1,5 +1,8 @@
 ansible-lint
-yamllint
+enum34
 flake8
+hacking
 pep8
 setuptools>=11.3
+six
+yamllint
