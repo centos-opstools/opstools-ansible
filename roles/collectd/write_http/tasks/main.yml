@@ -1,0 +1,7 @@
+---
+- name: Place write_http-config
+  template:
+    src: 10-write-http.conf.j2
+    dest: /etc/collectd.d/10-write_http.conf
+  when: collectd_write_to_fluentd|default(false)
+  notify: restart collectd

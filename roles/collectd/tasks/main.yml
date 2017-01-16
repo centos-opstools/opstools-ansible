@@ -5,18 +5,32 @@
     state: present
   when: manage_packages|default(false)
 
+- name: Init list of collectd plugins
+  set_fact:
+    collectd_all_plugins: >
+      []
+
+- name: Collect collectd plugins to install
+  set_fact:
+    collectd_all_plugins: >
+      {{ collectd_all_plugins }} + [
+        plugin for plugin in item
+      ]
+  with_items:
+    {{
+      [
+        hostvars[inventory_hostname][var]
+        for var in hostvars[inventory_hostname]
+        where var.startswith('collectd_plugins')
+      ]
+    }}
+
 - name: Install collectd plugins
   package:
     name: '{{ item }}'
     state: present
-  with_items: '{{ collectd_plugins }}'
+  with_items: '{{ collectd_all_plugins }}'
   when: manage_packages|default(false)
-  notify: restart collectd
-
-- name: Place write_graphite-config
-  template:
-    src: 10-write-graphite.conf.j2
-    dest: /etc/collectd.d/10-write_graphite.conf
   notify: restart collectd
 
 - name: Enable collectd
