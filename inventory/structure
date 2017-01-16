@@ -30,6 +30,9 @@
 [kibana_hosts]
 [grafana_hosts]
 [collectd_hosts]
+[collectd_write_graphite_hosts]
+[collectd_write_http_hosts]
+[collectd_read_statsd_hosts]
 
 # ------------------------------------------
 
@@ -59,3 +62,10 @@ pm_hosts
 
 [collectd_hosts:children]
 pm_hosts
+
+[collectd_write_graphite_hosts:children]
+pm_hosts
+
+[collectd_write_http_hosts:children]
+
+[collectd_read_statsd_hosts:children]
