@@ -82,6 +82,7 @@
   hosts: collectd_hosts
   roles:
     - collectd
+    - collectd/write_graphite
 
 - name: Install Grafana
   hosts: grafana_hosts
