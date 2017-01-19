@@ -1,10 +1,15 @@
 {
-   "rabbitmq": {
-     "port": {{ sensu_rabbitmq_port }},
-     "host": "{{ sensu_rabbitmq_server }}",
-     "user": "{{ sensu_rabbitmq_user }}",
-     "password": "{{ sensu_rabbitmq_password }}",
-     "vhost": "{{ sensu_rabbitmq_vhost }}"
-   }
- }
-
+  "rabbitmq": {
+{% if sensu_rabbitmq_with_ssl %}
+    "ssl": {
+      "cert_chain_file": "{{ sensu_rabbitmq_ssl_certs_path }}/cert.pem",
+      "private_key_file": "{{ sensu_rabbitmq_ssl_certs_path }}/key.pem"
+    },
+{% endif %}
+    "port": {% if sensu_rabbitmq_with_ssl %}{{ sensu_rabbitmq_ssl_port}}{% else %}{{ sensu_rabbitmq_port }}{% endif %},
+    "host": "{{ sensu_rabbitmq_server }}",
+    "user": "{{ sensu_rabbitmq_user }}",
+    "password": "{{ sensu_rabbitmq_password }}",
+    "vhost": "{{ sensu_rabbitmq_vhost }}"
+  }
+}

@@ -41,3 +41,29 @@
     group: '{{ sensu_group }}'
   with_items:
     - rabbitmq
+
+- block:
+    - name: Ensure SSL directory for Sensu exists
+      file:
+        path: '{{ sensu_rabbitmq_ssl_certs_path }}'
+        owner: '{{ sensu_owner }}'
+        group: '{{ sensu_group }}'
+        mode: '0700'
+        state: directory
+
+    - name: Install sensu client key
+      copy:
+        content: '{{ sensu_rabbitmq_ssl_key }}'
+        dest: '{{ sensu_rabbitmq_ssl_certs_path }}/key.pem'
+        owner: '{{ sensu_owner }}'
+        group: '{{ sensu_group }}'
+        mode: '0400'
+
+    - name: Install sensu client certificate
+      copy:
+        content: '{{ sensu_rabbitmq_ssl_cert }}'
+        dest: '{{ sensu_rabbitmq_ssl_certs_path }}/cert.pem'
+        owner: '{{ sensu_owner }}'
+        group: '{{ sensu_group }}'
+        mode: '0400'
+  when: sensu_rabbitmq_with_ssl
