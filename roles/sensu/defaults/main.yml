@@ -32,6 +32,9 @@ sensu_rabbitmq_server: localhost
 # Port of the RabbitMQ server.
 sensu_rabbitmq_port: 5672
 
+# Port of the RabbitMQ server for SSL communication.
+sensu_rabbitmq_ssl_port: 5671
+
 # Authenticate to RabbitMQ server as this user.
 sensu_rabbitmq_user: sensu
 
