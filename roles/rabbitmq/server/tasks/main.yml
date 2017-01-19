@@ -14,6 +14,40 @@
     mode: '{{ rabbitmq_config_mode }}'
   notify: restart rabbitmq
 
+- block:
+    - name: Ensure SSL directory for RabbitMQ exists
+      file:
+        path: '{{ rabbitmq_ssl_certs_path }}'
+        owner: '{{ rabbitmq_config_owner }}'
+        group: '{{ rabbitmq_config_group }}'
+        mode: '0700'
+        state: directory
+
+    - name: Install rabbitmq server key
+      copy:
+        content: '{{ rabbitmq_ssl_key }}'
+        dest: '{{ rabbitmq_ssl_certs_path }}/key.pem'
+        owner: '{{ rabbitmq_config_owner }}'
+        group: '{{ rabbitmq_config_group }}'
+        mode: '0400'
+
+    - name: Install rabbitmq server certificate
+      copy:
+        content: '{{ rabbitmq_ssl_cert }}'
+        dest: '{{ rabbitmq_ssl_certs_path }}/cert.pem'
+        owner: '{{ rabbitmq_config_owner }}'
+        group: '{{ rabbitmq_config_group }}'
+        mode: '0400'
+
+    - name: Install rabbitmq CA certificate
+      copy:
+        content: '{{ rabbitmq_ssl_cacert }}'
+        dest: '{{ rabbitmq_ssl_certs_path }}/cacert.pem'
+        owner: '{{ rabbitmq_config_owner }}'
+        group: '{{ rabbitmq_config_group }}'
+        mode: '0400'
+  when: rabbitmq_use_ssl
+
 # Include the rabbitmq plugin to be able to create a vhost
 - name: Add plugin to manage rabbitmq
   rabbitmq_plugin:
@@ -38,8 +72,10 @@
     firewall_data: >
       {{ firewall_data }} + [
         {
-          'port': "{{ item.port|default(rabbitmq_port) }}",
+          'port': "{{ item }}",
           'protocol': 'tcp'
         }
       ]
-  with_items: '{{ rabbitmq_interface }}'
+  with_items:
+    - '{{ rabbitmq_port }}'
+    - '{{ rabbitmq_ssl_port }}'
