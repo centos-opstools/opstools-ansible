@@ -1,0 +1,13 @@
+---
+
+# Enable SSL connections
+sensu_rabbitmq_with_ssl: false
+
+# Content of SSL certificate to be created on Sensu client node.
+sensu_rabbitmq_ssl_cert:
+
+# Content of SSL key to be created on Sensu client node.
+sensu_rabbitmq_ssl_key:
+
+# Path to where certificates/key should be created on Sensu client node.
+sensu_rabbitmq_ssl_certs_path: '/etc/sensu/ssl'
