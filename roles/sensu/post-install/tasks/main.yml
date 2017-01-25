@@ -21,6 +21,10 @@
   with_items:
     - '{{ rcdata.results }}'
 
+- name: Create the default Objects needed by Sensu
+  delegate_to: undercloud_host
+  script: post-script.sh
+
 - name: Update client configuration on monitoring host
   template:
     src: 'templates/client.json.j2'
