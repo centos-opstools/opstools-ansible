@@ -15,7 +15,7 @@ fluentd_config_file: '{{ fluentd_config_dir }}/fluent.conf'
 fluentd_config_parts_dir: '{{ fluentd_config_dir }}/config.d'
 
 # User that will own Fluentd config files.
-fluentd_owner: root
+fluentd_owner: fluentd
 
 # Group that will own Fluentd config files.
 fluentd_group: fluentd
