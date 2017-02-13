@@ -43,7 +43,7 @@
     dest: '{{ fluentd_private_key_path }}'
     owner: '{{ fluentd_owner }}'
     group: '{{ fluentd_group }}'
-    mode: '0400'
+    mode: '0440'
   when: fluentd_use_ssl
 
 - name: Register fluentd firewal ports
