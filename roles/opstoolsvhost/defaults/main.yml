@@ -28,3 +28,6 @@ opstools_apache_https_port: 443
 # to the root URL (`/`).
 opstools_default_redirect_file: >-
   {{ opstools_apache_config_dir }}/default_redirect.conf
+
+# Force all http request to https
+opstools_apache_force_https: true
