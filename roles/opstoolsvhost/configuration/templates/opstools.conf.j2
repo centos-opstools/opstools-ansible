@@ -7,8 +7,10 @@ Listen {{ opstools_apache_https_port }} https
 
 <VirtualHost *:{{ opstools_apache_http_port }}>
   RewriteEngine On
+{% if opstools_apache_force_https %}
   RewriteCond %{HTTPS} off
   RewriteRule (.*) https://%{HTTP_HOST}$1 [R,L]
+{ % endif %}
 </VirtualHost>
 
 <VirtualHost *:{{ opstools_apache_https_port }}>

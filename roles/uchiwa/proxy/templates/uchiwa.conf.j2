@@ -1,4 +1,4 @@
-RewriteRule ^({{ uchiwa_path }})$ https://%{HTTP_HOST}$1/ [R=301]
+RewriteRule ^({{ uchiwa_path }})$ http://%{HTTP_HOST}$1/ [R=301]
 
 <Location {{ uchiwa_path }}>
     ProxyPass http://{{ uchiwa_server_address }}:{{ uchiwa_port }}
