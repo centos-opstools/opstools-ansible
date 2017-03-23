@@ -2,3 +2,4 @@
 dependencies:
   - prereqs/libselinuxpython
   - prereqs/libsemanagepython
+  - prereqs/pythonnetaddr
