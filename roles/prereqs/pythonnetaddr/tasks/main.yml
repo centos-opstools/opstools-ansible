@@ -1,0 +1,6 @@
+---
+- name: Install python-netaddr
+  package:
+    name: '{{ python_netaddr_package_name }}'
+    state: present
+  when: manage_packages|default(false)
