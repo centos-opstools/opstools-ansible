@@ -75,7 +75,7 @@ this:
       -----BEGIN CERTIFICATE-----
       ...
       -----END CERTIFICATE-----
-    fluentd_private_key:
+    fluentd_private_key: |
       -----BEGIN RSA PRIVATE KEY-----
       ...
       -----END RSA PRIVATE KEY-----
