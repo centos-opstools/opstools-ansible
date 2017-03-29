@@ -1,6 +1,4 @@
-## Elasticsearch/server
-
-Install the [Elasticsearch][] engine and all its dependencies.
+## Elasticsearch
 
 [Elasticsearch][] is a search and analytics engine used by Ops Tools
 to collect, index, search, and analyze logs.
