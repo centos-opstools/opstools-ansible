@@ -3,37 +3,45 @@
 # Set this to False if you do not want the playbooks to make changes
 # to the system firewall.
 firewall_manage_rules: true
+
+# Force the use of ipv6
 force_ipv6: false
 
 # A lists of hashes containing data for configuration firewall rules
 # to be created on each host groups
+# { host_group :
+#   [ {
+#       port: PORT
+#       source: SOURCE
+#       protocol:PROTOCOL
+#     },
+#     {
+#       port: PORT
+#       protocol:PROTOCOL
+#     }
+#   ]
+# }
 firewall_data:
   rabbit_hosts:
-   # RabbitMQ for Sensu
     - port: "{{ rabbitmq_port }}"
       protocol: tcp
     - port: "{{ rabbitmq_ssl_port }}"
       protocol: tcp
   redis_hosts:
-    # Redis for Sensu
     - port: "{{ redis_listen_port }}"
       protocol: tcp
   sensu_hosts:
-    # Sensu API for public access
     - port: "{{ sensu_api_port }}"
       protocol: tcp
   uchiwa_hosts:
-    # Uchiwa web UI for public access
     - port: "{{ uchiwa_port }}"
       source: "{{ uchiwa_bind }}"
       protocol: tcp
-    # Apache public access
     - port: "{{ opstools_apache_http_port }}"
       protocol: tcp
     - port: "{{ opstools_apache_https_port }}"
       protocol: tcp
   fluent_hosts:
-    # Fluentd aggregator for public access
     - port: "{{ fluentd_port|default(24224) }}"
       protocol: tcp
     - port: "{{ fluentd_port|default(24224) }}"
@@ -42,17 +50,14 @@ firewall_data:
     - port: "{{ elasticsearch_port }}"
       protocol: tcp
   kibana_hosts:
-    # Kibana server
     - port: "{{ kibana_server_port }}"
       source: "{{ kibana_server_bind }}"
       protocol: tcp
-    # Apache public access
     - port: "{{ opstools_apache_http_port }}"
       protocol: tcp
     - port: "{{ opstools_apache_https_port }}"
       protocol: tcp
   grafana_hosts:
-    # Apache public access
     - port: "{{ opstools_apache_http_port }}"
       protocol: tcp
     - port: "{{ opstools_apache_https_port }}"

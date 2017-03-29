@@ -12,10 +12,6 @@ monitoring.
 [tripleo]:https://wiki.openstack.org/wiki/TripleO
 [opstools-ansible]: https://github.com/larsks/opstools-ansible/
 
-# Requirements
-
-- Ansible 2.2+
-
 # Using opstools-ansible
 
 ## Before you begin
@@ -100,6 +96,9 @@ The following documentation is automatically extracted from the
 `roles` directory in this distribution.
 
 <!-- automatically generated content will be placed here -->
+## Sensu
+
+This role is responsible for installing and configuring the Sensu.
 
 ### Configuration
 
@@ -147,6 +146,10 @@ The following documentation is automatically extracted from the
 
     Port of the RabbitMQ server.
 
+- `sensu_rabbitmq_ssl_port` (default: `5671`)
+
+    Port of the RabbitMQ server for SSL communication.
+
 - `sensu_rabbitmq_user` (default: `"sensu"`)
 
     Authenticate to RabbitMQ server as this user.
@@ -158,6 +161,30 @@ The following documentation is automatically extracted from the
 - `sensu_rabbitmq_vhost` (default: `"/sensu"`)
 
     RabbitMQ vhost for use by Sensu.
+
+- `sensu_api_bind` (default: `"0.0.0.0"`)
+
+    Address on which Sensu should listen for connections.
+
+- `sensu_api_port` (default: `4567`)
+
+    Port on which Sensu API should listen.
+
+- `sensu_api_server` (default: `"localhost"`)
+
+    Address to which clients should connect to contact the Sensu API.
+
+- `sensu_redis_server` (default: `"127.0.0.1"`)
+
+    Address of the Redis server to which Sensu should connect.
+
+- `sensu_redis_port` (default: `"{{ redis_listen_port }}"`)
+
+    Port on which the Redis server listens.
+
+- `sensu_redis_password` (default: `"{{ redis_password }}"`)
+
+    Password for authenticating to Redis.
 
 - `sensu_client_subscription` (default: `"monitoring-node"`)
 
@@ -178,6 +205,52 @@ The following documentation is automatically extracted from the
 - `sensu_client_address` (default: `"{{ ansible_default_ipv4.address }}"`)
 
     Address for client service displayed in Uchiwa
+
+- `sensu_overcloud_checks` (default: `[{"name": "aodh-evaluator", "subscribers": ["overcloud-ceilometer-aodh-evaluator"]}, {"name": "aodh-listener", "subscribers": ["overcloud-ceilometer-aodh-listener"]}, {"name": "aodh-notifier", "subscribers": ["overcloud-ceilometer-aodh-notifier"]}, {"name": "ceilometer-central", "subscribers": ["overcloud-ceilometer-agent-central"]}, {"name": "ceilometer-collector"}, {"name": "ceilometer-compute"}, {"name": "ceilometer-compute", "subscribers": ["overcloud-ceilometer-agent-compute"]}, {"name": "ceilometer-notification", "subscribers": ["overcloud-ceilometer-agent-notification"]}, {"name": "ceilometer-polling"}, {"name": "ceph-df"}, {"name": "ceph-health"}, {"name": "cinder-api"}, {"name": "cinder-scheduler"}, {"name": "cinder-volume"}, {"name": "glance-api"}, {"name": "glance-registry"}, {"name": "haproxy", "service": "haproxy"}, {"name": "heat-api"}, {"name": "heat-api-cfn"}, {"name": "heat-api-cloudwatch"}, {"name": "heat-engine"}, {"name": "memcached", "service": "memcached"}, {"name": "neutron-api", "service": "neutron-server"}, {"name": "neutron-l3-agent", "service": "neutron-l3-agent"}, {"service": "neutron-metadata-agent", "name": "neutron-metadata-agent", "subscribers": ["overcloud-neutron-metadata"]}, {"name": "neutron-ovs-agent", "service": "neutron-openvswitch-agent"}, {"name": "nova-api"}, {"name": "nova-compute"}, {"name": "nova-conductor"}, {"name": "nova-consoleauth"}, {"name": "nova-libvirt", "service": "libvirtd"}, {"name": "nova-novncproxy", "subscribers": ["overcloud-nova-vncproxy"]}, {"name": "nova-scheduler"}, {"name": "pacemaker", "service": "pacemaker"}, {"name": "swift-proxy"}]`)
+
+    A list of Sensu checks that will run on the overcloud hosts. The
+    only required key for each item is `name`. The systemd `service`
+    used in `systemctl` checks defaults to `openstack-<name>`, and the
+    `subscribers` key defaults to `[ "overcloud-<name>" ]`.
+    
+    The following checks are disabled because the corresponding services
+    are run as WSGI applications under Apache.  This means that we don't
+    have a good client-side healthcheck until we make changes either to
+    sensu packaging or our tripleo integration.
+    
+        - name: ceilometer-api
+        - name: keystone-api
+          subscribers:
+            - overcloud-keystone
+            - overcloud-kestone
+        - name: aodh-api
+          subscribers:
+            - overcloud-ceilometer-aodh-api
+    
+
+- `sensu_remote_checks` (default: `[]`)
+
+    A list of sensu checks that will run on an opstools server
+
+- `oscheck_default_username` (default: `"admin"`)
+
+    Username for openstack checks.
+
+- `oscheck_default_password` (default: `"pass"`)
+
+    Password for openstack checks.
+
+- `oscheck_default_project_name` (default: `"admin"`)
+
+    Project name (aka tenant) for openstack checks.
+
+- `oscheck_default_auth_url` (default: `"http://controller:5000/v2.0"`)
+
+    Authentication URL (Keystone server) for openstack checks.
+
+- `oscheck_default_region_name` (default: `"RegionOne"`)
+
+    Region name for openstack checks.
 
 
 
@@ -205,6 +278,25 @@ Sensu package and performs some basic configuration tasks.
 > - Configure rabbitmq on sensu
 
 
+### Configuration
+
+- `sensu_rabbitmq_with_ssl` (default: `false`)
+
+    Enable SSL connections
+
+- `sensu_rabbitmq_ssl_cert` (default: `null`)
+
+    Content of SSL certificate to be created on Sensu client node.
+
+- `sensu_rabbitmq_ssl_key` (default: `null`)
+
+    Content of SSL key to be created on Sensu client node.
+
+- `sensu_rabbitmq_ssl_certs_path` (default: `"/etc/sensu/ssl"`)
+
+    Path to where certificates/key should be created on Sensu client node.
+
+
 ## Sensu/Client
 
 This role is responsible for installing and configuring the Sensu client.
@@ -229,85 +321,7 @@ server.
 > - Configure rabbitmq permissions
 > - Ensure correct ownership on directories
 > - Ensure sensu is started and enabled at boot
-
-
-### Configuration
-
-- `sensu_api_bind` (default: `"0.0.0.0"`)
-
-    Address on which Sensu should listen for connections.
-
-- `sensu_api_port` (default: `4567`)
-
-    Port on which Sensu API should listen.
-
-- `sensu_api_server` (default: `"localhost"`)
-
-    Address to which clients should connect to contact the Sensu API.
-
-- `sensu_redis_server` (default: `"127.0.0.1"`)
-
-    Address of the Redis server to which Sensu should connect.
-
-- `sensu_redis_port` (default: `"{{ redis_listen_port }}"`)
-
-    Port on which the Redis server listens.
-
-- `sensu_redis_password` (default: `"{{ redis_password }}"`)
-
-    Password for authenticating to Redis.
-
-- `sensu_overcloud_checks` (default: `[{"name": "aodh-evaluator", "subscribers": ["overcloud-ceilometer-aodh-evaluator"]}, {"name": "aodh-listener", "subscribers": ["overcloud-ceilometer-aodh-listener"]}, {"name": "aodh-notifier", "subscribers": ["overcloud-ceilometer-aodh-notifier"]}, {"name": "ceilometer-central", "subscribers": ["overcloud-ceilometer-agent-central"]}, {"name": "ceilometer-collector"}, {"name": "ceilometer-compute"}, {"name": "ceilometer-compute", "subscribers": ["overcloud-ceilometer-agent-compute"]}, {"name": "ceilometer-notification", "subscribers": ["overcloud-ceilometer-agent-notification"]}, {"name": "ceilometer-polling"}, {"name": "ceph-df"}, {"name": "ceph-health"}, {"name": "cinder-api"}, {"name": "cinder-scheduler"}, {"name": "cinder-volume"}, {"name": "glance-api"}, {"name": "glance-registry"}, {"name": "haproxy", "service": "haproxy"}, {"name": "heat-api"}, {"name": "heat-api-cfn"}, {"name": "heat-api-cloudwatch"}, {"name": "heat-engine"}, {"name": "memcached", "service": "memcached"}, {"name": "neutron-api", "service": "neutron-server"}, {"name": "neutron-l3-agent", "service": "neutron-l3-agent"}, {"service": "neutron-metadata-agent", "name": "neutron-metadata-agent", "subscribers": ["overcloud-neutron-metadata"]}, {"name": "neutron-ovs-agent", "service": "neutron-openvswitch-agent"}, {"name": "nova-api"}, {"name": "nova-compute"}, {"name": "nova-conductor"}, {"name": "nova-consoleauth"}, {"name": "nova-libvirt", "service": "libvirtd"}, {"name": "nova-novncproxy", "subscribers": ["overcloud-nova-vncproxy"]}, {"name": "nova-scheduler"}, {"name": "pacemaker", "service": "pacemaker"}, {"name": "swift-proxy"}]`)
-
-    A list of Sensu checks that will run on the overcloud hosts. The
-    only required key for each item is `name`. The systemd `service`
-    used in `systemctl` checks defaults to `openstack-<name>`, and the
-    `subscribers` key defaults to `[ "overcloud-<name>" ]`.
-    
-    The following checks are disabled because the corresponding services
-    are run as WSGI applications under Apache.  This means that we don't
-    have a good client-side healthcheck until we make changes either to
-    sensu packaging or our tripleo integration.
-    
-        - name: ceilometer-api
-        - name: keystone-api
-          subscribers:
-            - overcloud-keystone
-            - overcloud-kestone
-        - name: aodh-api
-          subscribers:
-            - overcloud-ceilometer-aodh-api
-    
-
-- `os_default_username` (default: `"admin"`)
-
-    Username for openstack checks.
-
-- `os_default_password` (default: `"pass"`)
-
-    Password for openstack checks.
-
-- `os_default_project` (default: `"admin"`)
-
-    Project name (aka tenant) for openstack checks.
-
-- `os_default_auth_url` (default: `"http://controller:5000/v2.0"`)
-
-    Authentication URL (Keystone server) for openstack checks.
-
-- `os_default_region` (default: `"regionOne"`)
-
-    Region name for openstack checks.
-
-- `os_auth_args` (default: `"\n--os-username :::openstack.username|{{ os_default_username }}:::\n--os-password :::openstack.password|{{ os_default_password }}:::\n--os-tenant-name :::openstack.project_name|{{ os_default_project }}:::\n--os-auth-url :::openstack.auth_url|{{ os_default_auth_url }}:::"`)
-
-    Most common set of arguments user by remote API checks a.k.a. oschecks
-
-- `sensu_remote_checks` (default: `[{"name": "cinder-api"}, {"name": "glance-api"}, {"name": "keystone-api"}, {"name": "neutron-api"}, {"name": "nova-api"}, {"args": "\n--username :::openstack.username|{{ os_default_username }}:::\n--password :::openstack.password|{{ os_default_password }}:::\n--auth_url :::openstack.auth_url|{{ os_default_auth_url }}:::\n--tenant :::openstack.tenant_name|{{ os_default_project }}:::", "name": "cinder-volume", "interval": 240}, {"interval": 240, "name": "neutron_floating_ip"}, {"interval": 240, "name": "nova_instance"}]`)
-
-    A list of sensu checks that will run on an opstools server. List has the same
-    format as sensu_overcloud_checks with the difference that subscribers
-    defaults to the value of variable sensu_client_subscription
+> - Create appropriate firewall rules
 
 
 ## Httpd
@@ -360,23 +374,6 @@ This role installs the Apache web server and associated modules.
 
 
 ## Collectd
-
-### Actions defined on the role
-
-> - Install collectd
-> - Install collectd plugin packages
-> - Purge collectd configuration file
-> - Ensure collectd configuration file exists
-> - Purge collectd configuration directory
-> - Ensure collectd configuration directory exists
-> - Generate write_graphite configuration
-> - Generate collectd network server configuration
-> - Generate collectd plugin configuration
-> - Generate collectd credentials file
-> - Set collectd_tcp_network_connect
-> - Enable collectd service
-> - Register firewall rule for collectd
-
 
 ### Configuration
 
@@ -463,6 +460,24 @@ This role installs the Apache web server and associated modules.
     if true, replace main collectd.conf with generated config
 
 
+
+### Actions defined on the role
+
+> - Install collectd
+> - Install collectd plugin packages
+> - Purge collectd configuration file
+> - Ensure collectd configuration file exists
+> - Purge collectd configuration directory
+> - Ensure collectd configuration directory exists
+> - Generate write_graphite configuration
+> - Generate collectd network server configuration
+> - Generate collectd plugin configuration
+> - Generate collectd credentials file
+> - Set collectd_tcp_network_connect
+> - Enable collectd service
+> - Create appropriate firewall rules
+
+
 ## Prereqs
 
 This role installs packages and configuration that are required for
@@ -500,17 +515,6 @@ Ansible).
 
     libsemanage-python package name
 
-
-## Opstoolsvhost
-
-This role is responsible for configuring the Apache virtual host that
-will host Ops Tools services.
-
-### Actions defined on the role
-
-> - Ensure opstools httpd config directory exists
-> - Install opstools httpd config file
-> - Register apache firewall ports
 
 
 ### Configuration
@@ -553,6 +557,21 @@ will host Ops Tools services.
     Path to configuration file that sets the default redirect for access
     to the root URL (`/`).
 
+- `opstools_apache_force_https` (default: `true`)
+
+    Force all http request to https
+
+
+## Opstoolsvhost
+
+This role is responsible for configuring the Apache virtual host that
+will host Ops Tools services.
+
+### Actions defined on the role
+
+> - Ensure opstools httpd config directory exists
+> - Install opstools httpd config file
+
 
 ## Repos
 
@@ -565,6 +584,7 @@ This role enables the CentOS OpsTools SIG package repository.
 
 ### Actions defined on the role
 
+> - Install centos-release-opstools
 > - Install centos-opstools repository
 
 
@@ -675,6 +695,7 @@ This role configures the Apache proxy for Kibana.
 > - Create kibana htpasswd file
 > - Secure htpasswd file
 > - Configure default redirect
+> - Create appropriate firewall rules
 
 
 ### Configuration
@@ -715,31 +736,6 @@ from the main `kibana` role.
 
 
 ## Grafana
-
-### Actions defined on the role
-
-
-> graphite.yml
-
-> - Install graphite
-> - Check if graphitedb already created
-> - Create database for graphite
-> - Enable services
-> - Tweak httpd config
-> - Listen on port 8080
-> - Change port on graphite conf
-> - Insert firewalld rule for graphite
-
-> grafana.yml
-
-> - remove grafana gpg key
-> - Enable grafana repository
-> - add rpm key for grafana repo
-> - Install grafana
-> - Configure grafana server section
-> - Enable grafana
-> - Insert firewall rule for grafana
-
 
 ### Configuration
 
@@ -802,27 +798,30 @@ from the main `kibana` role.
     helper for API access
 
 
-## Fluentd
-
-[Fluentd][] is a log collection tool.  It can collect logs from a
-variety of sources, filter them, and send them to a variety of
-destinations, including remote Fluentd instances.
-
-We use Fluentd to receive logs from remote Fluentd clients and deliver
-them to [Elasticsearch][].
-
-[fluentd]: http://www.fluentd.org/
-[elasticsearch]: https://www.elastic.co/products/elasticsearch
 
 ### Actions defined on the role
 
-> - Install fluentd package
-> - Install fluentd plugins
-> - Ensure fluentd configuration directory exists
-> - Ensure fluentd config.d directory exists
-> - Create fluentd.conf
-> - Install fluentd certificate
-> - Activate fluentd service
+> - Install graphite
+> - Check if graphitedb already created
+> - Create database for graphite
+> - Enable services
+> - Tweak httpd config
+> - Listen on port 8080
+> - Change port on graphite conf
+> - Create appropriate firewall rules
+
+
+
+### Actions defined on the role
+
+> - Remove grafana gpg key
+> - Enable grafana repository
+> - Add rpm key for grafana repo
+> - Install grafana
+> - Configure grafana server section
+> - Enable grafana
+> - Create appropriate firewall rules
+
 
 
 ### Configuration
@@ -894,6 +893,29 @@ them to [Elasticsearch][].
     The key corresponding to the certificate in `fluentd_ca_cert`.
 
 
+## Fluentd
+
+[Fluentd][] is a log collection tool.  It can collect logs from a
+variety of sources, filter them, and send them to a variety of
+destinations, including remote Fluentd instances.
+
+We use Fluentd to receive logs from remote Fluentd clients and deliver
+them to [Elasticsearch][].
+
+[fluentd]: http://www.fluentd.org/
+[elasticsearch]: https://www.elastic.co/products/elasticsearch
+
+### Actions defined on the role
+
+> - Install fluentd package
+> - Install fluentd plugins
+> - Ensure fluentd configuration directory exists
+> - Ensure fluentd config.d directory exists
+> - Create fluentd.conf
+> - Install fluentd certificate
+> - Activate fluentd service
+
+
 ## Fluentd/Syslog
 
 This roles installs the necessary configuration to send logs from the
@@ -933,7 +955,7 @@ connections from other Fluentd clients.
 > - Install non-ssl aggregator endpoint
 > - Install ssl aggregator endpoint
 > - Install fluentd private key
-> - Register fluentd firewal ports
+> - Create appropriate firewall rules
 
 
 ### Configuration
@@ -1035,6 +1057,42 @@ agents to communicate with the Sensu server.
 
     Mode of RabbitMQ configuration files.
 
+- `rabbitmq_use_ssl` (default: `false`)
+
+    Enable SSL connections
+
+- `rabbitmq_ssl_cacert` (default: `null`)
+
+    Content of CA certificate to be created on RabbitMQ server node.
+
+- `rabbitmq_ssl_cert` (default: `null`)
+
+    Content of server certificate to be created on RabbitMQ server node.
+
+- `rabbitmq_ssl_key` (default: `null`)
+
+    Content of server key to be created on RabbitMQ server node.
+
+- `rabbitmq_ssl_certs_path` (default: `"/etc/rabbitmq/ssl"`)
+
+    Path to where certificates/key should be created on server node.
+
+- `rabbitmq_ssl_port` (default: `5671`)
+
+    Port on which RabbitMQ should listen on for SSL connections.
+
+- `rabbitmq_ssl_fail_no_cert` (default: `"false"`)
+
+    Fail for clients without a certificate to send to the RabbitMQ server.
+
+- `rabbitmq_ssl_verify` (default: `"verify_peer"`)
+
+    Valid values are:
+    verify_peer - ensure a chain of trust is established when the client sends
+                  a certificate
+    verify_none - no certificate exchange takes place from the client
+                  to the server
+
 
 ## Rabbitmq/Server
 
@@ -1048,7 +1106,7 @@ messaging service.
 > - Add plugin to manage rabbitmq
 > - Start the rabbitmq service
 > - Delete guest user on rabbitmq
-> - Register rabbitmq firewall ports
+> - Create appropriate firewall rules
 
 
 ## Chrony
@@ -1120,15 +1178,6 @@ configures the Uchiwa service.
 
 [sensu]: http://sensuapp.org/
 [uchiwa]: https://uchiwa.io/
-
-### Actions defined on the role
-
-> - Install uchiwa
-> - Configure uchiwa
-> - Add uchiwa user to additional groups
-> - Ensure uchiwa is started and enabled at boot
-> - Register uchiwa firewal ports
-
 
 ### Configuration
 
@@ -1204,6 +1253,16 @@ This role configures the Apache proxy for Uchiwa.
     URL path at which to host Uchiwa.
 
 
+
+### Actions defined on the role
+
+> - Install uchiwa
+> - Configure uchiwa
+> - Add uchiwa user to additional groups
+> - Ensure uchiwa is started and enabled at boot
+> - Create appropriate firewall rules
+
+
 ## Redis
 
 [Redis][] is an in-memory key/value store.  [Sensu][] uses Redis as a
@@ -1237,7 +1296,7 @@ service.
 > - Ensure protected mode is enabled
 > - Set password
 > - Ensure redis is started and enabled at boot
-> - Register redis firewall port
+> - Create appropriate firewall rules
 
 
 ### Configuration
@@ -1269,17 +1328,6 @@ service.
 to collect, index, search, and analyze logs.
 
 [elasticsearch]: https://www.elastic.co/products/elasticsearch
-
-### Actions defined on the role
-
-> - Install java package
-> - Enable elasticsearch repository
-> - Install elasticsearch package
-> - Install elasticsearch service configuration
-> - Install elasticsearch configuration
-> - Activate elasticsearch service
-> - Register elasticsearch firewall ports
-
 
 ### Configuration
 
@@ -1336,42 +1384,80 @@ to collect, index, search, and analyze logs.
     Name of the package that provides a Java runtime environment.
 
 
-## Firewall
+## Elasticsearch/server
 
-This role manages the system firewall using either `iptables` or
-`firewalld`.
+Install the [Elasticsearch][] engine and all its dependencies.
+
+[Elasticsearch][] is a search and analytics engine used by Ops Tools
+to collect, index, search, and analyze logs.
+
+[elasticsearch]: https://www.elastic.co/products/elasticsearch
 
 ### Actions defined on the role
 
-> - Determine if firewalld should be used
-> - Determine if iptables should be used
-> - Set use_firewalld fact
-> - Set use_iptables fact
+> - Install java package
+> - Enable elasticsearch repository
+> - Install elasticsearch package
+> - Install elasticsearch service configuration
+> - Install elasticsearch configuration
+> - Activate elasticsearch service
+> - Create appropriate firewall rules
 
+
+## Firewall
+
+This role manage the way of managing firewall rules.
+Using either iptables or firewalld tool.
+It also has the rules to be applied.
 
 ### Configuration
-
-- `firewall_data` (default: `[]`)
-
-    A list of ports that should be exposed in the system firewall.
-    Roles register ports by appending them to this list using the
-    `set_fact` module.
 
 - `firewall_manage_rules` (default: `true`)
 
     Set this to False if you do not want the playbooks to make changes
     to the system firewall.
 
+- `force_ipv6` (default: `false`)
+
+    Force the use of ipv6
+
+- `firewall_data` (default: `{"redis_hosts": [{"protocol": "tcp", "port": "{{ redis_listen_port }}"}], "elastic_hosts": [{"protocol": "tcp", "port": "{{ elasticsearch_port }}"}], "uchiwa_hosts": [{"source": "{{ uchiwa_bind }}", "protocol": "tcp", "port": "{{ uchiwa_port }}"}, {"protocol": "tcp", "port": "{{ opstools_apache_http_port }}"}, {"protocol": "tcp", "port": "{{ opstools_apache_https_port }}"}], "fluent_hosts": [{"protocol": "tcp", "port": "{{ fluentd_port|default(24224) }}"}, {"protocol": "udp", "port": "{{ fluentd_port|default(24224) }}"}], "kibana_hosts": [{"source": "{{ kibana_server_bind }}", "protocol": "tcp", "port": "{{ kibana_server_port }}"}, {"protocol": "tcp", "port": "{{ opstools_apache_http_port }}"}, {"protocol": "tcp", "port": "{{ opstools_apache_https_port }}"}], "grafana_hosts": [{"protocol": "tcp", "port": "{{ opstools_apache_http_port }}"}, {"protocol": "tcp", "port": "{{ opstools_apache_https_port }}"}], "graphite_hosts": [{"protocol": "tcp", "port": "{{ graphite_port }}"}], "rabbit_hosts": [{"protocol": "tcp", "port": "{{ rabbitmq_port }}"}, {"protocol": "tcp", "port": "{{ rabbitmq_ssl_port }}"}], "collectd_hosts": [{"protocol": "tcp", "port": "{{ collectd_listen_port }}"}], "sensu_hosts": [{"protocol": "tcp", "port": "{{ sensu_api_port }}"}]}`)
+
+    A lists of hashes containing data for configuration firewall rules
+    to be created on each host groups
+    { host_group :
+      [ {
+          port: PORT
+          source: SOURCE
+          protocol:PROTOCOL
+        },
+        {
+          port: PORT
+          protocol:PROTOCOL
+        }
+      ]
+    }
+
 
 ## Firewall/Commit
 
-This role instantiates the firewall rules that were registered by
-other roles during the playbook run.
+This role instantiates the firewall rules that were setup in firewall_data
 
 ### Actions defined on the role
 
 > - Enable service ports via iptables
 > - Enable service ports via firewalld
+
+
+## Firewall/Gather
+
+This role gathers facts from host regarding firewall resources
+
+### Actions defined on the role
+
+> - Determine firewall provider
+> - Set use_firewalld fact
+> - Set use_iptables fact
 
 
 # Integration with TripleO
