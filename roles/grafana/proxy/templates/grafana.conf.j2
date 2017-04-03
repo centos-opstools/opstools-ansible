@@ -1,5 +1,8 @@
+{% if opstools_apache_force_https %}
 RewriteRule ^({{ grafana_path }})$ https://%{HTTP_HOST}$1/ [R=301]
-
+{% else %}
+RewriteRule ^({{ grafana_path }})$ http://%{HTTP_HOST}$1/ [R=301]
+{% endif %}
 <Location {{ grafana_path }}>
     ProxyPass http://localhost:{{ grafana_port }}
     ProxyPassReverse http://localhost:{{ grafana_port }}

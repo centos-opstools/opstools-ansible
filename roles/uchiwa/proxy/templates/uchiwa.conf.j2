@@ -1,5 +1,8 @@
+{% if opstools_apache_force_https %}
 RewriteRule ^({{ uchiwa_path }})$ https://%{HTTP_HOST}$1/ [R=301]
-
+{% else %}
+RewriteRule ^({{ uchiwa_path }})$ http://%{HTTP_HOST}$1/ [R=301]
+{% endif %}
 <Location {{ uchiwa_path }}>
     ProxyPass http://{{ uchiwa_server_address }}:{{ uchiwa_port }}
     ProxyPassReverse http://{{ uchiwa_server_address }}:{{ uchiwa_port }}
