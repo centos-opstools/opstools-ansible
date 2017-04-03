@@ -1,6 +1,12 @@
 ---
+- name: Install centos-release-opstools
+  package:
+    name: centos-release-opstools
+    state: present
+  when: ansible_distribution == 'CentOS' and manage_repos|default(false)
+
 - name: Install centos-opstools repository
   copy:
     src: centos-opstools.repo
     dest: /etc/yum.repos.d/centos-opstools.repo
-  when: manage_repos|default(false)
+  when: manage_repos|default(false) and ansible_distribution != 'CentOS'
