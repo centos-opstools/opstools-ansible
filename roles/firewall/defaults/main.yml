@@ -12,6 +12,8 @@ firewall_data:
    # RabbitMQ for Sensu
     - port: "{{ rabbitmq_port }}"
       protocol: tcp
+    - port: "{{ rabbitmq_ssl_port }}"
+      protocol: tcp
   redis_hosts:
     # Redis for Sensu
     - port: "{{ redis_listen_port }}"
