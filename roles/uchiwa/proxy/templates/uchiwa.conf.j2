@@ -7,8 +7,10 @@ RewriteRule ^({{ uchiwa_path }})$ http://%{HTTP_HOST}$1/ [R=301]
     ProxyPass http://{{ uchiwa_server_address }}:{{ uchiwa_port }}
     ProxyPassReverse http://{{ uchiwa_server_address }}:{{ uchiwa_port }}
 
+    {%- if uchiwa_authentication == 'htpasswd' %}
     AuthUserFile {{ uchiwa_proxy_htpasswd }}
     AuthName "Restricted uchiwa Server"
     AuthType Basic
     Require valid-user
+    {%- endif %}
 </Location>

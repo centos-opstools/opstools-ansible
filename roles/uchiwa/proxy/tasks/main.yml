@@ -5,20 +5,21 @@
     dest: '{{ uchiwa_httpd_conf }}'
   notify: restart httpd
 
-- name: Create uchiwa htpasswd file
-  tags:
-    - skip_ansible_lint  # ignore ANSIBLE0012
-  command: >
-    htpasswd -cb {{ uchiwa_proxy_htpasswd }} {{ uchiwa_proxy_user }}
-    {{ uchiwa_proxy_pass }}
-  notify: restart httpd
+- when: uchiwa_authentication == 'htpasswd'
+  block:
+    - name: Ensure uchiwa htpasswd file exists
+      file:
+        path: "{{ uchiwa_proxy_htpasswd }}"
+        state: "touch"
+        owner: apache
+        group: apache
+        mode: 0640
 
-- name: Secure uchiwa htpasswd file
-  file:
-    path: '{{ uchiwa_proxy_htpasswd }}'
-    owner: apache
-    group: apache
-    mode: 0640
+    - name: Generate uchiwa htpasswd credentials
+      command: >
+        htpasswd -b {{ uchiwa_proxy_htpasswd }} \
+        {{ item['username'] }} {{ item['password'] }}
+      with_items: "{{ uchiwa_credentials }}"
 
 - name: Configure default redirect
   copy:
