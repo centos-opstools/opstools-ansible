@@ -3,9 +3,6 @@
 # Add the following configuration
 # api.json -- it configures the sensu-api (server and client)
 # redis.json -- it configures the use of redis for sensu as storage
-# sensu-checks.json -- it configures the oschecks to be executed on the clients
-#    sensu-checks.json.j2 is a template with severals templates that can be
-#    disabled and configured
 - name: Configure sensu
   template:
     src: 'templates/{{ item }}.json.j2'
@@ -18,6 +15,17 @@
     - sensu-checks
   notify:
     - restart sensu server services
+
+# sensu-checks.json configures oschecks to be executed on the clients.
+# It's provided by the sensu-checks.json.j2 template which can be customized
+# through the sensu_overcloud_checks and sensu_remote_checks variables.
+- name: Configure sensu checks
+  template:
+    src: 'templates/sensu-checks.json.j2'
+    dest: '{{sensu_config_path}}/sensu-checks.json'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+  when: sensu_manage_checks
 
 - name: Create sensu vhost on rabbitmq
   delegate_to: "{{ item }}"
