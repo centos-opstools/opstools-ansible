@@ -8,7 +8,11 @@ libsemanage_python_package_name: libsemanage-python
 # python-netaddr package name
 python_netaddr_package_name: python-netaddr
 
+# python-passlib package name
+python_passlib_package_name: python-passlib
+
 prereqs_packages:
   - "{{ libselinux_python_package_name }}"
   - "{{ libsemanage_python_package_name }}"
   - "{{ python_netaddr_package_name }}"
+  - "{{ python_passlib_package_name }}"

@@ -29,3 +29,15 @@ sensu_datacenters:
   - name: "{{ uchiwa_sensu_api_server_name }}"
     host: "{{ sensu_api_server }}"
     port: "{{ sensu_api_port }}"
+
+# Authentication method, can be:
+# 'htpasswd': htpasswd auth by the proxy to access uchiwa
+# 'uchiwa': uchiwa's built-in login mechanism, allows to read-only users
+uchiwa_authentication: 'htpasswd'
+
+# Note: the 'readonly' parameter is only effective when using
+# uchiwa_authentication: 'uchiwa'
+uchiwa_credentials:
+  - username: 'operator'
+    password: 'changeme'
+    readonly: 'false'
