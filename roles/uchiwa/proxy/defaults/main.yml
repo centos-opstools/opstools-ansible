@@ -2,15 +2,6 @@
 # URL for backend Uchiwa service.
 uchiwa_proxy_dest: 'http://{{ uchiwa_bind }}:{{ uchiwa_port }}'
 
-# Path to htpasswd file for controlling access to Uchiwa.
-uchiwa_proxy_htpasswd: /etc/httpd/conf/htpasswd-uchiwa
-
-# User to create in htpasswd file.
-uchiwa_proxy_user: operator
-
-# Password for user in htpasswd file.
-uchiwa_proxy_pass: changeme
-
 # Path to the Apache configuration snippet for the Uchiwa proxy.
 uchiwa_httpd_conf: '{{ opstools_apache_config_dir }}/uchiwa.conf'
 

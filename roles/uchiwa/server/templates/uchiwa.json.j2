@@ -3,6 +3,17 @@
    "uchiwa": {
      "host": "{{ uchiwa_bind }}",
      "port": {{ uchiwa_port }},
-     "refresh": {{ uchiwa_refresh }}
+     "refresh": {{ uchiwa_refresh }},
+     "users": [
+       {% for user in uchiwa_credentials %}
+       {
+         "username": {{ user.username }},
+         "password": {{ user.password }},
+         "role": {
+           "readonly": {{ user.readonly }}
+         }
+       },
+       {% endfor %}
+     ]
    }
 }
