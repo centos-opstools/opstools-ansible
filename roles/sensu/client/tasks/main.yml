@@ -40,4 +40,6 @@
   package:
     name: '{{ oschecks_package_name }}'
     state: present
-  when: manage_packages|default(false)
+  when:
+    - manage_packages|default(false)
+    - sensu_manage_checks|default(false)
