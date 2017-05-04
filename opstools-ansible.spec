@@ -1,9 +1,7 @@
-%global tag 0.1.0
-
 Name:           opstools-ansible
 Version:        0.1.0
 Release:        2%{?dist}
-Summary:        Ansible playbooks for installing the server side of OpenStack operational tools and its documentation
+Summary:        Ansible playbooks for Operational Tools Server installation
 
 License:        ASL 2.0
 URL:            https://github.com/centos-opstools
@@ -23,7 +21,7 @@ Requires:       ansible > 2.2
 Ansible playbooks for installing the server side of OpenStack operational tools
 
 %prep
-%autosetup -n %{name}-%{tag}
+%autosetup -n %{name}-%{version}
 
 %check
 tools/validate-playbooks
