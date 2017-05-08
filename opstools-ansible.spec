@@ -10,10 +10,7 @@ Source0:        https://github.com/centos-opstools/%{name}/archive/%{version}.ta
 Group:          Applications/System
 BuildArch:      noarch
 
-BuildRequires:  pandoc
-BuildRequires:  python-tox
-BuildRequires:  ansible-lint
-BuildRequires:  yamllint
+BuildRequires:  python-markdown
 
 Requires:       ansible > 2.2
 
@@ -22,12 +19,12 @@ Ansible playbooks for installing the server side of OpenStack operational tools
 
 %prep
 %autosetup -n %{name}-%{version}
-
-%check
-tools/validate-playbooks
+sed -i -e 's/^\#!\/usr\/bin\/env\ python/#\!\/usr\/bin\/python2.7/' opstools-server-installation.py
 
 %build
-make
+python -m markdown  README.md > README.html
+sed -i -e 's/docs\/tripleo\-integration\.md/docs\/tripleo\-integration\.html/' -e 's/>tripleo\-integration\.md</>tripleo\-integration\.html</' README.html
+python -m markdown  docs/tripleo-integration.md > tripleo-integration.html
 
 %install
 install -d %{buildroot}%{_datadir}/%{name}/group_vars
@@ -46,13 +43,15 @@ install -p -m 755 opstools-server-installation.py %{buildroot}%{_sbindir}/opstoo
 %license LICENSE.txt
 %doc README.md
 %doc README.html
+%doc docs/tripleo-integration.md
+%doc tripleo-integration.html
 %{_datadir}/%{name}/
 %{_sbindir}/opstools-server-installation
 
 
 
 %changelog
-* Mon Apr 24 2017 Juan Badia Payno <jbadiapa@redhat.com> - 0.0.2-0.20170424
+* Mon Apr 24 2017 Juan Badia Payno <jbadiapa@redhat.com> - 0.1.0-2
 - Documentation generated automaticaly
 - Some playbooks testing
 
