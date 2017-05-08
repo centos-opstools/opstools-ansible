@@ -22,6 +22,7 @@ Ansible playbooks for installing the server side of OpenStack operational tools
 
 %prep
 %autosetup -n %{name}-%{version}
+sed -i -e 's/^\#!\/usr\/bin\/env\ python/#\!\/usr\/bin\/python2.7/' opstools-server-installation.py
 
 %check
 tools/validate-playbooks
@@ -52,7 +53,7 @@ install -p -m 755 opstools-server-installation.py %{buildroot}%{_sbindir}/opstoo
 
 
 %changelog
-* Mon Apr 24 2017 Juan Badia Payno <jbadiapa@redhat.com> - 0.0.2-0.20170424
+* Mon Apr 24 2017 Juan Badia Payno <jbadiapa@redhat.com> - 0.1.0-2
 - Documentation generated automaticaly
 - Some playbooks testing
 
