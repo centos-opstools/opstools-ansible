@@ -1,0 +1,6 @@
+"check-cinder-volume": {
+    "command": "systemctl is-enabled openstack-cinder-volume && systemctl is-active openstack-cinder-volume || /usr/bin/sudo /usr/libexec/openstack-monitoring/checks/oschecks-pacemaker_host_check -r openstack-cinder-volume",
+    "subscribers": {{ check.subscribers|default(["overcloud-" + check.name])|to_json }},
+    "interval": {{ check.interval|default(60) }}
+
+}
