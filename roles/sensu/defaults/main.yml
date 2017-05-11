@@ -164,6 +164,15 @@ sensu_overcloud_checks:
     service: pacemaker
   - name: swift-proxy
 
+# A list of sensu checks for service managed as resources in pacemaker
+sensu_overcloud_checks_pcs:
+  - name: rabbitmq-clone
+    subscribers:
+      - overcloud-rabbitmq
+  - name: galera
+    subscribers:
+      - overcloud-galera
+
 # A list of sensu checks that will run on an opstools server
 sensu_remote_checks: []
 
