@@ -8,6 +8,13 @@
     "sensu-check-systemd.json.j2"
 ] %}
 {% endfor %}
+{% for check in sensu_overcloud_checks_pcs %}
+{{ comma() }}
+{% include [
+    "sensu-check-" + check.name + ".json.j2",
+    "sensu-check-pcs.json.j2"
+] %}
+{% endfor %}
 {% for check in sensu_remote_checks %}
 {{ comma() }}
 {% include [

@@ -1,0 +1,5 @@
+"check-pcs-{{ check.name }}": {
+    "command": "/usr/bin/sudo /usr/libexec/openstack-monitoring/checks/oschecks-pacemaker_host_check -r {{ check.name }}",
+    "subscribers": {{ check.subscribers|default([sensu_client_subscription])|to_json }},
+    "interval": {{ check.interval|default(60) }}
+}
