@@ -1,13 +1,17 @@
-# Integrating opstools-ansible with a TripleO deployment
+Integrating opstools-ansible with a TripleO deployment
+======================================================
 
-## Before you begin
+Before you begin
+----------------
 
-This guide assumes that you are working with the **OpenStack
-Newton** release.
+This guide assumes that you are working with the **OpenStack Newton**
+release.
 
 For the purpose of creating some concrete examples, this document
 assumes that you have deployed your opstools-ansible environment using
 the following inventory:
+
+::
 
     ops0 ansible_host=192.168.10.10
     ops1 ansible_host=192.168.10.20
@@ -20,6 +24,8 @@ the following inventory:
 
 And the following configuration:
 
+::
+
     fluentd_use_ssl: true
     fluentd_shared_key: secret
     fluentd_ca_cert: |
@@ -31,19 +37,22 @@ And the following configuration:
       ...
       -----END RSA PRIVATE KEY-----
 
-### Configure TripleO
+Configure TripleO
+~~~~~~~~~~~~~~~~~
 
 Once your opstools environment is running, create a configuration file
 for your TripleO environment that will point the Sensu and Fluentd
-agents at the opstools hosts.  Look at the [logging][] and
-[monitoring][] environment files for a list of available parameters.
+agents at the opstools hosts. Look at the
+`logging <https://github.com/openstack/tripleo-heat-templates/blob/master/environments/logging-environment.yaml>`__
+and
+`monitoring <https://github.com/openstack/tripleo-heat-templates/blob/master/environments/monitoring-environment.yaml>`__
+environment files for a list of available parameters.
 
-[logging]: https://github.com/openstack/tripleo-heat-templates/blob/master/environments/logging-environment.yaml
-[monitoring]: https://github.com/openstack/tripleo-heat-templates/blob/master/environments/monitoring-environment.yaml
+Given the example configuration presented earlier in this document, you
+might end up with something like this (in a file we'll call
+``params.yaml``):
 
-Given the example configuration presented earlier in this document,
-you might end up with something like this (in a file we'll call
-`params.yaml`):
+::
 
     parameter_defaults:
 
@@ -67,15 +76,18 @@ you might end up with something like this (in a file we'll call
       MonitoringRabbitUsername: sensu
       MonitoringRabbitPassword: sensu
 
-### Run overcloud deploy command
+Run overcloud deploy command
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Deploy your TripleO environment.  In addition to whatever command line
+Deploy your TripleO environment. In addition to whatever command line
 options you normally use, you will need to include the
-`monitoring-environment.yaml` file (if you are configuring
-availability monitoring), and `logging-environment.yaml` file (if you
-arae configuring logging), and the `params.yaml` file described in the
-previous step.  Your `overcloud deploy` command line should look
+``monitoring-environment.yaml`` file (if you are configuring
+availability monitoring), and ``logging-environment.yaml`` file (if you
+arae configuring logging), and the ``params.yaml`` file described in the
+previous step. Your ``overcloud deploy`` command line should look
 something like:
+
+::
 
     openackstack overcloud deploy ... \
       -e /usr/share/openstack-tripleo-heat-templates/environments/monitoring-environment.yaml \
@@ -83,6 +95,6 @@ something like:
       -e params.yaml
 
 When the deployment completes, you should see logs appearing in Kibana
-on your opstools server (`https://192.168.10.20/kibana`) and you
+on your opstools server (``https://192.168.10.20/kibana``) and you
 should see the results of Sensu checks in Uchiwa
-(`https://192.168.10.10/uchiwa`).
+(``https://192.168.10.10/uchiwa``).
