@@ -5,6 +5,12 @@
     dest: '{{ uchiwa_httpd_conf }}'
   notify: restart httpd
 
+- name: check if uchiwa proxy_user is contained in uchiwa_proxy_htpasswd
+  shell: '/usr/bin/cat {{uchiwa_proxy_htpasswd}} | \
+      /usr/bin/grep {{uchiwa_proxy_user}}'
+  register: donttouch_uchiwa_htpasswd
+  failed_when: false
+
 - name: Create uchiwa htpasswd file
   tags:
     - skip_ansible_lint  # ignore ANSIBLE0012
@@ -12,6 +18,14 @@
     htpasswd -cb {{ uchiwa_proxy_htpasswd }} {{ uchiwa_proxy_user }}
     {{ uchiwa_proxy_pass }}
   notify: restart httpd
+  when: donttouch_uchiwa_htpasswd.stdout== ''
+
+- name: secure uchiwa_htpasswd
+  file:
+    path: '{{ uchiwa_proxy_htpasswd }}'
+    owner: apache
+    group: apache
+    mode: 0640
 
 - name: Secure uchiwa htpasswd file
   file:
