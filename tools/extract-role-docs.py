@@ -16,7 +16,7 @@ def generate_docs(roles, playbook, output=sys.stdout):
         else:
             continue
 
-        README = os.path.join(dirpath, 'README.md')
+        README = os.path.join(dirpath, 'README.rst')
         DEFAULTS = os.path.join(dirpath, 'defaults', 'main.yml')
         TASKS = os.path.join(dirpath, 'tasks', 'main.yml')
 
@@ -26,15 +26,17 @@ def generate_docs(roles, playbook, output=sys.stdout):
 
         if os.path.isfile(TASKS):
             output.write('\n')
-            output.write('### Actions defined on the role')
-            output.write('\n\n')
+            output.write('Actions defined on the role')
+            output.write('\n')
+            output.write('+++++++++++++++++++++++++++')
+            output.write('\n')
 
             with open(TASKS, 'r') as fd:
                 data = yaml.load(fd)
 
             for task in data:
                 if 'name' in task.keys():
-                    output.write('> - ')
+                    output.write('- ')
                     output.write(task['name'])
                     output.write('\n')
                 if 'include' in task.keys():
@@ -46,7 +48,7 @@ def generate_docs(roles, playbook, output=sys.stdout):
                     output.write('\n\n')
                     for inc_task in included_data:
                         if 'name' in inc_task.keys():
-                            output.write('> - ')
+                            output.write('- ')
                             output.write(inc_task['name'])
                             output.write('\n')
 
@@ -54,8 +56,10 @@ def generate_docs(roles, playbook, output=sys.stdout):
 
         if os.path.isfile(DEFAULTS):
             output.write('\n')
-            output.write('### Configuration')
-            output.write('\n\n')
+            output.write('Configuration')
+            output.write('\n')
+            output.write('+++++++++++++')
+            output.write('\n')
 
             with open(DEFAULTS) as fd:
                 parser = HashCommentParser(fd)
@@ -70,14 +74,14 @@ def generate_docs(roles, playbook, output=sys.stdout):
 
                     output.write('- `{}` (default: `{}`)'.format(
                         varname, json.dumps(varval)))
-                    output.write('\n\n')
+                    output.write('\n')
 
                     # This prints out the lines of the doc chunk indented
                     # by four spaces.  This should allow us to format
                     # multi-paragraph documentation chunks correctly.
                     output.write('\n'.join('    %s' % line.rstrip()
                                            for line in doc))
-                    output.write('\n\n')
+                    output.write('\n')
 
         output.write('\n')
 
