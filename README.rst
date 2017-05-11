@@ -895,7 +895,11 @@ Configuration
         - name: aodh-api
           subscribers:
             - overcloud-ceilometer-aodh-api
-    
+ 
+- `sensu_overcloud_checks_pcs`
+
+    A list of Sensu checks that will run on the overcloud hosts. Used
+    for pcs resources.
 
 - `sensu_remote_checks` (default: `[]`)
 
