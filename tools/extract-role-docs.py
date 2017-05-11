@@ -16,7 +16,7 @@ def generate_docs(roles, playbook, output=sys.stdout):
         else:
             continue
 
-        README = os.path.join(dirpath, 'README.md')
+        README = os.path.join(dirpath, 'README.rst')
         DEFAULTS = os.path.join(dirpath, 'defaults', 'main.yml')
         TASKS = os.path.join(dirpath, 'tasks', 'main.yml')
 
@@ -26,7 +26,9 @@ def generate_docs(roles, playbook, output=sys.stdout):
 
         if os.path.isfile(TASKS):
             output.write('\n')
-            output.write('### Actions defined on the role')
+            output.write('Actions defined on the role')
+            output.write('\n')
+            output.write('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             output.write('\n\n')
 
             with open(TASKS, 'r') as fd:
@@ -54,7 +56,9 @@ def generate_docs(roles, playbook, output=sys.stdout):
 
         if os.path.isfile(DEFAULTS):
             output.write('\n')
-            output.write('### Configuration')
+            output.write('Configuration')
+            output.write('\n')
+            output.write('~~~~~~~~~~~~~')
             output.write('\n\n')
 
             with open(DEFAULTS) as fd:
