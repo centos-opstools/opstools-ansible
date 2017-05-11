@@ -94,6 +94,8 @@ oschecks_package_name: osops-tools-monitoring-oschecks
 # have a good client-side healthcheck until we make changes either to
 # sensu packaging or our tripleo integration.
 #
+# .. code-block:: yaml
+#
 #     - name: ceilometer-api
 #     - name: keystone-api
 #       subscribers:
