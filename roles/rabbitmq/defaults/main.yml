@@ -52,8 +52,8 @@ rabbitmq_ssl_port: 5671
 rabbitmq_ssl_fail_no_cert: 'false'
 
 # Valid values are:
-# verify_peer - ensure a chain of trust is established when the client sends
-#               a certificate
-# verify_none - no certificate exchange takes place from the client
-#               to the server
+#     verify_peer - ensure a chain of trust is established when the client sends
+#                   a certificate
+#     verify_none - no certificate exchange takes place from the client
+#                   to the server
 rabbitmq_ssl_verify: verify_peer

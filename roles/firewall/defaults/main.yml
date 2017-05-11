@@ -9,18 +9,10 @@ force_ipv6: false
 
 # A lists of hashes containing data for configuration firewall rules
 # to be created on each host groups
-# { host_group :
-#   [ {
-#       port: PORT
-#       source: SOURCE
-#       protocol:PROTOCOL
-#     },
-#     {
-#       port: PORT
-#       protocol:PROTOCOL
-#     }
-#   ]
-# }
+# .. code-block:: json
+#
+#     { host_group: [{port: PORT, source: SOURCE, protocol:PROTOCOL},
+#                    {port: PORT, protocol:PROTOCOL}]}
 firewall_data:
   rabbit_hosts:
     - port: "{{ rabbitmq_port }}"

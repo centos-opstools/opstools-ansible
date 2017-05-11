@@ -1,6 +1,9 @@
+%global with_docs 0
+%{!?_licensedir: %global license %%doc}
+
 Name:           opstools-ansible
 Version:        0.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Ansible playbooks for Operational Tools Server installation
 
 License:        ASL 2.0
@@ -10,21 +13,32 @@ Source0:        https://github.com/centos-opstools/%{name}/archive/%{version}.ta
 Group:          Applications/System
 BuildArch:      noarch
 
-BuildRequires:  python-markdown
-
 Requires:       ansible > 2.2
 
 %description
 Ansible playbooks for installing the server side of OpenStack operational tools
+
+%if 0%{?with_docs}
+%package docs
+Summary:        Ansible playbooks for Operational Tools Server installation
+
+BuildRequires:  python-sphinx
+
+%description docs
+Ansible playbooks for installing the server side of OpenStack operational tools
+
+It contains documentation for the opstools-ansible.
+%endif
 
 %prep
 %autosetup -n %{name}-%{version}
 sed -i -e 's/^\#!\/usr\/bin\/env\ python/#\!\/usr\/bin\/python2.7/' opstools-server-installation.py
 
 %build
-python -m markdown  README.md > README.html
-sed -i -e 's/docs\/tripleo\-integration\.md/docs\/tripleo\-integration\.html/' -e 's/>tripleo\-integration\.md</>tripleo\-integration\.html</' README.html
-python -m markdown  docs/tripleo-integration.md > tripleo-integration.html
+%if 0%{?with_docs}
+# For building docs
+%{__python2} setup.py build_sphinx
+%endif
 
 %install
 install -d %{buildroot}%{_datadir}/%{name}/group_vars
@@ -42,15 +56,19 @@ install -p -m 755 opstools-server-installation.py %{buildroot}%{_sbindir}/opstoo
 %files
 %license LICENSE.txt
 %doc README.md
-%doc README.html
-%doc docs/tripleo-integration.md
-%doc tripleo-integration.html
 %{_datadir}/%{name}/
 %{_sbindir}/opstools-server-installation
 
-
+%if 0%{?with_docs}
+%files docs
+%doc docs/source/build/html
+%endif
 
 %changelog
+* Mon May 15 2017 Chandan Kumar <chkumar@redhat.com> - 0.1.0-3
+- Added doc subpackage
+- README.md docs are moved to RST
+
 * Mon Apr 24 2017 Juan Badia Payno <jbadiapa@redhat.com> - 0.1.0-2
 - Documentation generated automaticaly
 - Some playbooks testing
