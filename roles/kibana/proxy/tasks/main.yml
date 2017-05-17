@@ -11,7 +11,17 @@
   command: >
     htpasswd -cb {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }}
     {{ kibana_proxy_pass }}
+    creates={{ kibana_proxy_htpasswd }}
   notify: restart httpd
+
+- name: Update password in kibana htpasswd file
+  tags:
+    - skip_ansible_lint  # ignore ANSIBLE0012
+  command: >
+    htpasswd -b {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }}
+    {{ kibana_proxy_pass }}
+  notify: restart httpd
+  when: kibana_proxy_update_pass
 
 - name: Secure htpasswd file
   file:

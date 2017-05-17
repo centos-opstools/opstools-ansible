@@ -11,7 +11,17 @@
   command: >
     htpasswd -cb {{ uchiwa_proxy_htpasswd }} {{ uchiwa_proxy_user }}
     {{ uchiwa_proxy_pass }}
+    creates={{ uchiwa_proxy_htpasswd }}
   notify: restart httpd
+
+- name: Update password in uchiwa htpasswd file
+  tags:
+    - skip_ansible_lint  # ignore ANSIBLE0012
+  command: >
+    htpasswd -b {{ uchiwa_proxy_htpasswd }} {{ uchiwa_proxy_user }}
+    {{ uchiwa_proxy_pass }}
+  notify: restart httpd
+  when: uchiwa_proxy_update_pass
 
 - name: Secure uchiwa htpasswd file
   file:
