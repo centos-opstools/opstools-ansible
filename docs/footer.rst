@@ -1,10 +1,8 @@
 Integration with TripleO
 ------------------------
 
-The [TripleO][] installer for OpenStack includes support for Fluentd and
-Sensu clients. See
-`tripleo-integration.md <docs/tripleo-integration.rst>`__ in the
-``docs/source`` subdirectory of this repository.
+The `TripleO <http://tripleo.org/>`__ installer for OpenStack includes support for Fluentd and
+Sensu clients. See :doc:`../tripleo_integration`.
 
 Contributing
 ------------
@@ -14,8 +12,7 @@ opstools-ansible, open an issue on our `Github issue
 tracker <https://github.com/centos-opstools/opstools-ansible/issues>`__.
 
 If you would like to contribute code, documentation, or other changes to
-the project, please read the [docs/developers.md][] document located in
-the ``docs/source`` subdirectory of this repository.
+the project, please read the :doc:`../developers`.
 
 License
 -------
