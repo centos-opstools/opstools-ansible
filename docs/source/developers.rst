@@ -60,9 +60,9 @@ our CI testing.
 Updating the documentation
 --------------------------
 
-The role documentation in ``README.md`` is generated automatically from
+The role documentation in ``README.rst`` is generated automatically from
 (a) comments in the ``defaults/main.yml`` file for each role and (b) a
-``README.md`` included in each role.
+``README.rst`` included in each role.
 
 After making changes, you can regenerate the documentation by running
-``make`` in the top level of the repository.
+``python setup.py build_sphinx`` in the top level of the repository.

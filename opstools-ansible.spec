@@ -3,7 +3,7 @@
 
 Name:           opstools-ansible
 Version:        0.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Ansible playbooks for Operational Tools Server installation
 
 License:        ASL 2.0
@@ -55,16 +55,19 @@ install -p -m 755 opstools-server-installation.py %{buildroot}%{_sbindir}/opstoo
 
 %files
 %license LICENSE.txt
-%doc README.md
+%doc README.rst
 %{_datadir}/%{name}/
 %{_sbindir}/opstools-server-installation
 
 %if 0%{?with_docs}
 %files docs
-%doc docs/source/build/html
+%doc docs/build/html
 %endif
 
 %changelog
+* Wed May 17 2017 Chandan Kumar <chkumar@redhat.com> - 0.1.0-4
+- Remove markdown references from doc
+
 * Mon May 15 2017 Chandan Kumar <chkumar@redhat.com> - 0.1.0-3
 - Added doc subpackage
 - README.md docs are moved to RST
