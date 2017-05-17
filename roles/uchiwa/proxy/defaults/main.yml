@@ -11,6 +11,9 @@ uchiwa_proxy_user: operator
 # Password for user in htpasswd file.
 uchiwa_proxy_pass: changeme
 
+# Update username and password for Uchiwa access to configure in the htpasswd file.
+uchiwa_proxy_update_pass: false
+
 # Path to the Apache configuration snippet for the Uchiwa proxy.
 uchiwa_httpd_conf: '{{ opstools_apache_config_dir }}/uchiwa.conf'
 
