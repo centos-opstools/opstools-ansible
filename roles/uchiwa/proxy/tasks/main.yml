@@ -5,6 +5,11 @@
     dest: '{{ uchiwa_httpd_conf }}'
   notify: restart httpd
 
+- name: check if htpasswd file exist
+  stat:
+    path: "{{ uchiwa_proxy_htpasswd }}"
+  register: htpasswduchiwa
+
 - name: Create uchiwa htpasswd file
   tags:
     - skip_ansible_lint  # ignore ANSIBLE0012
@@ -12,6 +17,16 @@
     htpasswd -cb {{ uchiwa_proxy_htpasswd }} {{ uchiwa_proxy_user }}
     {{ uchiwa_proxy_pass }}
   notify: restart httpd
+  when: htpasswduchiwa.stat.exists == False
+
+- name: Set password in uchiwa htpasswd file
+  tags:
+    - skip_ansible_lint  # ignore ANSIBLE0012
+  command: >
+    htpasswd -b {{ uchiwa_proxy_htpasswd }} {{ uchiwa_proxy_user }}
+    {{ uchiwa_proxy_pass }}
+  notify: restart httpd
+  when: htpasswduchiwa.stat.exists
 
 - name: Secure uchiwa htpasswd file
   file:

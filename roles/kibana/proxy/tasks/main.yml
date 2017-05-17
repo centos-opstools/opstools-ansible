@@ -5,6 +5,11 @@
     dest: '{{ kibana_httpd_conf }}'
   notify: restart httpd
 
+- name: check if htpasswd file exist
+  stat:
+    path: "{{ kibana_proxy_htpasswd }}"
+  register: htpasswdkibana
+
 - name: Create kibana htpasswd file
   tags:
     - skip_ansible_lint  # ignore ANSIBLE0012
@@ -12,6 +17,16 @@
     htpasswd -cb {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }}
     {{ kibana_proxy_pass }}
   notify: restart httpd
+  when: htpasswdkibana.stat.exists == False
+
+- name: Set password in kibana htpasswd file
+  tags:
+    - skip_ansible_lint  # ignore ANSIBLE0012
+  command: >
+    htpasswd -b {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }}
+    {{ kibana_proxy_pass }}
+  notify: restart httpd
+  when: htpasswdkibana.stat.exists
 
 - name: Secure htpasswd file
   file:
