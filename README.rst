@@ -193,6 +193,10 @@ Configuration
 
     Password for user in htpasswd file.
 
+- `uchiwa_proxy_update_pass` (default: `"false"`)
+
+    Update username and password for Uchiwa access to configure in the htpasswd file.
+
 - `uchiwa_httpd_conf` (default: `"{{ opstools_apache_config_dir }}/uchiwa.conf"`)
 
     Path to the Apache configuration snippet for the Uchiwa proxy.
@@ -941,6 +945,10 @@ Configuration
 - `kibana_proxy_pass` (default: `"changeme"`)
 
     Initial password for Kibana access to configure in the htpasswd file.
+
+- `kibana_proxy_update_pass` (default: `"false"`)
+
+    Update username and password for Kibana access to configure in the htpasswd file.
 
 - `kibana_httpd_conf` (default: `"{{ opstools_apache_config_dir }}/kibana.conf"`)
 
