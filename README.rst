@@ -938,13 +938,10 @@ Configuration
 
     Path to the htpasswd file for Kibana.
 
-- `kibana_proxy_user` (default: `"operator"`)
+- `kibana_credentials` (default: `"- username: 'operator'
+                                     password: 'changeme'"`)
 
-    Initial username for Kibana access to configure in the htpasswd file.
-
-- `kibana_proxy_pass` (default: `"changeme"`)
-
-    Initial password for Kibana access to configure in the htpasswd file.
+    Hash with username and password for Kibana access to configure in the htpasswd file.
 
 - `kibana_httpd_conf` (default: `"{{ opstools_apache_config_dir }}/kibana.conf"`)
 

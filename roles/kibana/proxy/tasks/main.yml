@@ -5,20 +5,20 @@
     dest: '{{ kibana_httpd_conf }}'
   notify: restart httpd
 
-- name: Create kibana htpasswd file
-  tags:
-    - skip_ansible_lint  # ignore ANSIBLE0012
-  command: >
-    htpasswd -cb {{ kibana_proxy_htpasswd }} {{ kibana_proxy_user }}
-    {{ kibana_proxy_pass }}
-  notify: restart httpd
-
-- name: Secure htpasswd file
+- name: Ensure kibana htpasswd file exists
   file:
-    path: '{{ kibana_proxy_htpasswd }}'
+    path: "{{ kibana_proxy_htpasswd }}"
+    state: "touch"
     owner: apache
     group: apache
     mode: 0640
+
+- name: Generate kibana htpasswd credentials
+  command: >
+    htpasswd -b {{ kibana_proxy_htpasswd }} \
+    {{ item['username'] }} {{ item['password'] }}
+  with_items: "{{ kibana_credentials }}"
+  no_log: true
 
 - name: Configure default redirect
   copy:
