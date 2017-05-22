@@ -20,10 +20,13 @@
 # through the sensu_overcloud_checks and sensu_remote_checks variables.
 - name: Configure sensu checks
   template:
-    src: 'templates/sensu-checks.json.j2'
-    dest: '{{sensu_config_path}}/sensu-checks.json'
+    src: 'templates/{{ item }}.json.j2'
+    dest: '{{sensu_config_path}}/{{ item }}.json'
     owner: '{{ sensu_owner }}'
     group: '{{ sensu_group }}'
+  with_items:
+    - sensu-checks
+    - sensu-haproxy-check
   when: sensu_manage_checks
   notify:
     - restart sensu server services

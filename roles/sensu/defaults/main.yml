@@ -14,6 +14,9 @@ sensu_client_service_name: sensu-client
 # Path to Sensu configuration directory.
 sensu_config_path: /etc/sensu/conf.d
 
+# Path to Sensu plugin directory
+sensu_plugin_path: /etc/sensu/plugins
+
 # Path to Sensu log directory.
 sensu_log_path: /var/log/sensu
 
@@ -183,3 +186,6 @@ oscheck_default_auth_url: http://controller:5000/v2.0
 
 # Region name for openstack checks.
 oscheck_default_region_name: RegionOne
+
+# Whether to group HAProxy stats by service instead of by host
+haproxycheck_by_sevice: false
