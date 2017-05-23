@@ -1,0 +1,6 @@
+---
+- name: Install packaged pre-requirements
+  package:
+    name: "{{ prereqs_packages }}"
+    state: present
+  when: manage_packages|default(false)
