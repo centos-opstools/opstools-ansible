@@ -1,0 +1,14 @@
+---
+# libselinux-python package name
+libselinux_python_package_name: libselinux-python
+
+# libsemanage-python package name
+libsemanage_python_package_name: libsemanage-python
+
+# python-netaddr package name
+python_netaddr_package_name: python-netaddr
+
+prereqs_packages:
+  - "{{ libselinux_python_package_name }}"
+  - "{{ libsemanage_python_package_name }}"
+  - "{{ python_netaddr_package_name }}"
