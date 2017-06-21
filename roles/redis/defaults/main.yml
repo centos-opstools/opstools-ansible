@@ -4,3 +4,5 @@ redis_listen_port: 6379
 
 # Password for accessing the Redis service.
 redis_password: kJadrW$s&5.
+
+whateva: bla
