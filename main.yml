@@ -1,0 +1,91 @@
+---
+- name: Install prerequisites on all hosts and gather facts
+  hosts: all:!undercloud_host
+  tags:
+    - prereqs
+  roles:
+    - firewall/gather
+    - prereqs
+    - repos
+    - chrony
+
+- name: Install ElasticSearch
+  hosts: elastic_hosts
+  tags:
+    - logging
+    - elasticsearch
+  roles:
+    - elasticsearch/server
+
+- name: Install Fluentd
+  hosts: fluent_hosts
+  tags:
+    - logging
+    - fluentd
+  roles:
+    - fluentd/server
+    - fluentd/syslog
+    - fluentd/elasticsearch
+
+- name: Install Kibana
+  hosts: kibana_hosts
+  tags:
+    - logging
+    - kibana
+    - web
+  roles:
+    - kibana/server
+    - kibana/proxy
+
+- name: Install Redis
+  hosts: redis_hosts
+  tags:
+    - availability
+    - redis
+  roles:
+    - redis/server
+
+- name: Install RabbitMQ
+  hosts: rabbit_hosts
+  tags:
+    - availability
+    - rabbitmq
+  roles:
+    - rabbitmq/server
+
+- name: Install Sensu
+  hosts: sensu_hosts
+  tags:
+    - availability
+    - sensu
+  roles:
+    - sensu/server
+    - sensu/client
+
+- name: Install Uchiwa
+  hosts: uchiwa_hosts
+  tags:
+    - availability
+    - uchiwa
+    - web
+  roles:
+    - uchiwa/server
+    - uchiwa/proxy
+
+- name: Install CollectD
+  hosts: collectd_hosts
+  tags:
+    - collectd
+    - performance
+  roles:
+    - collectd/server
+
+- name: Install Grafana
+  hosts: grafana_hosts
+  tags:
+    - grafana
+    - performance
+  roles:
+    - grafana/graphite
+    - grafana/server
+    - grafana/proxy
