@@ -28,6 +28,6 @@
 - name: Enable kibana service
   service:
     name: '{{ kibana_service_name }}'
-    state: running
+    state: started
     enabled: true
   when: manage_services|default(false)

@@ -14,6 +14,6 @@
 - name: Activate chrony service
   service:
     name: '{{ chrony_service_name }}'
-    state: running
+    state: started
     enabled: true
   when: manage_services|default(false)
