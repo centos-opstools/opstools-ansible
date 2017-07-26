@@ -1,5 +1,5 @@
 {
-  "sensu": {{ sensu_datacenters|to_json }},
+  "sensu": {{ sensu_datacenters | to_nice_json }},
   "uchiwa": {
     "host": "{{ uchiwa_bind }}",
     "port": {{ uchiwa_port }},

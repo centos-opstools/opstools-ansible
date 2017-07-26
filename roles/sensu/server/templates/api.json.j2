@@ -1,7 +1,11 @@
 {
-   "api": {
-     "bind": "{{ sensu_api_bind}}",
-     "port": {{ sensu_api_port }},
-     "host": "{{ sensu_api_server }}"
-   }
+    "api": {
+        "bind": "{{ sensu_api_bind }}",
+        "port": {{ sensu_api_port }},
+        "host": "{{ sensu_api_server }}"{% if sensu_api_authentication %},
+        "user": "{{ sensu_api_username }}",
+        "password": "{{ sensu_api_password }}"
+        {% endif %}
+
+    }
 }

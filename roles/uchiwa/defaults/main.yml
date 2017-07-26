@@ -25,10 +25,19 @@ uchiwa_file_path: /etc/sensu/uchiwa.json
 uchiwa_sensu_api_server_name: uchiwa
 
 # List of Sensu datacenters to which Uchiwa should connect.
-sensu_datacenters:
-  - name: "{{ uchiwa_sensu_api_server_name }}"
-    host: "{{ sensu_api_server }}"
-    port: "{{ sensu_api_port }}"
+# Provide a dynamic default which will provide API authentication if
+# sensu_api_authentication is enabled.
+sensu_datacenters: >
+  {%- set datacenter = {
+    "name": uchiwa_sensu_api_server_name,
+    "host": sensu_api_server,
+    "port": sensu_api_port
+  } -%}
+  {%- if sensu_api_authentication | bool %}
+  {%- set _ = datacenter.update({"user": sensu_api_username}) %}
+  {%- set _ = datacenter.update({"pass": sensu_api_password}) %}
+  {%- endif -%}
+  {{ [ datacenter ] }}
 
 # Authentication method, can be:
 # 'htpasswd': htpasswd auth by the proxy to access uchiwa
