@@ -58,6 +58,15 @@ sensu_api_port: 4567
 # Address to which clients should connect to contact the Sensu API.
 sensu_api_server: localhost
 
+# Whether or not to enable authentication on sensu-api
+sensu_api_authentication: false
+
+# If sensu-api authentication is enabled, the username
+sensu_api_username: sensu
+
+# If sensu-api-authentication is enabled, the password
+sensu_api_password: sensu
+
 # Address of the Redis server to which Sensu should connect.
 sensu_redis_server: 127.0.0.1
 
