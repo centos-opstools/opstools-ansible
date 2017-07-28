@@ -1,0 +1,9 @@
+Code-Review+1: Eduardo Gonzalez <dabarren@gmail.com>
+Code-Review+2: Lars Kellogg-Stedman <lars@redhat.com>
+Workflow+1: Martin Mágr <mmagr@redhat.com>
+Verified+2: Jenkins CI <admin@rpmfactory.beta.rdoproject.org>
+Submitted-by: Jenkins CI <admin@rpmfactory.beta.rdoproject.org>
+Submitted-at: Fri, 28 Jul 2017 17:40:19 +0000
+Reviewed-on: https://review.rdoproject.org/r/7629
+Project: centos-opstools/opstools-ansible
+Branch: refs/heads/master
