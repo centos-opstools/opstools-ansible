@@ -49,6 +49,6 @@
 - name: Activate fluentd service
   service:
     name: '{{ fluentd_service_name }}'
-    state: running
+    state: started
     enabled: true
   when: manage_services|default(false)

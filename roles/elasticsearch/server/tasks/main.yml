@@ -32,7 +32,7 @@
 - name: Activate elasticsearch service
   service:
     name: '{{ elasticsearch_service_name }}'
-    state: running
+    state: started
     enabled: true
   when: manage_services|default(false)
 
