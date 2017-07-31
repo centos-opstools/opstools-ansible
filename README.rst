@@ -52,7 +52,7 @@ placement:
 
 -  ``logging_hosts``: The playbooks will install the centralized logging
    stack (Elasticsearch, Kibana, Fluentd) on these hosts.
- 
+
 -  ``pm_hosts``: The playbooks will install the performance monitoring
    stack (collectd, grafana) on these hosts.
    
