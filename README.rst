@@ -40,6 +40,7 @@ For example:
 
     [logging_hosts]
     server2
+    
     [pm_hosts]
     server3
     
