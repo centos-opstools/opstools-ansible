@@ -15,12 +15,16 @@ the following inventory:
 
     ops0 ansible_host=192.168.10.10
     ops1 ansible_host=192.168.10.20
+    ops2 ansible_host=192.168.10.30
 
     [am_hosts]
     ops0
 
     [logging_hosts]
     ops1
+    
+    [pm_hosts]
+    ops2
 
 And the following configuration:
 
