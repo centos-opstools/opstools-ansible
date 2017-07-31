@@ -33,14 +33,17 @@ For example:
 
     server1 ansible_host=192.0.2.7 ansible_user=centos ansible_become=true
     server2 ansible_host=192.0.2.15 ansible_user=centos ansible_become=true
+    server3 ansible_host=192.0.2.20 ansible_user=centos ansible_become=true
 
     [am_hosts]
     server1
 
     [logging_hosts]
     server2
-
-There are two high-level groups that can be used to control service
+    [pm_hosts]
+    server3
+    
+There are three high-level groups that can be used to control service
 placement:
 
 -  ``am_hosts``: The playbooks will install availability monitoring
@@ -48,7 +51,10 @@ placement:
 
 -  ``logging_hosts``: The playbooks will install the centralized logging
    stack (Elasticsearch, Kibana, Fluentd) on these hosts.
-
+ 
+-  ``pm_hosts``: The playbooks will install the performance monitoring
+   stack (collectd, grafana) on these hosts.
+   
 While there are more groups defined in the ``inventory/structure`` file,
 use of those for more granular service placement is neither tested nor
 supported at this time.
