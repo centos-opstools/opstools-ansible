@@ -1,7 +1,7 @@
 Overview
 --------
 
-The `opstools-ansible <https://github.com/larsks/opstools-ansible/>`__
+The `opstools-ansible <https://github.com/centos-opstools/opstools-ansible/>`__
 project is a collection of Ansible roles and playbooks that will
 configure an environment that provides centralized logging and analysis,
 availability monitoring, and performance monitoring.
