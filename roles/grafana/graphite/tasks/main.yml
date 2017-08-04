@@ -9,14 +9,10 @@
     - python-carbon
   when: manage_packages|default(false)
 
-- name: Check if graphitedb already created
-  stat:
-    path: /var/lib/graphite-web/graphite.db
-  register: graphitedb
-
 - name: Create database for graphite
   command: su apache -s /bin/bash -c "/usr/bin/graphite-manage syncdb --noinput"
-  when: graphitedb.stat.exists == False
+  args:
+    creates: /var/lib/graphite-web/graphite.db
 
 - name: Enable services
   service:
