@@ -2,7 +2,7 @@
 ES_MIN_MEM={{ elasticsearch_min_mem }}
 {% endif %}
 {% if elasticsearch_max_mem is defined %}
-ES_MIN_MEM={{ elasticsearch_max_mem }}
+ES_MAX_MEM={{ elasticsearch_max_mem }}
 {% endif %}
 
 {% for k, v in (elasticsearch_sysconfig|default({})).items() %}
