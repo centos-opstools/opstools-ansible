@@ -1,6 +1,6 @@
 ---
 - name: Install prerequisites on all hosts and gather facts
-  hosts: all:!undercloud_host
+  hosts: am_hosts,pm_hosts,logging_hosts
   tags:
     - prereqs
   roles:
