@@ -42,6 +42,7 @@
     owner: '{{ sensu_owner }}'
     group: '{{ sensu_group }}'
     mode: 0740
+  when: sensu_manage_checks|default(false)
   notify:
     - restart sensu client services
 
