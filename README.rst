@@ -185,14 +185,6 @@ Configuration
 
     Path to htpasswd file for controlling access to Uchiwa.
 
-- `uchiwa_proxy_user` (default: `"operator"`)
-
-    User to create in htpasswd file.
-
-- `uchiwa_proxy_pass` (default: `"changeme"`)
-
-    Password for user in htpasswd file.
-
 - `uchiwa_httpd_conf` (default: `"{{ opstools_apache_config_dir }}/uchiwa.conf"`)
 
     Path to the Apache configuration snippet for the Uchiwa proxy.
@@ -201,6 +193,9 @@ Configuration
 
     URL path at which to host Uchiwa.
 
+- `uchiwa_credentials` (default: `["username": "operator", "password": "changeme"`])
+
+    List of Users and Passwords to create in htpasswd file
 
 
 Sensu
