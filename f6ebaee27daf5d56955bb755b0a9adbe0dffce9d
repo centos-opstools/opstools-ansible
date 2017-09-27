@@ -1,0 +1,10 @@
+Code-Review+1: Christopher Brown <snecklifter@gmail.com>
+Code-Review+2: Matthias Runge <mrunge@redhat.com>
+Code-Review+2: Juan Badia Payno <jbadiapa@redhat.com>
+Workflow+1: Juan Badia Payno <jbadiapa@redhat.com>
+Verified+2: Jenkins CI <admin@rpmfactory.beta.rdoproject.org>
+Submitted-by: Jenkins CI <admin@rpmfactory.beta.rdoproject.org>
+Submitted-at: Wed, 27 Sep 2017 10:03:14 +0000
+Reviewed-on: https://review.rdoproject.org/r/9064
+Project: centos-opstools/opstools-ansible
+Branch: refs/heads/master
