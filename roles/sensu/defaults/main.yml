@@ -91,8 +91,24 @@ sensu_client_name: '{{ ansible_fqdn }}'
 # Address for client service displayed in Uchiwa
 sensu_client_address: '{{ ansible_default_ipv4.address }}'
 
-# Whether oschecks and default checks should be installed
-sensu_manage_checks: true
+# Disable or enable check management globaly
+sensu_manage_checks: false
+
+# Whether oschecks should be installed
+sensu_manage_checks_oschecks: true
+
+# Whether HAProxy stats check should be installed
+sensu_manage_checks_haproxy: false
+
+# Whether default systemd should be installed
+sensu_manage_checks_systemd: false
+
+# Whether pacemaker checks should be installed
+sensu_manage_checks_pcs: false
+
+# Whether event handlers check should be installed (currently only handler
+# for check-container-health check from TripleO is available)
+sensu_manage_handlers: true
 
 oschecks_package_name: osops-tools-monitoring-oschecks
 
