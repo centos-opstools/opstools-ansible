@@ -1,0 +1,8 @@
+{
+  "handlers": {
+    "handle-docker-health": {
+      "type": "pipe",
+      "command": "handle-docker-health.py --sensu-api=http://{{ sensu_api_server }}:{{ sensu_api_port }}"
+    }
+  }
+}
