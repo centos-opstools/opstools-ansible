@@ -1,5 +1,6 @@
 {
   "checks": {
+    {% if sensu_manage_checks_haproxy %}
     "execute_haproxy_check": {
       "command": "sensu-haproxy-check.py --haproxy-auth :::haproxy.auth::: --haproxy-uri :::haproxy.uristats::: --sensu-uri :::sensu.api:::{% if haproxycheck_by_sevice %} --data-by-service{% endif%}",
       "subscribers": [
@@ -7,5 +8,6 @@
       ],
       "interval": 60
     }
+    {% endif %}
   }
 }
