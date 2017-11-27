@@ -1,6 +1,7 @@
 {% set comma = joiner(",\n") -%}
 {
     "checks": {
+{% if sensu_manage_checks_systemd %}
 {% for check in sensu_overcloud_checks %}
 {{ comma() }}
 {% include [
@@ -8,6 +9,8 @@
     "sensu-check-systemd.json.j2"
 ] %}
 {% endfor %}
+{% endif %}
+{% if sensu_manage_checks_pcs %}
 {% for check in sensu_overcloud_checks_pcs %}
 {{ comma() }}
 {% include [
@@ -15,6 +18,8 @@
     "sensu-check-pcs.json.j2"
 ] %}
 {% endfor %}
+{% endif %}
+{% if sensu_manage_checks_oschecks %}
 {% for check in sensu_remote_checks %}
 {{ comma() }}
 {% include [
@@ -22,4 +27,5 @@
     "sensu-check-oschecks.json.j2"
 ] %}
 {% endfor %}
+{% endif %}
 }}
