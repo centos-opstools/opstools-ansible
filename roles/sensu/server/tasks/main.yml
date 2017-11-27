@@ -31,6 +31,27 @@
   notify:
     - restart sensu server services
 
+- name: Copy the handler script for check-docker-health check
+  copy:
+    src: handle-docker-health.py
+    dest: '{{ sensu_plugin_path }}/handle-docker-health.py'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+    mode: 0740
+  when: sensu_manage_handlers
+
+- name: Configure sensu handlers
+  template:
+    src: 'templates/{{ item }}.json.j2'
+    dest: '{{sensu_config_path}}/{{ item }}.json'
+    owner: '{{ sensu_owner }}'
+    group: '{{ sensu_group }}'
+  with_items:
+    - sensu-handler-container
+  when: sensu_manage_handlers
+  notify:
+    - restart sensu server services
+
 - name: Create sensu vhost on rabbitmq
   delegate_to: "{{ item }}"
   rabbitmq_vhost:
