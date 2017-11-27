@@ -27,22 +27,22 @@
   notify:
     - restart sensu client services
 
-# Ensure that the python-requests module is installed
+# Ensure that the python-requests module is installed (required for HAProxy
+# stats check and check-docker-health handler)
 - name: Install python-request-package
   package:
     name: '{{ python_requests_package_name }}'
     state: present
   when: manage_packages|default(false)
 
-# Copied the HA Proxy check script
-- name: Copy the ha proxy check script
+- name: Copy the HAProxy check script
   copy:
     src: sensu-haproxy-check.py
     dest: '{{ sensu_plugin_path }}/sensu-haproxy-check.py'
     owner: '{{ sensu_owner }}'
     group: '{{ sensu_group }}'
     mode: 0740
-  when: sensu_manage_checks|default(false)
+  when: sensu_manage_checks_haproxy|default(false)
   notify:
     - restart sensu client services
 
@@ -61,4 +61,4 @@
     state: present
   when:
     - manage_packages|default(false)
-    - sensu_manage_checks|default(false)
+    - sensu_manage_checks_oschecks|default(false)
