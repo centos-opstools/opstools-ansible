@@ -1,0 +1,10 @@
+---
+- name: restart grafana
+  service:
+    name: grafana-server
+    state: restarted
+
+- name: restart httpd
+  service:
+    name: httpd
+    state: restarted
