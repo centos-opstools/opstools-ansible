@@ -72,6 +72,13 @@
     - uchiwa/server
     - uchiwa/proxy
 
+- name: Install gnocchi
+  hosts: gnocchi_hosts
+  tags:
+    - gnocchi
+  roles:
+    - gnocchi
+
 - name: Install CollectD
   hosts: collectd_hosts
   tags:

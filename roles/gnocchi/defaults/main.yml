@@ -1,0 +1,20 @@
+---
+
+gnocchi_server_packages:
+  - openstack-gnocchi-api
+  - openstack-gnocchi-common
+  - openstack-gnocchi-metricd
+  - openstack-gnocchi-statsd
+  - openstack-gnocchi-indexer-sqlalchemy
+  - httpd
+
+gnocchi_conf: '/etc/gnocchi/gnocchi.conf'
+
+database_packages:
+  - mariadb-server-galera
+  - MySQL-python
+
+database_service: 'mariadb'
+database_user: 'gnocchi'
+database_password: 'gnocchipassword'
+database_host: 'localhost'
