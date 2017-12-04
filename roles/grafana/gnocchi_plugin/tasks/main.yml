@@ -1,0 +1,6 @@
+---
+- name: install the grafana-gnocchi-plugin
+  command: /sbin/grafana-cli plugins install gnocchixyz-gnocchi-datasource
+  creates: /var/lib/grafana/plugins/gnocchixyz-gnocchi-datasource
+  notify: restart grafana
+  when: data_storage == 'gnocchi'

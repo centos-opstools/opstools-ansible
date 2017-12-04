@@ -28,7 +28,7 @@
     header: 'Content-Type: application/json'
     username: '{{ grafana_username }}'
     password: '{{ grafana_password }}'
-    url: '{{gauth}}{{gurl}}/1'
+    url: '{{gauth}}{{gurl}}/'
     validate_certs: no
     force_basic_auth: yes
   register: datasource_added
@@ -45,4 +45,7 @@
     password: '{{ grafana_password }}'
     validate_certs: no
     force_basic_auth: yes
-  when: datasource_added.status == 404
+  when:
+    - '"gnocchi" not in datasource_added.json|to_json'
+    - '"graphite" not in datasource_added.json|to_json'
+

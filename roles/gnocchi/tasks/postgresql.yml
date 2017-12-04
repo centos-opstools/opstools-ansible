@@ -1,0 +1,32 @@
+---
+
+- name: create database user for gnocchi
+  postgresql_user:
+    name: '{{ database_user }}'
+    password: '{{ database_password }}'
+    host: '{{ database_host }}'
+    state: present
+    priv: 'gnocchi.*:ALL'
+
+- name: add database options to gnocchi.conf
+  ini_file:
+    create: 'no'
+    path: '{{ gnocchi_conf }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: ' {{ item.value }}'
+  with_items:
+    - section: 'indexer'
+      option: 'url'
+      value: "'psycopg2://{{database_user}}:{{database_password}}\
+        @{{database_host}}/gnocchi?charset=utf8'"
+    - section: 'database'
+      option: 'connection'
+      value: "'psycopg2://{{database_user}}:{{database_password}}\
+        @{{database_host}}/gnocchi?charset=utf8'"
+
+- name: create a database for gnocchi
+  postgresql_db:
+    name: gnocchi
+    state: present
+    encoding: UTF-8
