@@ -1,0 +1,30 @@
+---
+
+- name: install mariadb
+  package:
+    state: present
+    name: '{{ database_packages }}'
+  when:
+    - manage_packages|default(false)
+    - (database_host == 'localhost') or (database_host == '127.0.0.1')
+
+- name: start database
+  service:
+    name: '{{ database_service }}'
+    state: started
+    enabled: 'yes'
+  when: (database_host == 'localhost') or (database_host == '127.0.0.1')
+
+- name: create a database user
+  mysql_user:
+    name: '{{ database_user }}'
+    password: '{{ database_password }}'
+    host: '{{ database_host }}'
+    state: present
+    priv: '{{database_name}}.*:ALL'
+
+- name: create a database
+  mysql_db:
+    name: '{{ database_name }}'
+    state: present
+    encoding: utf8
