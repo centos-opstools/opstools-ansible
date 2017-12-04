@@ -1,8 +1,14 @@
 {
-  "name":"graphite",
+  "name":"default",
+  {% if data_storage | match("gnocchi") %}
+  "type":"gnocchixyz-gnocchi-datasource",
+  "url":"http://{{ansible_host}}:8041",
+  "access":"direct",
+  {% else %}
   "type":"graphite",
   "url":"http://localhost:{{graphite_listen_port}}/",
   "access":"proxy",
+  {% endif %}
   "isDefault":true,
   "basicAuth":false
 }
