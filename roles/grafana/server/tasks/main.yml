@@ -47,7 +47,7 @@
     - section: security
       option: 'admin_password'
       value: '{{grafana_password}}'
-  notify: restart grafana-server
+  notify: restart grafana
 
 - name: Enable grafana
   service:

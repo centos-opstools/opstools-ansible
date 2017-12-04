@@ -4,6 +4,9 @@
 # Add hosts to these groups (ideally by creating an additional inventory
 # file in the inventory directory, rather than editing this file) to
 # set up typical groups of services.
+#
+# You should keep an order of something like this:
+# host_name ansible_host=ip_address ansible_user=user
 
 [am_hosts]
 # Availability monitoring
@@ -30,6 +33,7 @@
 [kibana_hosts]
 [grafana_hosts]
 [collectd_hosts]
+[gnocchi_hosts]
 
 # ------------------------------------------
 
@@ -58,4 +62,7 @@ logging_hosts
 pm_hosts
 
 [collectd_hosts:children]
+pm_hosts
+
+[gnocchi_hosts:children]
 pm_hosts

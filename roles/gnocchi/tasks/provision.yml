@@ -1,0 +1,23 @@
+---
+
+- name: install gnocchi and services
+  package:
+    state: present
+    name: '{{ item }}'
+  with_items: '{{ gnocchi_server_packages }}'
+  when: manage_packages|default(false)
+
+- name: install database for indexer
+  package:
+    state: present
+    name: '{{ database_packages }}'
+  when:
+    - manage_packages|default(false)
+    - (database_host == '127.0.0.1') or (database_host == 'localhost')
+
+- name: start database
+  service:
+    name: '{{ database_service }}'
+    state: started
+    enabled: 'yes'
+  when: (database_host == '127.0.0.1') or (database_host == 'localhost')
