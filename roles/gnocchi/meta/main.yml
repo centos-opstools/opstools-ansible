@@ -1,0 +1,6 @@
+---
+
+dependencies:
+  - repos
+  - {role: postgresql, when: database_service != 'mariadb'}
+  - {role: mariadb, when: database_service == 'mariadb'}

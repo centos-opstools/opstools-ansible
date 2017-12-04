@@ -1,0 +1,7 @@
+---
+# database host
+database_host: '127.0.0.1'
+
+# database package
+database_packages:
+  - postgresql-server

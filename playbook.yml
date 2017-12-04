@@ -72,6 +72,13 @@
     - uchiwa/server
     - uchiwa/proxy
 
+- name: Install gnocchi
+  hosts: gnocchi_hosts
+  tags:
+    - gnocchi
+  roles:
+    - {role: gnocchi, when: data_storage == 'gnocchi'}
+
 - name: Install CollectD
   hosts: collectd_hosts
   tags:
@@ -86,6 +93,7 @@
     - grafana
     - performance
   roles:
-    - grafana/graphite
+    - {role: grafana/graphite, when: data_storage != 'gnocchi'}
+    - {role: grafana/gnocchi_plugin, when: data_storage == 'gnocchi'}
     - grafana/server
     - grafana/proxy

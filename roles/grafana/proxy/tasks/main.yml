@@ -12,11 +12,13 @@
     dest: '{{ opstools_default_redirect_file }}'
     force: false
   notify: restart httpd
-- meta: flush_handlers
+
+- name: flush handlers
+  meta: flush_handlers
 
 - name: wait for grafana to be started
   wait_for:
-    host: '{{ grafana_server_bind }}'
+    host: '127.0.0.1'
     port: '{{ grafana_port }}'
     delay: 5
     timeout: 120
@@ -28,7 +30,7 @@
     header: 'Content-Type: application/json'
     username: '{{ grafana_username }}'
     password: '{{ grafana_password }}'
-    url: '{{gauth}}{{gurl}}/1'
+    url: '{{gauth}}{{gurl}}/'
     validate_certs: no
     force_basic_auth: yes
   register: datasource_added
@@ -45,4 +47,6 @@
     password: '{{ grafana_password }}'
     validate_certs: no
     force_basic_auth: yes
-  when: datasource_added.status == 404
+  when:
+    - '"gnocchi" not in datasource_added.json|to_json'
+    - '"graphite" not in datasource_added.json|to_json'
