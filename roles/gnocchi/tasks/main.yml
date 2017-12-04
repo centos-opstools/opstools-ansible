@@ -1,0 +1,70 @@
+---
+
+- include: provision.yml
+  when: manage_packages|default(false)
+
+- name: add database options to gnocchi.conf
+  ini_file:
+    create: 'no'
+    path: '{{ gnocchi_conf }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: ' {{ item.value }}'
+  with_items:
+    - section: 'api'
+      option: 'auth_mode'
+      value: 'basic'
+    - section: 'database'
+      option: 'backend'
+      value: 'sqlalchemy'
+    - section: 'storage'
+      option: 'driver'
+      value: 'file'
+    - section: 'statsd'
+      option: 'resource_id'
+      value: '5e3fcbe2-7aab-475d-b42c-a440aa42e5ad'
+
+- name: run mysql tasks
+  include: mysql.yml
+  when: database_service == 'mariadb'
+
+- name: run postgresql tasks
+  include: postgresql.yml
+  when: database_service == 'postgres'
+
+  # todo: add postgresql support
+  #
+
+- name: initialize the database
+  command: su gnocchi -s /bin/sh -c "python  /usr/bin/gnocchi-upgrade"
+  changed_when: 'False'
+
+- name: create directory for gnocchi app
+  file:
+    path: /var/www/cgi-bin/gnocchi/
+    state: directory
+    mode: 0755
+    owner: gnocchi
+    group: gnocchi
+
+- name: launch gnocchi with httpd
+  copy:
+    src: app
+    dest: /var/www/cgi-bin/gnocchi/app
+
+- name: enable gnocchi-statsd
+  service:
+    name: openstack-gnocchi-statsd
+    state: started
+    enabled: 'yes'
+
+- name: enable gnocchi-metricd
+  service:
+    name: openstack-gnocchi-metricd
+    state: started
+    enabled: 'yes'
+
+- name: place httpd wsgi snippet
+  template:
+    src: 10-gnocchi_wsgi.conf
+    dest: /etc/httpd/conf.d/10-gnocchi_wsgi.conf
