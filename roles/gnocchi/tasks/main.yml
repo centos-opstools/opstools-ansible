@@ -1,0 +1,100 @@
+---
+
+- name: install gnocchi and services
+  package:
+    state: present
+    name: '{{ item }}'
+  with_items: '{{ gnocchi_server_packages }}'
+  when: manage_packages|default(false)
+
+- name: install mysql for indexer
+  package:
+    state: present
+    name: '{{ database_packages }}'
+  when:
+    - manage_packages|default(false)
+    - database_host == 'localhost'
+
+- name: start database
+  service:
+    name: '{{ database_service }}'
+    state: started
+    enabled: 'yes'
+
+- name: create database user for gnocchi
+  mysql_user:
+    name: '{{ database_user }}'
+    password: '{{ database_password }}'
+    host: '{{ database_host }}'
+    state: present
+    priv: 'gnocchi.*:ALL'
+
+- name: add database options to gnocchi.conf
+  ini_file:
+    create: 'no'
+    path: '{{ gnocchi_conf }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: ' {{ item.value }}'
+  with_items:
+    - section: 'api'
+      option: 'auth_mode'
+      value: 'basic'
+    - section: 'database'
+      option: 'backend'
+      value: 'sqlalchemy'
+    - section: 'indexer'
+      option: 'url'
+      value: "'mysql+pymysql://{{database_user}}:{{database_password}}\
+        @{{database_host}}/gnocchi?charset=utf8'"
+    - section: 'database'
+      option: 'connection'
+      value: "'mysql+pymysql://{{database_user}}:{{database_password}}\
+        @{{database_host}}/gnocchi?charset=utf8'"
+    - section: 'storage'
+      option: 'driver'
+      value: 'file'
+    - section: 'statsd'
+      option: 'resource_id'
+      value: '5e3fcbe2-7aab-475d-b42c-a440aa42e5ad'
+
+
+- name: create a database for gnocchi
+  mysql_db:
+    name: gnocchi
+    state: present
+    encoding: utf8
+
+
+- name: initialize the database
+  command: python  /usr/bin/gnocchi-upgrade
+
+- name: create directory for gnocchi app
+  file:
+    path: /var/www/cgi-bin/gnocchi/
+    state: directory
+    mode: 0755
+    owner: gnocchi
+    group: gnocchi
+
+- name: launch gnocchi with httpd
+  copy:
+    src: app
+    dest: /var/www/cgi-bin/gnocchi/app
+
+- name: enable gnocchi-statsd
+  service:
+    name: openstack-gnocchi-statsd
+    state: started
+    enabled: yes
+
+- name: enable gnocchi-metricd
+  service:
+    name: openstack-gnocchi-metricd
+    state: started
+    enabled: yes
+
+- name: place httpd wsgi snippet
+  template:
+    src: 10-gnocchi_wsgi.conf
+    dest: /etc/httpd/conf.d/10-gnocchi_wsgi.conf
