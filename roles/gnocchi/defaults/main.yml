@@ -1,0 +1,31 @@
+---
+
+gnocchi_server_packages:
+  - openstack-gnocchi-api
+  - openstack-gnocchi-common
+  - openstack-gnocchi-metricd
+  - openstack-gnocchi-statsd
+  - openstack-gnocchi-indexer-sqlalchemy
+  - httpd
+  - mod_wsgi
+  - openstack-selinux
+
+# config file for gnocchi
+gnocchi_conf: '/etc/gnocchi/gnocchi.conf'
+
+# name packages for the database
+database_connector_packages:
+  - MySQL-python
+
+# database service name.
+# possible names: 'postgresql', 'mariadb'
+database_service: 'mariadb'
+
+# user for database connection
+database_user: 'gnocchi'
+
+# database password
+database_password: 'gnocchipassword'
+
+# name for gnocchi database
+database_name: 'gnocchi'

@@ -1,0 +1,14 @@
+---
+
+- name: install gnocchi and services
+  package:
+    state: present
+    name: '{{ item }}'
+  with_items: '{{ gnocchi_server_packages }}'
+  when: manage_packages|default(false)
+
+- name: install database connector
+  package:
+    state: present
+    name: '{{ database_connector_packages }}'
+  when: manage_packages|default(false)

@@ -1,0 +1,30 @@
+---
+
+- name: install postgresql
+  package:
+    state: present
+    name: '{{ database_packages }}'
+  when:
+    - manage_packages|default(false)
+    - database_host == 'localhost'
+
+- name: start database
+  service:
+    name: '{{ database_service }}'
+    state: started
+    enabled: 'yes'
+  when: database_host == 'localhost'
+
+- name: create a database user
+  postgresql_user:
+    name: '{{ database_user }}'
+    password: '{{ database_password }}'
+    host: '{{ database_host }}'
+    state: present
+    priv: '{{database_name}}.*:ALL'
+
+- name: create a database
+  postgresql_db:
+    name: '{{ database_name }}'
+    state: present
+    encoding: UTF-8

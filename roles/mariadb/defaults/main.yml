@@ -1,0 +1,11 @@
+---
+# database_host
+database_host: '127.0.0.1'
+
+# database packages
+database_packages:
+  - mariadb-server-galera
+  - MySQL-python
+
+# database service name
+database_service: 'mariadb'
