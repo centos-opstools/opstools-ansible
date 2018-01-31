@@ -2,7 +2,7 @@
   {% if data_storage | match("gnocchi") %}
   "name": "gnocchi",
   "type":"gnocchixyz-gnocchi-datasource",
-  "url":"http://{{ansible_host}}:8041",
+  "url":"http://{{ grafana_gnocchi_data_storage }}:8041",
   "jsonData": { "mode": "noauth", "username":"admin"},
   {% else %}
   "name": "graphite",
