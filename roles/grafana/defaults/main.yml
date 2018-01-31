@@ -9,7 +9,7 @@ grafana_config_file: '/etc/grafana/grafana.ini'
 # This is address to which grafana should bind.
 # # Use "0.0.0.0" to listen on all interfaces; use "localhost" to allow
 # # access from the local system only.
-grafana_server_bind: '{{ansible_host}}'
+grafana_server_bind: '127.0.0.1'
 
 # This is the address to which clients should connect to access Grafana
 # (we can't always use grafana_server_bind for that because 0.0.0.0 is
