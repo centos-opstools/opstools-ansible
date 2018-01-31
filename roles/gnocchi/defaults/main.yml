@@ -13,6 +13,10 @@ gnocchi_server_packages:
 # config file for gnocchi
 gnocchi_conf: '/etc/gnocchi/gnocchi.conf'
 
+gnocchi_statsd_resource_id: '5e3fcbe2-7aab-475d-b42c-a440aa42e5ad'
+
+gnocchi_allowed_origin: "{{ hostvars[groups.grafana_hosts.0].ansible_host | regex_replace( '(.*)', 'http://\\1') }}"
+
 # name packages for the database
 database_connector_packages:
   - MySQL-python

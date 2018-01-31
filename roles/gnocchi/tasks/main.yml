@@ -22,10 +22,10 @@
       value: 'file'
     - section: 'statsd'
       option: 'resource_id'
-      value: '5e3fcbe2-7aab-475d-b42c-a440aa42e5ad'
+      value: '{{ gnocchi_statsd_resource_id }}'
     - section: 'cors'
       option: 'allowed_origin'
-      value: '{{ ansible_host }}'
+      value: '{{ gnocchi_allowed_origin }}'
 
 - name: run mysql tasks
   include: mysql.yml
