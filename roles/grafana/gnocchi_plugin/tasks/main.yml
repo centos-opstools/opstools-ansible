@@ -1,6 +1,20 @@
 ---
+
 - name: install the grafana-gnocchi-plugin
   command: /sbin/grafana-cli plugins install gnocchixyz-gnocchi-datasource
-  creates: /var/lib/grafana/plugins/gnocchixyz-gnocchi-datasource
+  args:
+    creates: /var/lib/grafana/plugins/gnocchixyz-gnocchi-datasource/plugin.json
   notify: restart grafana
-  when: data_storage == 'gnocchi'
+
+# force restart grafana. the handler does not notice it really needs to
+# get restarted.
+#
+- name: stop grafana
+  service:
+    name: '{{grafana_service_name}}'
+    state: stopped
+
+- name: start grafana
+  service:
+    name: '{{grafana_service_name}}'
+    state: started
