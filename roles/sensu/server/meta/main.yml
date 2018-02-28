@@ -5,3 +5,4 @@ dependencies:
   - redis
   - sensu/common
   - rabbitmq
+  - httpd
