@@ -1,7 +1,15 @@
 ---
+# setting manage_packages to false will not install any package
 manage_packages: true
+# setting to false will not change any service state, or enable it.
 manage_services: true
+# setting manage_repos to false will result in not configuring package
+# repositories.
 manage_repos: true
+
 yum_repos_d: /etc/yum.repos.d
 localhost_ip: 127.0.0.1
+
+# either gnocchi or graphite. Will influence the data storage
+# for performance metrics on the monitoring node.
 data_storage: gnocchi

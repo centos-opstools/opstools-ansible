@@ -37,14 +37,20 @@ For example:
     [am_hosts]
     server1
 
+    [pm_hosts]
+    server2
+
     [logging_hosts]
     server2
 
-There are two high-level groups that can be used to control service
+There are three high-level groups that can be used to control service
 placement:
 
 -  ``am_hosts``: The playbooks will install availability monitoring
    software (Sensu, Uchiwa, and support services) on these hosts.
+
+ - ``pm_hosts``: The playbooks will install performance monitoring
+   software (Gnocchi or graphite)
 
 -  ``logging_hosts``: The playbooks will install the centralized logging
    stack (Elasticsearch, Kibana, Fluentd) on these hosts.
@@ -82,6 +88,10 @@ SSL, you would need a configuration file that looked like this:
       -----BEGIN RSA PRIVATE KEY-----
       ...
       -----END RSA PRIVATE KEY-----
+
+You can also influence the data storage being used for performance metrics.
+It can be either gnocchi or graphite, which should work in most cases.
+For more details, please visit group_vars/all.yml.
 
 You don't need a configuration file if you wish to use default options.
 
