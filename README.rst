@@ -330,14 +330,14 @@ Configuration
     only required key for each item is `name`. The systemd `service`
     used in `systemctl` checks defaults to `openstack-<name>`, and the
     `subscribers` key defaults to `[ "overcloud-<name>" ]`.
-    
+
     The following checks are disabled because the corresponding services
     are run as WSGI applications under Apache.  This means that we don't
     have a good client-side healthcheck until we make changes either to
     sensu packaging or our tripleo integration.
-    
+
     .. code-block:: yaml
-    
+
         - name: ceilometer-api
         - name: keystone-api
           subscribers:
@@ -346,7 +346,7 @@ Configuration
         - name: aodh-api
           subscribers:
             - overcloud-ceilometer-aodh-api
- 
+
 - `sensu_overcloud_checks_pcs`
 
     A list of Sensu checks that will run on the overcloud hosts. Used
@@ -501,7 +501,7 @@ Actions defined on the role
 Configuration
 +++++++++++++
 
-- `rdo_release` (default: `"newton"`)
+- `rdo_release` (default: `"pike"`)
 
     Specify which RDO release to use.
 
@@ -516,7 +516,7 @@ Actions defined on the role
 +++++++++++++++++++++++++++
 
 - Install centos-release-opstools
-- Install centos-opstools repository
+- Install centos-opstools repository (if needed)
 
 
 Configuration
@@ -1323,7 +1323,7 @@ Configuration
     A lists of hashes containing data for configuration firewall rules
     to be created on each host groups
     .. code-block:: json
-    
+
         { host_group: [{port: PORT, source: SOURCE, protocol:PROTOCOL},
                        {port: PORT, protocol:PROTOCOL}]}
 
