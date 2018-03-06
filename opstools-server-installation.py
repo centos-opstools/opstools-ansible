@@ -146,8 +146,8 @@ class ConfigInstaller(object):
                                      )
                                  )
         else:
-            print ('\x1b[34m INFO: the inventory file was not'
-                   ' created/updated\x1b[0m')
+            print('\x1b[34m INFO: the inventory file was not'
+                  ' created/updated\x1b[0m')
 
     def create_configuration(self):
         try:
@@ -197,7 +197,7 @@ def main():
     if not config.options.no_exec:
         subprocess.call(config.command, shell=True)
     else:
-        print ('To continue:\n\t{}'.format(config.command))
+        print('To continue:\n\t{}'.format(config.command))
 
 
 if __name__ == "__main__":
