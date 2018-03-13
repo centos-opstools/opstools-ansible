@@ -4,7 +4,7 @@ database_host: '127.0.0.1'
 
 # database packages
 database_packages:
-  - mariadb-server-galera
+  - mariadb-galera-server
   - MySQL-python
 
 # database service name
