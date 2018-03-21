@@ -60,3 +60,6 @@ firewall_data:
   collectd_hosts:
     - port: "{{ collectd_listen_port }}"
       protocol: tcp
+  gnocchi_host:
+    - port: "{{ gnocchi_port|default(8041) }}"
+      protocol: tcp
