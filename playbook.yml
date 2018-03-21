@@ -77,7 +77,7 @@
   tags:
     - gnocchi
   roles:
-    - {role: gnocchi, when: data_storage == 'gnocchi'}
+    - {role: gnocchi/server, when: data_storage == 'gnocchi'}
 
 - name: Install CollectD
   hosts: collectd_hosts

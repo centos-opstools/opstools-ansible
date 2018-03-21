@@ -11,3 +11,4 @@ dependencies:
   - redis
   - sensu
   - uchiwa
+  - gnocchi

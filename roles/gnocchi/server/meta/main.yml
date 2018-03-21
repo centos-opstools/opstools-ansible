@@ -5,3 +5,5 @@ dependencies:
   - {role: postgresql, when: database_service != 'mariadb'}
   - {role: mariadb, when: database_service == 'mariadb'}
   - redis/server
+  - firewall
+  - firewall/gather

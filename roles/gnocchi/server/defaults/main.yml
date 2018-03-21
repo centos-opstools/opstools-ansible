@@ -1,0 +1,5 @@
+---
+
+# url for redis
+gnocchi_redis_url: "redis://:{{ redis_password|replace('$', '\\$') }}\
+                    @127.0.0.1:{{ redis_listen_port }}"

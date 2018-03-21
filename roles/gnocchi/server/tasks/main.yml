@@ -81,3 +81,9 @@
   template:
     src: 10-gnocchi_wsgi.conf
     dest: /etc/httpd/conf.d/10-gnocchi_wsgi.conf
+
+- name: Create appropriate firewall rules
+  include_role:
+    name: firewall/commit
+  vars:
+    firewall_rules: gnocchi_host
