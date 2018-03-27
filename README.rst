@@ -501,7 +501,7 @@ Actions defined on the role
 Configuration
 +++++++++++++
 
-- `rdo_release` (default: `"newton"`)
+- `rdo_release` (default: `"queens"`)
 
     Specify which RDO release to use.
 
