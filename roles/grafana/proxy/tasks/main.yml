@@ -13,8 +13,25 @@
     force: false
   notify: restart httpd
 
-- name: flush handlers
-  meta: flush_handlers
+- name: check if http was really restarted
+  uri:
+    method: GET
+    url: 'https://{{grafana_server_address}}{{grafana_path}}'
+    validate_certs: no
+    status_code: 200,404
+  register: httpd_restart
+
+- name: force restart httpd
+  service:
+    name: httpd
+    state: stopped
+  when: httpd_restart.status == 404
+
+- name: force start httpd
+  service:
+    name: httpd
+    state: started
+  when: httpd_restart.status == 404
 
 - name: wait for grafana to be started
   wait_for:
@@ -47,6 +64,3 @@
     password: '{{ grafana_password }}'
     validate_certs: no
     force_basic_auth: yes
-  when:
-    - '"gnocchi" not in datasource_added.json|to_json'
-    - '"graphite" not in datasource_added.json|to_json'
