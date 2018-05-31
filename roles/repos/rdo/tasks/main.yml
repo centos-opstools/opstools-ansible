@@ -4,3 +4,9 @@
     name: centos-release-openstack-{{rdo_release}}
     state: present
   when: manage_repos|default(false) and ansible_distribution == 'CentOS'
+
+- name: update centos-release rpm
+  yum:
+    name: centos-release
+    state: latest
+    disablerepo: centos-qemu-ev
