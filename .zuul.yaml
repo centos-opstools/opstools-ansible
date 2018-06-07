@@ -1,0 +1,17 @@
+- project:
+    name: centos-opstools/opstools-ansible
+    check:
+      jobs:
+        - tox-linters
+        - legacy-centos-opstools-rpmlint
+        - legacy-centos-opstools-rpmbuild
+        - legacy-rdo-infra-playbooks-integration-sensu-client:
+            voting: false
+        - legacy-rdo-infra-playbooks-integration-sensu-server:
+            voting: false
+    gate:
+      queue: centos-release-opstools
+      jobs:
+        - tox-linters
+        - legacy-centos-opstools-rpmlint
+        - legacy-centos-opstools-rpmbuild
