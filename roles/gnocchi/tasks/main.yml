@@ -52,8 +52,9 @@
 
 - name: launch gnocchi with httpd
   copy:
-    src: app
+    src: /usr/bin/gnocchi-api
     dest: /var/www/cgi-bin/gnocchi/app
+    remove_src: yes
 
 - name: enable gnocchi-statsd
   service:
