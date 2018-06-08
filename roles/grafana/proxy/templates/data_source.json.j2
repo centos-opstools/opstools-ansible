@@ -3,13 +3,15 @@
   "name": "gnocchi",
   "type":"gnocchixyz-gnocchi-datasource",
   "url":"http://{{ansible_host}}:8041",
-  "jsonData": { "mode": "noauth", "username":"admin"},
+  "basicAuth":true,
+  "basicAuthUser": "admin",
+  "basicAuthPassword": "notused",
   {% else %}
+  "basicAuth":false,
   "name": "graphite",
   "type":"graphite",
   "url":"http://localhost:{{graphite_listen_port}}/",
   {% endif %}
   "access":"proxy",
-  "isDefault":true,
-  "basicAuth":false
+  "isDefault":true
 }
