@@ -26,6 +26,15 @@
     - section: 'cors'
       option: 'allowed_origin'
       value: '{{ ansible_host }}'
+    - section: 'storage'
+      option: 'coordination_url'
+      value: '{{gnocchi_redis_url}}'
+    - section: 'incoming'
+      option: 'driver'
+      value: 'redis'
+    - section: 'incoming'
+      option: 'redis_url'
+      value: '{{gnocchi_redis_url}}'
 
 - name: run mysql tasks
   include: mysql.yml
