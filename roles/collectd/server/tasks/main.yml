@@ -71,7 +71,9 @@
     name: collectd_tcp_network_connect
     state: yes
     persistent: yes
-  when: '"{{ ansible_selinux.mode }}" in ["enforcing", "permissive"]'
+  when: >
+      ansible_selinux.status == "enabled" and
+      ansible_selinux.mode in ["enforcing", "permissive"]
 
 - name: Enable collectd service
   service:
