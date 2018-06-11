@@ -1,0 +1,9 @@
+Verified+1: Jenkins CI <admin@rpmfactory.beta.rdoproject.org>
+Code-Review+2: Martin Mágr <mmagr@redhat.com>
+Workflow+1: Martin Mágr <mmagr@redhat.com>
+Verified+2: Zuul CI <zuul@review.rdoproject.org>
+Submitted-by: Zuul CI <zuul@review.rdoproject.org>
+Submitted-at: Mon, 11 Jun 2018 15:22:32 +0000
+Reviewed-on: https://review.rdoproject.org/r/13102
+Project: centos-opstools/opstools-ansible
+Branch: refs/heads/master
