@@ -1,6 +1,6 @@
 ---
 
-- include: provision.yml
+- include_tasks: provision.yml
   when: manage_packages|default(false)
 
 - name: add database options to gnocchi.conf
