@@ -9,4 +9,4 @@ find * -name templates -prune -o \
 	xargs -0 yamllint || exit 1
 
 # This performs some additional ansible-specific tests.
-ansible-lint -x ANSIBLE0006 playbook.yml
+ansible-lint -x ANSIBLE0006 -x 701 -x 405 -x 206 playbook.yml

@@ -3,21 +3,21 @@
   package:
     name: '{{ collectd_package_name }}'
     state: present
-  when: manage_packages|default(false)
+  when: manage_packages|default(false)|bool
 
 - name: Install collectd plugin packages
   package:
     name: '{{ item }}'
     state: present
   with_items: '{{ collectd_plugin_packages }}'
-  when: manage_packages|default(false)
+  when: manage_packages|default(false)|bool
   notify: restart collectd
 
 - name: Purge collectd configuration file
   file:
     path: "{{ collectd_config_file }}"
     state: absent
-  when: "{{ collectd_purge_config }}"
+  when: collectd_purge_config|default(false)|bool
 
 - name: Ensure collectd configuration file exists
   template:
@@ -31,7 +31,7 @@
   file:
     path: "{{ collectd_config_dir }}/"
     state: absent
-  when: "{{ collectd_purge }}"
+  when: collectd_purge|default(false)|bool
 
 - name: Ensure collectd configuration directory exists
   file:
@@ -69,8 +69,8 @@
 - name: Set collectd_tcp_network_connect
   seboolean:
     name: collectd_tcp_network_connect
-    state: yes
-    persistent: yes
+    state: true
+    persistent: true
   when: >
       ansible_selinux.status == "enabled" and
       ansible_selinux.mode in ["enforcing", "permissive"]
@@ -79,8 +79,8 @@
   service:
     name: '{{ collectd_service_name }}'
     state: started
-    enabled: yes
-  when: manage_services|default(false)
+    enabled: true
+  when: manage_services|default(false)|bool
 
 - name: Create appropriate firewall rules
   include_role:
