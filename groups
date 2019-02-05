@@ -1,7 +1,5 @@
-# UUID Group Name
-global:Registered-Users	Registered Users
-05a678d3d4a168e149d5e8a0063bbd1b1c5526da	Administrators
-global:Anonymous-Users	Anonymous Users
+# UUID                                  	Group Name
+#
 4afe78d4d90a23b316fb5e401a9d5a4781bb061a	centos-opstools-core
 c97821beaf990b8bb8a502f0517a7099217e6863	centos-opstools-ptl
-6ddfecad023c6f4fa3ac8c4d2583c502ea675a73	Non-Interactive Users
+global:Registered-Users                 	Registered Users
