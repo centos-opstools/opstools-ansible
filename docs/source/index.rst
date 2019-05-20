@@ -6,19 +6,6 @@
 Welcome to opstools-ansible's documentation!
 ============================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+THIS IS DEPRECATED!
 
-   readme
-   developers
-   tripleo_integration
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+Please go to https://github.com/redhat-service-assurance/telemetry-framework
