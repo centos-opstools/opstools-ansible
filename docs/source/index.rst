@@ -6,6 +6,14 @@
 Welcome to opstools-ansible's documentation!
 ============================================
 
+
+State of this project
+---------------------
+
+This was intended to install a demo deployment. It was not intended for
+production. This is neither supported nor being actively developed anymore.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
