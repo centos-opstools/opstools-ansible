@@ -1,0 +1,8 @@
+Code-Review+2: Juan Badia Payno <jbadiapa@redhat.com>
+Workflow+1: Matthias Runge <mrunge@matthias-runge.de>
+Verified+2: Zuul CI <zuul@review.rdoproject.org>
+Submitted-by: Zuul CI <zuul@review.rdoproject.org>
+Submitted-at: Fri, 07 Jun 2019 13:00:54 +0000
+Reviewed-on: https://review.rdoproject.org/r/20850
+Project: centos-opstools/opstools-ansible
+Branch: refs/heads/master
